@@ -1,0 +1,56 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{plaengine}[2004/04/20 Projekt Formatdefinitionen]
+\RequirePackage{color}
+\RequirePackage{listings}
+
+
+% Kommando für das Einbinden eines Listings aus einer Datei
+% für die Parameter gilt (Parameter 2-4 sind required):
+% 1. Nummerierung der Zeilen - default: keine Nummerierung
+%                            - mögliche Werte: left | right | none
+% 2. Auswahl der Sprache - mögliche Werte: Java | CEDL | XML | ...
+% 3. Untertitel für den Quelltext
+% 4. Dateiname mit Endung
+\newcommand{\inputlisting}[4][none]{\lstinputlisting[%
+    label={#4},%
+    caption={#3},%
+    showstringspaces=false,%
+    frame=tb,%
+    captionpos=b, %
+    extendedchars=true,%
+    basicstyle=\footnotesize\ttfamily,%
+    numbers=#1,%
+    stepnumber=1,%
+    numberstyle=\tiny,%
+    keywordstyle=\color{blue},%
+    stringstyle=\color{red},%
+    commentstyle=\textit,%
+    language=#2,%
+    mathescape=true,
+    breaklines]{#4}}
+
+% Umgebung für das Eingeben von Listings
+% für die Parameter gilt
+% 1. Nummerierung der Zeilen mögliche Werte: left | right | none
+% 2. Auswahl der Sprache - mögliche Werte: Java | CEDL | XML | ...
+% 3. Untertitel für den Quelltext
+% 4. Label
+\lstnewenvironment{listing}[4][none]%
+{\lstset{
+    label={#4},%
+    caption={#3},%
+    showstringspaces=false,frame=tb,captionpos=b,extendedchars=true,basicstyle=\footnotesize\ttfamily,%
+    numbers=#1,%
+    stepnumber=1,%
+    numberstyle=\tiny,%
+    keywordstyle=\color{blue},%
+    stringstyle=\color{red},%
+    commentstyle=\textit,%
+    language=#2,%
+    mathescape=true,
+    breaklines}}{}
+\def\TReg{\textsuperscript{\textregistered}}
+\def\TCop{\textsuperscript{\textcopyright}}
+\def\TTra{\textsuperscript{\texttrademark}}
+
+\newcommand{\BibTeX}{{\sc Bib}\TeX{} }

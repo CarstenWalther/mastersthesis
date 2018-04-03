@@ -1,0 +1,68 @@
+%!TEX TS-program = pdflatex
+\input{header}
+
+\newcommand{\TITLE}{TITLE}
+\newcommand{\TITLEGERMAN}{Datengetriebene Bestell- und Preisoptimierung auf einem Online-Marktplatz}
+% "auf einem Online-Marktplatz" klingt doof, aber "auf Online-Marktplätzen" wäre falsch
+\newcommand{\AUTHOR}{Carsten Walther}
+\newcommand{\EMAIL}{carsten.walther@student.hpi.de}
+\newcommand{\pricewars}{Price Wars }
+
+\lstset{breaklines=true,
+    numbersep=5pt,
+ 	stepnumber=1,
+	numbers=left,
+	captionpos=b,
+	float=htbp,
+    basicstyle=\ttfamily\fontsize{9}{12}\selectfont
+}
+\lstset{frame=tb, aboveskip=0.5cm, belowskip=0.5cm}
+
+\newcommand{\todo}[1]{
+  \textbf{\textcolor{hpi}{TODO #1}}
+}
+
+\input{glossary}
+
+\begin{document}
+	\input{title}
+	\pagestyle{empty}
+	\cleardoublepage
+
+	\pagestyle{fancy}
+	\pagenumbering{roman}
+	\input{sections/abstract}
+	\clearpage
+	\glsresetall
+	\setcounter{page}{0}
+	\setcounter{tocdepth}{4}
+	\tableofcontents
+	\glsresetall
+	\cleardoublepage
+	\phantomsection \label{listoffig}
+%	\addcontentsline{toc}{section}{List of Figures}
+	\listoffigures
+	\glsresetall
+	\phantomsection \label{listoflst}
+	\lstlistoflistings
+	\glsresetall
+	\newpage
+%	\phantomsection \label{listoftab}
+%	\addcontentsline{toc}{section}{List of Tables}
+%	\listoftables
+%	\newpage
+	\glsresetall
+	\pagenumbering {arabic}
+	\setcounter{page}{0}
+	\input{sections/introduction}
+	\input{sections/problem}
+	\input{sections/platform}
+	\input{sections/acknowledgment}
+	\clearpage
+%	\printglossary[type=\acronymtype,style=modsuper]
+	\bibliography{sources.bib}
+%	\begin{appendices}
+%	\input{sections/appendix}
+%	\end{appendices}
+	\input{self}
+\end{document}
