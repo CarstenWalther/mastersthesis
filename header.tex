@@ -29,8 +29,7 @@
 \usepackage{setspace}							% Zeilenabstand
 \usepackage{fancyhdr}							% Kopfzeilen
 \usepackage{makeidx}							% Index
-%\usepackage[english,german]{babel}				%	nationale Datumsformate, etc.
-\usepackage[german,english]{babel}
+\usepackage[english,german]{babel}				%	nationale Datumsformate, etc.
 \usepackage{nomencl}							% Erstellt Abkürzungsverzeichnisse
 %\usepackage[style=long,border=none,header=plain,cols=2,number=none,hypertoc=true,acronym=false,global=true]{glossary}   %
 \usepackage{tabularx}							% Tabellen mit Type X haben automatische minipage mit Zeilenumbruch
@@ -54,6 +53,10 @@
 \usepackage{algpseudocode}
 %\usepackage{algorithmic}
 \usepackage{xspace} % solves problem with missing space after \newcommand
+\usepackage{tikz} % for diagram
+\usetikzlibrary{calc,trees,positioning,arrows,chains,shapes.geometric,%
+	decorations.pathreplacing,decorations.pathmorphing,shapes,%
+	matrix,shapes.symbols}
 \counterwithout{footnote}{chapter}
 
 
