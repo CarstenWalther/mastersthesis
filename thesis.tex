@@ -6,7 +6,7 @@
 % "auf einem Online-Marktplatz" klingt doof, aber "auf Online-Marktplätzen" wäre falsch
 \newcommand{\AUTHOR}{Carsten Walther}
 \newcommand{\EMAIL}{carsten.walther@student.hpi.de}
-\newcommand{\pricewars}{Price Wars }
+\newcommand{\pricewars}{Price Wars\xspace}
 
 \lstset{breaklines=true,
     numbersep=5pt,
@@ -55,9 +55,12 @@
 	\pagenumbering {arabic}
 	\setcounter{page}{0}
 	\input{sections/introduction}
+	\input{sections/related_work}
 	\input{sections/problem}
 	\input{sections/platform}
-	\input{sections/acknowledgment}
+	\input{sections/merchant}
+	\input{sections/platform_extension}
+	%\input{sections/acknowledgment}
 	\clearpage
 %	\printglossary[type=\acronymtype,style=modsuper]
 	\bibliography{sources.bib}
