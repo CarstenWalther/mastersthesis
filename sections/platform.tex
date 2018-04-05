@@ -1,44 +1,55 @@
 
 \chapter{\pricewars Platform}
-%todo picture from UI
+\todo{ picture from UI}
 
-The \pricewars platform is an open framework for simulating online marketplaces \cite{edoc2017pricewars}.
-Users can test their pricing strategies under competition in an sandbox environment.
+The \pricewars platform is an open-source framework for simulating online marketplaces \cite{edoc2017pricewars}.
+Users can test their merchant pricing strategies under competition in a sandbox environment.
 These tests would be time-consuming and possibly costly on a real online marketplace.
-A strategy's performance can be compared to other strategies using the evaluation tools provided in a web UI.
+A web UI provides ways to configure and control the simulation.
+Additionally, it contains tools to evaluate a merchant's strategy.
+The platform is a microservice architecture and consists of the following components:
 
-The \pricewars platform is a microservice architecture and consists of the following components:
-%todo show architecture picture
-\todo{bold description bullet point}
+\todo{show architecture picture}
+
+\todo{bold description bullet points}
 \begin{description}
 	\item [Marketplace]
-		The marketplace is a central place for merchants to offer products and for consumers to buy them.
-		The marketplace makes open offers accessible to both merchants and consumers.
-		It handles registration of merchants and consumers.
-		Each action on the marketplace is written to a logging service.
+		The marketplace is this platform's central service.
+		Merchants use it to offer their products and consumers use it to buy products.
+		The marketplace manages merchant and consumer accounts.
+		They have to register first, before they can perform actions on the platform.
+		Both, merchants and consumers can see all open offers on the marketplace.
+		Merchants can adapt their prices according to competitors' prices with this information.
+		Consumers inspect these offers to find their preferred offer.
+		Each event that happens on the marketplace is written to a logging service.
+		This data is processed to e.g. calculate a merchant's revenue.
 		The marketplace notifies a merchant, whenever it sells a product.
 	\item [Merchant]
 		Merchants want to sell products by offering them on the marketplace.
 		They can set any offer price.
 		The price choice will influence their chances to sell products.
+		For example, a higher price usually results in less sales.
 		A merchant's pricing strategy can be a simple rule-based strategy like ''always undercut the cheapest competitor'' or a complex data-driven strategy that analyses the consumer behavior or competitors' strategies.
-		%not this or that strat, everything in between
+		Of course, also complex rule-based strategies or a hybrid of both approaches are possible.
 		The \pricewars platform supports data-driven merchants by providing historical market and sales data.
+		A merchant can be written in any programming language as long as it complies with the platform's RESTful API.
+		The available merchant implementation\footnote{\url{https://github.com/hpi-epic/pricewars-merchant}} can be used to quickly build a merchant with a custom strategy.
 	\item [Consumer]
 		The consumer service creates a stream of consumers who visit the marketplace, inspect available offers, and buys a product.
 		In case the consumer does not find any acceptable offers, he leaves the marketplace without buying a product.
-		The consumer service implements different buying behaviors, which can be configured to be enabled, disabled, or mixed together.
+		The consumer service implements different buying behaviors, which can be enabled, disabled, or mixed together.
 	\item [Producer]
-		A producer provides merchants with products.
-		The products can be of varying quality.
+		A merchant can restock his inventory with new products from the producer.
+		Products can be of varying quality.
 		Merchants pay a certain amount of money per product.
 		This amount is specified by the producer.
 	\item [Management UI]
-		The management UI is a web interface that allows to control and observe the simulation.
+		The management UI is a web interface that allows the user to control and observe the simulation.
 		Marketplace, merchants, consumer, and producer can be configured with the management UI.
-		With this level of control, it is possible to test how merchants react on changing market situations. E.g. how fast adapts a merchant its behavior if the number of consumers doubles.
+		With this level of control, it is possible to test how merchants react to a changing market. E.g. how fast adapts a merchant its behavior if the number of consumers doubles.
 		Various charts show merchant and consumer actions as well as merchants' short- and long-term performance.
 	\item [Kafka Reverse Proxy]
+	%todo market situation = snapshot of offers
 		This services provides merchants with data about past market situations and sales.
 		The data is filtered --- a merchant gets only information about his own sales --- and transformed into the CSV format.
 		Additionally, the management UI gets continuous updates for its charts from the kafka reverse proxy.
