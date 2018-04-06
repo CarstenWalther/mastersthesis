@@ -1,2 +1,47 @@
 
 \chapter{Related Work}
+
+The merchant's task can be separated into the inventory problem and dynamic pricing problem.
+
+%inventory problem
+%dyn prog first used in Clark and Scarf (1960)
+The inventory problem is solved for some restricted environments.
+The economic order quantity model~\cite{harris1913many} and the dynamic lot size model~\cite{wagner1958dynamic} provide an optimal strategy when the demand is perfectly known and product costs and order costs are fixed.
+Other optimal solutions are known for variations of the inventory problem~\cite{scarf1963survey, arrow1958studies}.
+An optimal policy is not available if the underlying demand distribution is unknown.
+Researchers develop data-driven heuristics to tackle these problem cases instead.
+Huh et al. propose a data-driven inventory policy using the Kaplan-Meier estimator~\cite{huh2011adaptive}.
+Ban and Rudin propose an single-step algorithm based on empirical risk minimization~\cite{ban2017big}.
+%other paper:
+% On Implications of Demand Censoring in the Newsvendor Problem 
+% survey: Dynamic pricing and learning: Historical origins, current research, and new directions
+
+%pricing problem
+Dynamic pricing is the continuous adjusting of prices.
+This is applicable if it is cheap and fast to change prices like in e-commerce or in retail stores with digital price tags. %todo: citation
+Dynamic pricing in this thesis is about time discriminating prices and not customer discriminating prices. %todo reformulate and maybe one sentence for explanation
+Den Boer~\cite{den2015dynamic} gives an extensive overview over this topic.
+Araman and Caldentey propose methods for the dynamic pricing problem with complete and incomplete information about the demand distribution~\cite{araman2011revenue}.
+~\cite{DBLP:journals/ijecommerce/KannanK01} %importance of dynamic pricing by comparing virtual to physical
+% Pricing and Revenue Optimization; profit-based pricing for loans
+
+%joint ordering and pricing
+The inventory problem and dynamic pricing problem cannot be solved independently from each other because pricing and order decisions influence each other.
+%influence not each other; influence expected result
+Elmaghraby and Keskinocak review papers that offer solutions for the dynamic pricing problem under inventory considerations~\cite{elmaghraby2003dynamic}.
+They separate solutions into three categories:
+(Non-)Replenishment of inventory, (non-)dependent demand over time and myopic versus strategic customers.
+%Extensive reviews of the literatureon simultaneous optimization of price and inventory decisions can be found inEliashberg andSteinberg(1993),Federgruen and Heching(1999),Elmaghraby and Keskinocak(2003, Section4.1),Yano and Gilbert(2005),Chan et al.(2004), andChen and Simchi-Levi(2012).
+
+%with competition, demand learning?
+
+%%%Implementation:
+Serth et al. built a simulation on which merchants can compete against each other inspired by the Amazon marketplace~\cite{DBLP:conf/recsys/0001SPSBLLSU17, edoc2017pricewars}.
+This master's thesis builds upon that platform.
+%cite architecture (REST, microservice), or flink?
+
+
+%Work that proposes a different method to solve the same problem.
+%Work that uses the same proposed method to solve a different problem.
+%A method that is similar to your method that solves a relatively similar problem.
+%A discussion of a set of related problems that covers your problem domain.

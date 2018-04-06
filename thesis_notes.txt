@@ -1,10 +1,11 @@
 Wie viele Seiten? min 50 Inhalt (~70 insgesamt)
-sharelatex
+bilder nur oben/unten?
+structure of thesis irgendwo erklären
 
 
 Introduction (+ Motvation)
 Related Work
-Problem Description (more specific)
+Problem Description (more specific, )
 Price Wars Platform #komponenten vorstellen, schnittstellen für den merchant, +architekturbild
 Merchant
 	Ordering Policy
@@ -34,3 +35,20 @@ Conclusion (+ Future work)
 
 verheiraten mit Plattform (Implementierung)
 architektur designentscheidung, warum ist lager im marketplace?
+3 stufen aufbau ist OK
+freie lieferzeit in bellman rechnerisch zu komplex
+zeige bellmann mit und ohne lieferverzögerung
+im merchant teil nicht/selten auf Plattform eingehen
+
+szenarien mit 
+lagerkosten in UI
+
+was gemacht?
+warum gemacht?
+was kommt raus?
+preisdifferenz zum günstigsten GEGNER
+
+latex:
+booktabs
+
+sections in Inhaltsverzeichnis
