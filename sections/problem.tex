@@ -1,16 +1,25 @@
 
 \chapter{Problem Description}
+This thesis investigates the combined problems of dynamic pricing and inventory control on an online marketplace under competition.
+%some more intro here
+Merchants can order products from a producer with unlimited supply. 
+Merchants can see competitor offers but get no information about sales except their own.
+Merchants can request the current market situation and update prices with a limited rate.
+Prices can be changed over time but cannot be adjusted to different customers.
+Merchants sell a single product type, but solutions for this problem are easy to extend to multiple products with independent demand.
+There are no back orders. If a merchant runs out of stock, it might miss on sales.
 
-% on online marketplace
-% one product
-% no backorders
-% no production shortages
-% merchant sees competitor offers (current market situation)
-% sees own sales but not competitors' sales
-% (marketplace rate limited)
-% costs: fixed order cost, variable order cost, holding cost
-% income: sales
-% inventory infinite, but holding cost -> finit restock
+%cost definition
+The merchants' costs consists of fixed and variable order cost and holding cost.
+Fixed order costs are similar to shipping fees and is the same per order independent from the order size.
+Variable order costs consist of the cost per ordered item.
+Merchant's must pay holding costs for storing products in their inventory.
+The longer an item sits in the inventory, the higher is its holding cost. 
+The only source of income for a merchant are sales on the marketplace.
+
+The merchants' inventories have no capacity limit.
+But sensible order strategies only use a limited capacity in order save holding costs.
+
 % products don't perish
 % price changes over time, not per customer
 
@@ -20,20 +29,3 @@
 % checks all items within random budget, buys random one but cheaper -> higher probability
 
 
-%%%
-%problem:
-%	-human irrational decisions
-%	-human cannot keep up with speed of dynamic markets
-%	-> misses potential profits
-%solution:
-%	-automated merchant
-%bonus:
-%	-no labor costs
-%why not existing algorithms?
-%	heuristic solutions -> performance can be improved
-%	(no solution known with current ML techniques)
-%why ML?
-%	vielversprechende Ergebnisse in ähnlichen Gebieten
-%why on Pricewars?
-%	reproducable
-%	comparable (to other merchants)
