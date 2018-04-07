@@ -1,41 +1,44 @@
 %!TEX root = ../thesis.tex
 
 \chapter{Introduction}
-% what, why (motivation), contributions
-% repricing cheap in online markets
-%todo look at proposal intro
-%merchants want to automate pricing
-Pricing decisions on online marketplaces become increasingly automated.
-Merchants expect higher profits if they can adapt their prices faster to competitors' offers.
-The optimal price depends not only on competitors' prices but also on the supply.
-A merchant with a filled inventory might want to set a different price than with a nearly empty inventory.
+%Why dynamic pricing?
+Price updates on today's online markets increase in number and happen in shorter intervals.
+Merchants want an advantage by adjusting their prices to competitors' prices.
+The frequent updating of prices is called dynamic pricing and is used by merchants to increase their profit compared to traditional pricing strategies.
+Human agents lack the fast response times and endurance to compete with software agents.
+Additionally, these programs are able to analyze huge amounts of historical market data and can estimate customer buying behavior from it.
+%Online marketplaces are ideal environments to apply dynamic pricing strategies because there is almost no cost for price changes.
+%human irrational decisions
 
-%ordering
-Another common decision for a merchant is the order decision.
-When and how many items should it order?
-% better word for balance?
-% first introduce order cost & holding cost?
-The merchant wants to find a good balance between few big orders, which minimizes fixed order costs, and many small orders, which minimizes holding cots.
-Ordering and pricing influence each other and should be decided jointly.
+%Why inventory control?
+Another important task of a merchant is keeping track of the inventory.
+If the inventory level is to low, the merchant might miss potential sales due to a stock-out.
+But storing to many items causes preventable extra costs.
+This is the inventory control problem and it is about when to order how many new products.
+It is crucial to accurately predict future demand for good order decisions.
+%todo put following sentence somewhere after costs are introduced
+%The merchant wants to find a good balance between few big orders, which minimizes fixed order costs, and many small orders, which minimizes holding costs.
 
-This thesis develops a merchant that makes these ordering and pricing decisions with the goal to maximize its profit.
-This merchant runs on the \pricewars platform, which is a online marketplace simulation.
-It was created to develop and test merchant strategies.
-Part of this thesis is to extend the platform by an order concept and allow merchants to make order decisions.
-This extension leads to more realistic marketplace simulations.
+%Joint pricing and inventory
+Pricing and inventory decisions influence each other.
+The optimal price depends not only on external factors like competitors' prices but also on the available inventory.
+When inventory is low, it could be a good decision to increase the price in order to reduce the demand.
+If the merchant reduces prices, the demand will increase, which must be considered in the order decision.
+Because of this mutual influence, ordering and pricing should be decided jointly.
 
-This thesis' merchant uses demand learning on data of previous sales to predict customer demand.
-Pricing and ordering policies are created based on the predicted demand.
+%platform + contributions
+%todo contributions as compact list?
+%joint ordering/pricing repetition
+We developed a merchant that makes joint ordering and pricing decisions using dynamic programming with the goal to maximize its profit.
+The merchant uses demand learning to estimate future demand based on data of previous sales.
+This merchant runs on the \pricewars platform, a open framework to simulate an online marketplace.
+% word 'settings' is ambiguous
+The platform was created to test how merchant strategies perform in realistic settings.
+This thesis extends the platform by the inventory control problem.
+% formulate more positive 'force'
+This forces merchants to control their inventory level and make order decisions.
+This extension makes more realistic marketplace simulations possible.
 
-%%%
-%problem:
-%	-human irrational decisions
-%	-human cannot keep up with speed of dynamic markets
-%	-> misses potential profits
-%solution:
-%	-automated merchant
-%bonus:
-%	-no labor costs
 %why not existing algorithms?
 %	heuristic solutions -> performance can be improved
 %	(no solution known with current ML techniques)
@@ -44,3 +47,5 @@ Pricing and ordering policies are created based on the predicted demand.
 %why on Pricewars?
 %	reproducable
 %	comparable (to other merchants)
+
+% motivation
