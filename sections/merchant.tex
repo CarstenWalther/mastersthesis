@@ -1,8 +1,28 @@
-
+%don't mention platform except in impl
 \chapter{Merchant}
+%is propose right word here?
+This thesis proposes a merchant software agent that can compete against competition on an online marketplaces.
+The merchant makes ordering and pricing decisions with the goal to maximize the profit.
+The merchant uses demand learning to estimate future customer demand from historical market situations and sales data.
+The estimated demand is used in a dynamic programming approach to generate ordering and pricing policies.
+These policies define for every situation an appropriate action.
+%what are those situations? what is an appropiate action?
+
+% other word for step? phases? scenarios?
+%todo be more concrete
+To overcome the complexity of this problem, we developed the merchant over four steps.
+The first step is a constrained scenario.
+Each following step adds to the merchant's problem but makes the scenario more realistic.
+
+\todo{explain each ''step'' short in some sentences each}
+This is a test sentence as can be seen \cref{section:ordering_policy}.
+
+All steps are explained in detail in the following sections.
 
 \section{Ordering Policy}
+\label{section:ordering_policy}
 \subsection{Model}
+%not continuous time, but period can be made arbitrary small
 \subsection{Implementation}
 \subsection{Evaluation}
 
@@ -20,3 +40,5 @@
 \subsection{Model}
 \subsection{Implementation}
 \subsection{Evaluation}
+
+%extra section for adaptive dynamic programming?
