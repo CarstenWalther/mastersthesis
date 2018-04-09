@@ -14,17 +14,40 @@ To overcome the complexity of this problem, we developed the merchant over four 
 The first step is a constrained scenario.
 Each following step adds to the merchant's problem but makes the scenario more realistic.
 
-\todo{explain each ''step'' short in some sentences each}
-This is a test sentence as can be seen \cref{section:ordering_policy}.
+\todo{explain each ''step'' short in some sentences each} \cref{section:ordering_policy}.
 
 All steps are explained in detail in the following sections.
+%maybe explain structure of following sections?
 
 \section{Ordering Policy}
 \label{section:ordering_policy}
+In this scenario, the merchant cannot make pricing decisions.
+Instead, all products are sold to a fixed price.
+The merchant can focus on the ordering problem and make ordering decisions that promise the most expected long-term profit.
+The merchant has a monopoly and does not have to care about any competitor.
+Ordering decisions depend on the customer demand.
+The demand is stochastic and its distribution is known to the merchant.
+There are no backlogs. %sentence to short?
+If a customer arrives when the merchant is out of stock, the merchant will miss the sale.
+
 \subsection{Model}
-%not continuous time, but period can be made arbitrary small
+The merchant's sale is an ongoing process on the marketplace, which can be controlled with ordering decisions.
+Sales and ordering decisions influence the merchant's state, the inventory level.
+Sales decrease the inventory level over time and orders increase it.
+Ordering decisions depend on the demand distribution, the fixed and variable order cost, the holding cost rate, and the selling price.
+We use dynamic programming to calculate optimal ordering policies.
+\todo{cite paper why it's optimal}
+
+%explain how dyn programming applied here
+This approach loses some precision, because the merchant decides in discrete time instead of continuous time.
+But the policies come arbitrarily close to the optimal continuous solution by shortening the decision interval.
+% plus shipping time
+
+% specify model parameter somewhere
+%does selling price influence policy? yes, because stochastic demand?
 \subsection{Implementation}
 \subsection{Evaluation}
+%compare with merchant that buys always one more / one less
 
 \section{Joint Ordering and Pricing}
 \subsection{Model}
@@ -41,4 +64,4 @@ All steps are explained in detail in the following sections.
 \subsection{Implementation}
 \subsection{Evaluation}
 
-%extra section for adaptive dynamic programming?
+%extra section for adaptive dynamic programming? -> runs in 0.1 sec
