@@ -17,7 +17,7 @@ Each following step adds to the merchant's problem but makes the scenario more r
 \todo{explain each ''step'' short in some sentences each} \cref{section:ordering_policy}.
 
 All steps are explained in detail in the following sections.
-%maybe explain structure of following sections?
+%explain structure of following sections
 
 \section{Ordering Policy}
 \label{section:ordering_policy}
@@ -30,10 +30,73 @@ The demand is stochastic and its distribution is known to the merchant.
 There are no backlogs. %sentence to short?
 If a customer arrives when the merchant is out of stock, the merchant will miss the sale.
 
-\subsection{Model}
-The merchant's sale is an ongoing process on the marketplace, which can be controlled with ordering decisions.
-Sales and ordering decisions influence the merchant's state, the inventory level.
-Sales decrease the inventory level over time and orders increase it.
+\subsection{Model Description}
+%situation
+%todo more intro/situation
+The merchant wants to sell items on the marketplace.
+% price & revenue
+Items are offered at a fixed price $p$ and each sold item creates a revenue of $p$.
+% time horizon
+The time horizon $T$ is infinite.
+% discrete time
+Since in real-life applications prices cannot be adjusted arbitrarily often, we use a discrete time
+model.
+%discounting
+We use discounting to increase the relevance of short-term profits.
+A discount factor $\delta$, $0 < \delta \leq 1$, is applied to each time period.
+
+% inventory + holding cost
+%todo introduce time and periods before that
+The merchant holds items in an inventory.
+The random inventory level at the start of period t is denoted by $N_t$.
+Storing items in the inventory causes holding costs of $l$ per item per time period. % l > 0
+
+%ordering
+The merchant can reorder items to increase the inventory level.
+Order decisions, which can be made once each time period, will influence the merchant's profit.
+The number of items ordered at time $t$ are denoted by $b_t$, with $b_t \geq 0$.
+A order of size $b_t = 0$ means that no order is made.
+%todo order delay
+%set depends on time, yes? no?
+The set of admissible orders quantities is denoted $B_t$.
+% order cost
+% explain fixed/variable order cost? explain somewhere else?
+Each order causes a order cost, which consists of fixed order cost $c_{fix}$ and variable order cost $c_{var}$.
+%order costs paid upfront
+Order costs are defined by:
+
+%why big C for function?
+$$
+C(b) := \begin{cases}
+c_{fix} + c_{var} * b  & \quad \text{if } b > 0 \\
+0  & \quad \text{if } b = 0
+\end{cases}
+$$
+
+%sales
+The probability to sell $i$ items is denoted by $P(i)$.
+%check: myopic somewhere mentioned and explained
+Note, that the probability is time-independent because of the consumer's myopic buying behavior.
+Additionally, the probability in this scenario is independent from offer prices because the merchants sells in a monopoly with a fixed price.
+The random number of sold items within the period $(t-1, t)$ is denoted by $X_t$.
+%check: backorders mentioned in previous section
+%can I express the line below with random variables?
+The merchant cannot sell more items than the inventory holds, i.e. $N_t \geq X_{t+1}$.
+
+%whats ordering strategy?
+%how to write the policy?
+Depending on a given ordering policy $(b_t)_t$, the random accumulated profit from time period $t$ is:
+
+$$
+G_t := \sum_{s=t+1}^{T} (\delta^{s-t} * (p * X_s - l * N_{s-1} - C(b_{s-1}(N_{s-1})))
+$$
+
+The objective is to find a ordering policy that maximizes the expected total profit $E(G_0 | N_0)$.
+
+% end of model descripiton, maybe write what comes next
+%Sales decrease the inventory level over time and orders increase it.
+
+%todo lösungsansatz subsection
 Ordering decisions depend on the demand distribution, the fixed and variable order cost, the holding cost rate, and the selling price.
 We use dynamic programming to calculate optimal ordering policies.
 \todo{cite paper why it's optimal}
@@ -45,12 +108,16 @@ But the policies come arbitrarily close to the optimal continuous solution by sh
 
 % specify model parameter somewhere
 %does selling price influence policy? yes, because stochastic demand?
+
 \subsection{Implementation}
+%evtl nur einmal implementation für kompletten merchant
 \subsection{Evaluation}
 %compare with merchant that buys always one more / one less
 
 \section{Joint Ordering and Pricing}
 \subsection{Model}
+%model from above gets extended by pricing decision
+%define set of pricing decisions
 \subsection{Implementation}
 \subsection{Evaluation}
 
