@@ -35,9 +35,10 @@ If a customer arrives when the merchant is out of stock, the merchant will miss 
 %todo more intro/situation
 The merchant wants to sell items on the marketplace.
 % price & revenue
-Items are offered at a fixed price $p$ and each sold item creates a revenue of $p$.
+Items are offered at a fixed price $a_{fix}$ and each sold item generates a revenue of $a_{fix}$.
 % time horizon
-The time horizon $T$ is infinite.
+% write about t here?
+The time horizon is infinite.
 % discrete time
 Since in real-life applications prices cannot be adjusted arbitrarily often, we use a discrete time
 model.
@@ -48,7 +49,7 @@ A discount factor $\delta$, $0 < \delta \leq 1$, is applied to each time period.
 % inventory + holding cost
 %todo introduce time and periods before that
 The merchant holds items in an inventory.
-The random inventory level at the start of period t is denoted by $N_t$.
+The random inventory level at the start of period $t$ is denoted by $N_t$.
 Storing items in the inventory causes holding costs of $l$ per item per time period. % l > 0
 
 %ordering
@@ -87,8 +88,9 @@ The merchant cannot sell more items than the inventory holds, i.e. $N_t \geq X_{
 %how to write the policy?
 Depending on a given ordering policy $(b_t)_t$, the random accumulated profit from time period $t$ is:
 
+%can I do inf sum here? or switch to avg profit?
 $$
-G_t := \sum_{s=t+1}^{T} (\delta^{s-t} * (p * X_s - l * N_{s-1} - C(b_{s-1}(N_{s-1})))
+G_t := \sum_{s=t+1}^{\infty} (\delta^{s-t} * (a_{fix} * X_s - l * N_{s-1} - C(b_{s-1}(N_{s-1})))
 $$
 
 The objective is to find a ordering policy that maximizes the expected total profit $E(G_0 | N_0)$.
@@ -96,39 +98,62 @@ The objective is to find a ordering policy that maximizes the expected total pro
 % end of model descripiton, maybe write what comes next
 %Sales decrease the inventory level over time and orders increase it.
 
-%todo lösungsansatz subsection
-Ordering decisions depend on the demand distribution, the fixed and variable order cost, the holding cost rate, and the selling price.
-We use dynamic programming to calculate optimal ordering policies.
-\todo{cite paper why it's optimal}
+\subsection{Solution Approach}
+%what? -> dyn programming
+In this section, we want to derive optimal ordering policies.
+% with and without delay
+We use the dynamic programming approach to find the best expected profit of the stochastic control problem.
+% is n defined?
+The recursive value function $V_t(n)$ describes the best expected profit $E_t(G_t | N_t)$.
+Since this this value function cannot be calculated over an infinite time horizon, we introduce the end time $T$ so that $t = 0, 1, 2, ..., T$.
+If $T$ is sufficiently large, $V_t$ converged enough in order that the optimal ordering policy is not affected.
+%V_T = 0
 
-%explain how dyn programming applied here
-This approach loses some precision, because the merchant decides in discrete time instead of continuous time.
-But the policies come arbitrarily close to the optimal continuous solution by shortening the decision interval.
-% plus shipping time
+$N_{max}$ denotes the upper limit of the inventory level and the order decision, $0 \leq n, b \leq N_{max}$. This does not affect the optimal solution as long as $N_{max}$ is greater than the biggest inventory level that can occur in the optimal policy.
 
-% specify model parameter somewhere
-%does selling price influence policy? yes, because stochastic demand?
+The value function is:
+%where comes i from?
+%make helper function clamp?
+\begin{equation}
+\begin{split}
+V_t(n) = \max_{b \in B_t} \Bigg\{
+	\sum_{i \geq 0} \Big(
+		P(i) * (
+			a_{fix} * min(i, n) %sales
+			- l * n % holding cost
+			- C(b) % order cost
+		) \\
+		+ \delta * V_{t+1}\big(max(0, min(n - i + b, N_{max}))\big)
+	\Big)\Bigg\}
+\end{split}
+\label{eq:dyn_prog}
+\end{equation}
 
-\subsection{Implementation}
-%evtl nur einmal implementation für kompletten merchant
+The set of order quantities must contain zero to allow to make no order.
+The optimal ordering policy $b_t^*(n)$ is given by the arg max of \cref{eq:dyn_prog}. 
+
+%why use dyn prog? -> optimal; why optimal?
+% formula with without delayed order
+
 \subsection{Evaluation}
-%compare with merchant that buys always one more / one less
+\todo{compare with merchant that buys always one more / one less}
 
 \section{Joint Ordering and Pricing}
-\subsection{Model}
+\subsection{Model Description}
 %model from above gets extended by pricing decision
 %define set of pricing decisions
-\subsection{Implementation}
+\subsection{Solution Approach}
 \subsection{Evaluation}
 
 \section{Demand Learning}
-\subsection{Model}
-\subsection{Implementation}
+\subsection{Model Description}
+\subsection{Solution Approach}
 \subsection{Evaluation}
 
 \section{Competition}
-\subsection{Model}
-\subsection{Implementation}
+\subsection{Model Description}
+\subsection{Solution Approach}
 \subsection{Evaluation}
 
+\section{Implementation}
 %extra section for adaptive dynamic programming? -> runs in 0.1 sec
