@@ -1,26 +1,21 @@
-%don't mention platform except in impl
+
 \chapter{Merchant}
-%is propose right word here?
 This thesis proposes a merchant software agent that can compete against competition on an online marketplaces.
 The merchant makes ordering and pricing decisions with the goal to maximize the profit.
 The merchant uses demand learning to estimate future customer demand from historical market situations and sales data.
 The estimated demand is used in a dynamic programming approach to generate ordering and pricing policies.
-These policies define for every situation an appropriate action.
-%what are those situations? what is an appropiate action?
+%what is a policy?
 
-% other word for step? phases? scenarios?
-%todo be more concrete
-To overcome the complexity of this problem, we developed the merchant over four steps.
-The first step is a constrained scenario.
-Each following step adds to the merchant's problem but makes the scenario more realistic.
+We developed the merchant in four phases to overcome the complexity of this problem.
+The first phase constrained the merchant's problem the most and only considers the inventory problem with known customer demand in a monopoly.
+Each following phase adds a new difficulty for the merchant until the fourth phase which represents our final problem: The joint inventory and dynamic pricing problem with unknown customer behavior under competition.
 
-\todo{explain each ''step'' short in some sentences each} \cref{section:ordering_policy}.
-
-All steps are explained in detail in the following sections.
+Each of the following sections explains one phase in detail.
+\todo{explain each ''step'' short in some sentences each with references to chapter} \cref{section:ordering}.
 %explain structure of following sections
 
-\section{Ordering Policy}
-\label{section:ordering_policy}
+\section{Ordering}
+\label{section:ordering}
 In this scenario, the merchant cannot make pricing decisions.
 Instead, all products are sold to a fixed price.
 The merchant can focus on the ordering problem and make ordering decisions that promise the most expected long-term profit.
@@ -66,10 +61,9 @@ Each order causes a order cost, which consists of fixed order cost $c_{fix}$ and
 %order costs paid upfront
 Order costs are defined by:
 
-%why big C for function?
 $$
 C(b) := \begin{cases}
-c_{fix} + c_{var} * b  & \quad \text{if } b > 0 \\
+c_{fix} + c_{var} \cdot b  & \quad \text{if } b > 0 \\
 0  & \quad \text{if } b = 0
 \end{cases}
 $$
@@ -82,7 +76,7 @@ Additionally, the probability in this scenario is independent from offer prices 
 The random number of sold items within the period $(t-1, t)$ is denoted by $X_t$.
 %check: backorders mentioned in previous section
 %can I express the line below with random variables?
-The merchant cannot sell more items than the inventory holds, i.e. $N_t \geq X_{t+1}$.
+The merchant cannot sell more items than the inventory holds, i.e. $N_t \geq X_{t+1}$. % use specific n
 
 %whats ordering strategy?
 %how to write the policy?
@@ -90,7 +84,7 @@ Depending on a given ordering policy $(b_t)_t$, the random accumulated profit fr
 
 %can I do inf sum here? or switch to avg profit?
 $$
-G_t := \sum_{s=t+1}^{\infty} (\delta^{s-t} * (a_{fix} * X_s - l * N_{s-1} - C(b_{s-1}(N_{s-1})))
+G_t := \sum_{s=t+1}^{\infty} (\delta^{s-t} \cdot (a_{fix} \cdot X_s - l \cdot N_{s-1} - C(b_{s-1}(N_{s-1})))
 $$
 
 The objective is to find a ordering policy that maximizes the expected total profit $E(G_0 | N_0)$.
@@ -118,15 +112,31 @@ The value function is:
 \begin{split}
 V_t(n) = \max_{b \in B_t} \Bigg\{
 	\sum_{i \geq 0} \Big(
-		P(i) * (
-			a_{fix} * min(i, n) %sales
-			- l * n % holding cost
+		P(i) \cdot (
+			a_{fix} \cdot min(i, n) %sales
+			- l \cdot n % holding cost
 			- C(b) % order cost
 		) \\
-		+ \delta * V_{t+1}\big(max(0, min(n - i + b, N_{max}))\big)
+		+ \delta \cdot V_{t+1}\big(min(max(n - i, 0) + b, N_{max}))\big)
 	\Big)\Bigg\}
 \end{split}
 \label{eq:dyn_prog}
+\end{equation}
+
+
+\begin{equation}
+\begin{split}
+V_t(n) = \max_{b \in B_t} \Bigg\{
+\sum_{i \geq 0} \Big(
+P(i) \cdot (
+a_{fix} \cdot min(i, n + b) %sales
+- l \cdot (n + b) % holding cost
+- C(b) % order cost
+) \\
++ \delta \cdot V_{t+1}\big(min(max(n + b - i, 0), N_{max}))\big)
+\Big)\Bigg\}
+\end{split}
+\label{eq:dyn_prog2}
 \end{equation}
 
 The set of order quantities must contain zero to allow to make no order.
@@ -136,7 +146,15 @@ The optimal ordering policy $b_t^*(n)$ is given by the arg max of \cref{eq:dyn_p
 % formula with without delayed order
 
 \subsection{Evaluation}
+%told, that this is a optimal ordering policy
+%deviations from that should result in worse performance (profit)
+%let's compare computed optimal policy in monopoly with policy that orders one item more(less)
+%hint: use bigger dif if you cannot see difference in policies
 \todo{compare with merchant that buys always one more / one less}
+
+%konvergieren der wertefunktion
+%vergleiche mit startwert 0, gleicher wert, zu hoher wert
+%wie schnell konvergiert es (konvergiert es)? welchen einfluss hat der startwert?
 
 \section{Joint Ordering and Pricing}
 \subsection{Model Description}
@@ -151,9 +169,11 @@ The optimal ordering policy $b_t^*(n)$ is given by the arg max of \cref{eq:dyn_p
 \subsection{Evaluation}
 
 \section{Competition}
+%Zeige, dass zu langsam. Zeige, wie schneller gemacht wird
 \subsection{Model Description}
 \subsection{Solution Approach}
 \subsection{Evaluation}
+%verlgeiche genauen Wert mit relaxierten Wert
 
 \section{Implementation}
 %extra section for adaptive dynamic programming? -> runs in 0.1 sec
