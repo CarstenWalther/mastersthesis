@@ -68,21 +68,3 @@ nächster lagerbestand abschneiden an 0 und Nmax
 numeric example (or chart) and change some parameter and show changes in results/policy
 
 check: consistent use of item/product
-
-
-#####
-
-23:19
-name,revenue,holding_cost,order_cost,profit
-DynProgramming,15390.0,296.7874166666669,8185.0,6908.212583333334
-9:49
-name,revenue,holding_cost,order_cost,profit
-DynProgramming,14370.0,313.4485833333334,7755.0,6301.551416666667
-
-23:30 two more
-name,revenue,holding_cost,order_cost,profit
-DynProgramming,14970.0,335.9069166666663,7795.0,6839.093083333333
-
-23:40 two less
-name,revenue,holding_cost,order_cost,profit
-DynProgramming,14070.0,273.4244166666668,7530.0,6266.575583333333

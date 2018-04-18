@@ -26,6 +26,7 @@ There are no backlogs. %sentence to short?
 If a customer arrives when the merchant is out of stock, the merchant will miss the sale.
 
 \subsection{Model Description}
+\label{subs:ordering_model}
 %situation
 %todo more intro/situation
 The merchant wants to sell items on the marketplace.
@@ -105,9 +106,31 @@ If $T$ is sufficiently large, $V_t$ converged enough in order that the optimal o
 
 $N_{max}$ denotes the upper limit of the inventory level and the order decision, $0 \leq n, b \leq N_{max}$. This does not affect the optimal solution as long as $N_{max}$ is greater than the biggest inventory level that can occur in the optimal policy.
 
-The value function is:
+The value function with an instantaneous arrival of orders is:
 %where comes i from?
-%make helper function clamp?
+% solve infinite sum over i problem: upper limit, rest probability for i >= n
+\begin{equation}
+\begin{split}
+V_t(n) = \max_{b \in B_t} \Bigg\{
+\sum_{i \geq 0} \Big(
+P(i) \cdot (
+a_{fix} \cdot min(i, n + b) %sales
+- l \cdot (n + b) % holding cost
+- C(b) % order cost
+) \\
++ \delta \cdot V_{t+1}\big(min(max(n + b - i, 0), N_{max}))\big)
+\Big)\Bigg\}
+\end{split}
+\label{eq:dyn_prog_no_delay}
+\end{equation}
+
+%check: order delay mentioned in model description?
+Solving this problem with any order delay results in a huge increase in dimensions for the calculation.
+The computation time would be to long to make fast and dynamic decisions on an online marketplace.
+To avoid these long computation times, we assume that the order delay is exactly one period.
+This solution is a heuristic for different order delays.
+The value function with order delay is shown in the following equation:
+
 \begin{equation}
 \begin{split}
 V_t(n) = \max_{b \in B_t} \Bigg\{
@@ -123,55 +146,70 @@ V_t(n) = \max_{b \in B_t} \Bigg\{
 \label{eq:dyn_prog}
 \end{equation}
 
-
-\begin{equation}
-\begin{split}
-V_t(n) = \max_{b \in B_t} \Bigg\{
-\sum_{i \geq 0} \Big(
-P(i) \cdot (
-a_{fix} \cdot min(i, n + b) %sales
-- l \cdot (n + b) % holding cost
-- C(b) % order cost
-) \\
-+ \delta \cdot V_{t+1}\big(min(max(n + b - i, 0), N_{max}))\big)
-\Big)\Bigg\}
-\end{split}
-\label{eq:dyn_prog2}
-\end{equation}
-
-The set of order quantities must contain zero to allow to make no order.
-The optimal ordering policy $b_t^*(n)$ is given by the arg max of \cref{eq:dyn_prog}. 
+The set of order quantities $B_t$ must contain zero to allow to make no order.
+The optimal ordering policy $b_t^*(n)$ is given by the arg max of \cref{eq:dyn_prog_no_delay} and \cref{eq:dyn_prog} respectively. 
 
 %why use dyn prog? -> optimal; why optimal?
-% formula with without delayed order
 
 \subsection{Evaluation}
+%konvergieren der wertefunktion
+%vergleiche mit startwert 0, gleicher wert, zu hoher wert
+%wie schnell konvergiert es (konvergiert es)? welchen einfluss hat der startwert?
+\todo{show graph of converging value function}
+
 %told, that this is a optimal ordering policy
 %deviations from that should result in worse performance (profit)
 %let's compare computed optimal policy in monopoly with policy that orders one item more(less)
 %hint: use bigger dif if you cannot see difference in policies
 \todo{compare with merchant that buys always one more / one less}
 
-%konvergieren der wertefunktion
-%vergleiche mit startwert 0, gleicher wert, zu hoher wert
-%wie schnell konvergiert es (konvergiert es)? welchen einfluss hat der startwert?
-
 \section{Joint Ordering and Pricing}
+%What?
+In this section, the merchant is in the same situation as in \cref{section:ordering} but additionally gains control over the selling price.
+With ordering and pricing decisions enabled, the merchant's actions on the marketplace are unconstrained.
+%Difference in demand
+The demand in this scenario depends on the chosen selling price.
+A higher price usually results in less demand.
+As in the previous problem, the demand distribution is known.
+
 \subsection{Model Description}
-%model from above gets extended by pricing decision
-%define set of pricing decisions
+This model is a extension of the model from \cref{subs:ordering_model}.
+%pricing decision
+Instead of a fixed selling price $a_{fix}$, the merchant sets a price $a_t$ in each period $t$, with $a_t \geq 0$.
+The set of admissible pricing decisions is denoted $A_t$.
+%revenue
+Each sold item in period $t$ generates a revenue of $a_t$.
+
+%demand
+The probability to sell $i$ depends now on price $a$.
+The merchant knows the price-dependent probability distribution.
+
+Depending on a given pricing and ordering policy $(a_t, b_t)_t$, the random accumulated profit from time period $t$ is:
+
+% can i reuse name from previous section?
+$$
+G_t := \sum_{s=t+1}^{\infty} (\delta^{s-t} \cdot (a_{s-1} \cdot X_s - l \cdot N_{s-1} - C(b_{s-1}(N_{s-1})))
+$$
+
+The objective is to find a joint pricing and ordering policy that maximizes the expected total profit $E(G_0 | N_0)$.
+
 \subsection{Solution Approach}
+We extend bellmann by pricing dimension
+
 \subsection{Evaluation}
+
 
 \section{Demand Learning}
 \subsection{Model Description}
 \subsection{Solution Approach}
+%linear regression, features: price
 \subsection{Evaluation}
 
 \section{Competition}
 %Zeige, dass zu langsam. Zeige, wie schneller gemacht wird
 \subsection{Model Description}
 \subsection{Solution Approach}
+%linear regression, features: ...
 \subsection{Evaluation}
 %verlgeiche genauen Wert mit relaxierten Wert
 
