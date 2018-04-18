@@ -94,6 +94,8 @@ The objective is to find a ordering policy that maximizes the expected total pro
 %Sales decrease the inventory level over time and orders increase it.
 
 \subsection{Solution Approach}
+%why use dyn prog? -> optimal; why optimal?
+
 %what? -> dyn programming
 In this section, we want to derive optimal ordering policies.
 % with and without delay
@@ -147,9 +149,9 @@ V_t(n) = \max_{b \in B_t} \Bigg\{
 \end{equation}
 
 The set of order quantities $B_t$ must contain zero to allow to make no order.
-The optimal ordering policy $b_t^*(n)$ is given by the arg max of \cref{eq:dyn_prog_no_delay} and \cref{eq:dyn_prog} respectively. 
-
-%why use dyn prog? -> optimal; why optimal?
+The optimal ordering policy $b_t^*(n)$ is given by the arg max of \cref{eq:dyn_prog_no_delay} and \cref{eq:dyn_prog} respectively.
+%address that arg max is set, do that in next sections too
+The next sections will only consider the case with delayed orders.
 
 \subsection{Evaluation}
 %konvergieren der wertefunktion
@@ -188,7 +190,7 @@ The set of admissible pricing decisions is denoted $A_t$.
 Each sold item in period $t$ generates a revenue of $a_t$.
 
 %demand
-The probability to sell $i$ depends now on price $a$.
+The probability to sell $i$ items depends now on price $a$.
 The merchant knows the price-dependent probability distribution.
 
 Depending on a given pricing and ordering policy $(a_t, b_t)_t$, the random accumulated profit from time period $t$ is:
@@ -201,10 +203,33 @@ $$
 The objective is to find a joint pricing and ordering policy that maximizes the expected total profit $E(G_0 | N_0)$.
 
 \subsection{Solution Approach}
-We extend bellmann by pricing dimension
+As a basis, we use the dynamic programming approach shown in \cref{eq:dyn_prog}.
+The Bellman equation is extended by one dimension that contains all pricing decisions $A_t$.
+
+%todo remove t from A and B.
+\begin{equation}
+\begin{split}
+V_t(n) = \max_{\substack{b \in B_t \\ a \in A_t}} \Bigg\{
+\sum_{i \geq 0} \Big(
+P(i, a) \cdot (
+a \cdot min(i, n) %sales
+- l \cdot n % holding cost
+- C(b) % order cost
+) \\
++ \delta \cdot V_{t+1}\big(min(max(n - i, 0) + b, N_{max}))\big)
+\Big)\Bigg\}
+\end{split}
+\label{eq:dyn_prog_joint}
+\end{equation}
+
+There are three changes to the value function.
+The probability is price-dependent ($P(i, a)$), the revenue in one period depends on the chosen price ($a \cdot min(i, n)$), and the maximum expected profit over all ordering decisions and pricing decisions is used.
+The optimal ordering policy $b^*_t(n)$ and pricing policy $a^*_t(n)$ are given by the arg max of \cref{eq:dyn_prog_joint}.
+%optimal pricing decision
 
 \subsection{Evaluation}
-
+\todo{show policies with increasing prices}
+% anything else I can show here?
 
 \section{Demand Learning}
 \subsection{Model Description}
