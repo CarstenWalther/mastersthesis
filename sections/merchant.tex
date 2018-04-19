@@ -166,6 +166,7 @@ The next sections will only consider the case with delayed orders.
 \todo{compare with merchant that buys always one more / one less}
 
 \section{Joint Ordering and Pricing}
+\label{section:joint_ordering_pricing}
 %What?
 In this section, the merchant is in the same situation as in \cref{section:ordering} but additionally gains control over the selling price.
 With ordering and pricing decisions enabled, the merchant's actions on the marketplace are unconstrained.
@@ -203,6 +204,7 @@ $$
 The objective is to find a joint pricing and ordering policy that maximizes the expected total profit $E(G_0 | N_0)$.
 
 \subsection{Solution Approach}
+\label{section:joint_solution}
 As a basis, we use the dynamic programming approach shown in \cref{eq:dyn_prog}.
 The Bellman equation is extended by one dimension that contains all pricing decisions $A_t$.
 
@@ -232,13 +234,93 @@ The optimal ordering policy $b^*_t(n)$ and pricing policy $a^*_t(n)$ are given b
 % anything else I can show here?
 
 \section{Demand Learning}
-\subsection{Model Description}
+\label{section:demand_learning}
+
+This section extends the joint inventory and dynamic pricing problem from \cref{section:joint_ordering_pricing} by not providing the merchant with the demand distribution.
+%the merchant, the merchant, the merchant...
+The merchant needs to know the customer behavior in order to make effective ordering and pricing decisions.
+The merchant can get information about the customer behavior from past customer actions.
+The merchant can analyze historical market situation and sales in order to deduce future customer behavior.
+%what is this dat, where is it from? (how does it look like?)
+This is called demand learning.
+
+%from data to demand distribution
+
+%model section removed, maybe mention somewhere that problem is same, only prob is not know
+
 \subsection{Solution Approach}
-%linear regression, features: price
+In order to overcome the inventory and dynamic pricing problem with missing demand information, we split the whole problem into two parts.
+The first part is the training of a model from historical market situations and sales in order to predict sale probabilities.
+These probabilities are used in the second part to create ordering and pricing policies.
+%why sales prob = demand prob? check whole section
+Given predicted sale probabilities, the dynamic programming solution from \cref{section:joint_solution} can be used as it is, to calculate ordering and pricing policies.
+
+Assuming, the merchant predicts the demand correctly, the result will optimal policies.
+In other cases, the quality of policies will depend on the quality of predictions. 
+The separation of the problem let us focus on the prediction of the demand probability, while having a working solution for the policy creation.
+
+%bring data into right form
+In order to to use market and sales data for demand learning, it must be transformed into a usable form.
+From the market data we know, at what times the market situation changed and what the market situation was.
+The sales data contains information about all of a merchant's sales, including when the sales happened.
+These two data sources can be combined and aggregated to a form that contains the number of sales per minute for each market situation.
+
+%bring data into right form, part 2 feature extraction
+We use regression analysis for the demand learning.
+Regression analysis models and analyzes the relationship between a dependent variable and independent variables.
+In this case, the dependent variable is the sales per minute metric.
+Independent variables are extracted from the market situation.
+In the monopoly scenario, the demand depends only on the merchant's price.
+That is why for now, there is only one independent variable, the selling price.
+%motivation: why use linear regression and not something else? is relationship linear?
+We use linear regression to find a relationship between the independent variables $\vec{x}$ of a market situation and the sales per minute $\hat{y}$ for this situation.
+The following equation shows how to predict sales per minute $y$ for a market situation.
+
+%show how x is vector of features and constant 1 \begin{pmatrix} 1 \\ p \end{pmatrix}
+\begin{equation}
+\label{eq:linear_regression}
+y = \vec{x}^\intercal \cdot \vec{\beta}
+\end{equation}
+
+$\vec{\beta}$ consists of the weights of the regression model.
+Given the sales per minute $y_1, y_2, \ldots, y_n$ and the independent variables $\vec{x}_1, \vec{x}_2, \ldots, \vec{x}_n$ from $n$ historical market situations, the weights $\vec{\beta}$ are calculated with the least squares approach:
+
+%todo fix on https://en.wikipedia.org/wiki/Linear_regression
+\begin{equation}
+\vec{\beta} = \Big(\sum{\vec{x}_i \vec{x}_i^\intercal} \Big)^{-1}
+			  \Big(\sum{y_i \vec{x}_i} \Big)
+\end{equation}
+
+%predicted mean demand -> distribution
+The merchant is able to predict mean sales per minute for a market situation with the regression analysis.
+However, sales probabilities are needed for the dynamic programming approach.
+The mean sales per minute can be used as a parameter to create a probability distribution.
+%find better citation with a study or something to show that.
+We describe the demand distribution with a Poisson distribution.
+This discrete distribution is a good approximation for the arrival and buying process of customers \cite{DBLP:journals/ior/Wolff82}.
+Equation \ref{eq:probability} shows to integration of the Poisson distribution and the linear regression from \cref{eq:linear_regression} in order to create a demand probability function.
+
+\begin{equation}
+\label{eq:probability}
+P(i, \vec{x}) =
+	e^{\frac{-1}{\vec{x}^\intercal \vec{\beta} \cdot p}}
+	(\vec{x}^\intercal \vec{\beta} \cdot p)^{-k}
+	\frac{1}
+	{k!}
+\end{equation}
+%todo fix ugly transpose
+
+$p$ is the length of the merchant's decision period in minutes and $p > 0$.
+The sales per minute are multiplied with the period length to get the number of sales in a period.
+
+
 \subsection{Evaluation}
+%show how good predicted % to real % is
+% show prediction quality over number of training examples
 
 \section{Competition}
 %Zeige, dass zu langsam. Zeige, wie schneller gemacht wird
+%only sees onw sales
 \subsection{Model Description}
 \subsection{Solution Approach}
 %linear regression, features: ...
