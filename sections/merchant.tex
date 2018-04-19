@@ -285,7 +285,7 @@ y = \vec{x}^\intercal \cdot \vec{\beta}
 $\vec{\beta}$ consists of the weights of the regression model.
 Given the sales per minute $y_1, y_2, \ldots, y_n$ and the independent variables $\vec{x}_1, \vec{x}_2, \ldots, \vec{x}_n$ from $n$ historical market situations, the weights $\vec{\beta}$ are calculated with the least squares approach:
 
-%todo fix on https://en.wikipedia.org/wiki/Linear_regression
+%todo fix on https://en.wikipedia.org/wiki/Linear_regression, ask Rainer
 \begin{equation}
 \vec{\beta} = \Big(\sum{\vec{x}_i \vec{x}_i^\intercal} \Big)^{-1}
 			  \Big(\sum{y_i \vec{x}_i} \Big)
@@ -330,11 +330,32 @@ This allows the merchant to encounter many different market situations and obtai
 \todo{show prediction quality over number of training examples}
 
 \section{Competition}
+Until now, the merchant offered items on the marketplace in a monopoly.
+This is usually not the case on real online marketplaces.
+Other merchants offer the same or a similar product and each merchant wants to make the most attractive offer.
+A common strategy to do that is to offer the cheapest price.
+When multiple merchants pursue this strategy, the price will spiral downwards.
+Such a commercial competition is called price war.
+It is not the best strategy to always undercut the competitors because of decreasing profit margins.
+Sometimes it is better to offer a higher price.
+This reduces sales, but the profit margin is higher.
+This section proposes a merchant that makes optimized ordering and pricing decisions with the goal to maximize the profit.
+
+In the previous sections, the sale probability was only influenced by the merchant's actions, to be specific it was influenced by the selling price that the merchant chose.
+In this scenario, also the competitor's actions influence the merchant's sale probabilities.
+It is important to react fast and effective on the frequently changing market situations.
+
 %Zeige, dass zu langsam. Zeige, wie schneller gemacht wird
 %only sees onw sales
 \subsection{Model Description}
 \subsection{Solution Approach}
+%Idee: Effiziente dynamische Programmierung und erweiterte datenbasierte Nachfrageschätzung
+
 %linear regression, features: ...
+
+%state is inventory level
+%state could be market situation -> dimensions huge
+% -> calculate new policy for new situation
 \subsection{Evaluation}
 %verlgeiche genauen Wert mit relaxierten Wert
 
