@@ -312,11 +312,22 @@ P(i, \vec{x}) =
 
 $p$ is the length of the merchant's decision period in minutes and $p > 0$.
 The sales per minute are multiplied with the period length to get the number of sales in a period.
+This demand probability function is used in \cref{eq:dyn_prog_joint} to calculate order and pricing policies without knowing the demand distribution.
 
+%retraining
+The merchant has access to a steadily growing collection of market situations and sales data over time.
+The quality of predictions is increased by periodic trainings that utilize the new data.
+There is no trainings data available at the start of a merchant's career on the marketplace.
+In that case, we use a rule-based ordering strategy and an exploration pricing strategy.
+The exploration pricing strategy sets random prices.
+This allows the merchant to encounter many different market situations and obtain sales data for these situations.
 
 \subsection{Evaluation}
-%show how good predicted % to real % is
-% show prediction quality over number of training examples
+
+\todo{show how good predicted percent to real percent is}
+
+
+\todo{show prediction quality over number of training examples}
 
 \section{Competition}
 %Zeige, dass zu langsam. Zeige, wie schneller gemacht wird
