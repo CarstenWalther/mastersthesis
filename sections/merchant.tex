@@ -356,36 +356,88 @@ Getting fast decisions is a challenge because the increasing complexity of the i
 Nevertheless, there are ways to improve the speed of the dynamic programming approach which are described in \cref{section:faster_dyn_prog}.
 
 \subsection{Solution Approach}
-%Idee: Effiziente dynamische Programmierung und erweiterte datenbasierte Nachfrageschätzung
+
 
 %build on top of solution from previous section
-%features ausbauen, da situatino complizierter geworden ist.
-%describe features
 
-%state is inventory level
-%state could be market situation -> dimensions huge
-% -> calculate new policy for new situation
+
+%describe two possible approaches
+%todo reread, and split paragraph
 The inventory level was the only state on which ordering and pricing decisions were based on in the previous problems.
 With competitors on the marketplace, the merchant must also consider their offers when making ordering and pricing decisions.
 One possible approach is to add competitors' offers to the state in the dynamic programming calculation.
 We decided against this solution because it drastically increases the state by multiple dimensions and therefore slows the computation down by multiple orders of magnitude.
-Additionally, demand learning must predict transitions of competitors' offers from one time period to another.
-This requires a substantial amount of trainings data to make sensible predictions.
-%instead
-%easier to train -> less data needed -> better predictions 
+Moreover, demand learning must predict transitions of competitors' offers from one time period to another.
+This means that competitors' strategies must be learned, which requires a substantial amount of trainings data and a complex demand model to make sensible predictions.
+Instead, we take the following approach.
+We create ordering and pricing policies whenever the market situation changes for that specific new market situation.
+The ordering and pricing decisions for this approach depend only on the merchant's inventory level.
+This keeps the computation fast and efficient.
+Additionally, only sale probabilities are predicted but not the competitors' price reactions.
+This can be done by a relatively simple demand model, which can make good predictions even with few market and sales data.
+The disadvantage is that new policies must be computed for each new market situation.
+The next sections tackles the problem of how to quickly compute ordering and pricing policies for new market situations.
 
+%market situation more complex -> more features
+Market situations become more complex with the introduction of competition.
+Previously, there was at most one active offer at a time.
+Now, there can be as many offers as competing merchant.
+And the number of offers can change over time when merchants are out of stock.
+In \cref{section:demand_learning}, the merchant's offer price was sufficient to describe a market situation.
+With competition, the sale probability of an offer depends not only on its price but also on the price of the other offers.
+%todo use everywhere explanatory variables instead independent variable
+New explanatory variables are necessary for demand learning to describe the more complex market situations.
+We created two new explanatory variables besides the offer price in order to describe market situations with competition.
+The variables are explained in detail below.
 
-\subsection{Faster dynamic programming}
+%todo bold bullet points
+\begin{description}
+	\item [Own price]
+		This explanatory variable hold the value of the merchant's current offer price.
+		It helps to explain effects on the sale probability that are based on the total price.
+		For example, a higher price generally results in less demand.
+	\item [Price rank]
+		This variable describes the merchant's relative position in the price ranking.
+		The price rank is defined by the number of competitors' offer that cost equal or less than the merchant's offer.
+		Demand learning uses this to find a relationship to the sale probability.
+		For example, it is probable that a merchant sells more items by having the cheapest offer instead of the second cheapest.
+	\item [Price difference to cheapest offer]
+		This is the difference in price from the merchant's offer to the cheapest offer.
+		If the merchant has the cheapest offer, the variables value will be 0€.
+		It is a relative variation of the 'own price' metric.
+		This variable could explain effects like: a customer is willing to pay 5€ more than the cheapest product but not 10€ more.
+\end{description}
+
+With these explanatory variables it is possible to describe the effect of the competition and the merchant's offer price on the sale probabilities.
+
+The predicted sale probability are used in the dynamic programming approach to compute ordering and pricing policy.
+As explained above, the policies are computed for each new market situation.
+%todo fix time mentioned
+At this point, the computation takes around two seconds to complete.
+This is to long for the merchant to quickly and frequently react on the changing market.
+In the next section, we will reduce this time to allow shorter decision intervals for the merchant.
+
+%todo dyn progamming formula with p(i,x) in demand section
+%todo make x depend on price somehow
+
+\subsection{Efficient Dynamic Programming}
 \label{section:faster_dyn_prog}
-%Zeige, dass zu langsam. Zeige, wie schneller gemacht wird
-%performance non-issue before, but now must be computed each iteration
+In this section, we present four approaches to increase the computational efficiency of dynamic programming.
+These approaches are applied to our merchant to reduce time spent on computing policies.
+This allows the merchant to react faster on new market situations.
+The approaches are:
+
+\subsubsection{using good stuff}
+this is a test
 %adapt search space
 %use last expected profit
-%tradeoff speed performance (genauigkeit))
-%todo fix title
-%not done here, quantisation
+%change number of iteration tradeoff speed performance (genauigkeit))
+%quantisation (not done here)
 \subsection{Evaluation}
 %verlgeiche genauen Wert mit relaxierten Wert
-
+%show price war, this is sparta!
+%zeige Anpassung an verändertes Kaufverhalten?
 \section{Implementation}
 %extra section for adaptive dynamic programming? -> runs in 0.1 sec
+%write about dummy offer?
+%easy change/add of features
