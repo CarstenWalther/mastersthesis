@@ -1,70 +1,14 @@
-Wie viele Seiten? min 50 Inhalt (~70 insgesamt)
-bilder nur oben/unten?
+Seitenanzahl: min 50 Inhalt (~70 insgesamt)
 structure of thesis irgendwo erklären
 
-mention applications for my solution
-
-
-Introduction (+ Motvation)
-Related Work
-Problem Description (more specific, )
-Price Wars Platform #komponenten vorstellen, schnittstellen für den merchant, +architekturbild
-Merchant
-	Ordering Policy
-		Model
-		Implementation
-		Evaluation
-	Joint Ordering and Pricing
-		Model
-		Implementation
-		Evaluation
-	Demand Learning
-		Model
-		Implementation
-		Evaluation
-	Competition
-		Model
-		Implementation
-		(final) Evaluation
-Ordering on the Price Wars Platform (Platform Extension by Ordering)
-	Order multiple items
-	Fixed cost per order
-	Holding cost (warum lager im marketplace?)
-	Shipping time
-	(inventory)
-Conclusion (+ Future work)
-
-
-verheiraten mit Plattform (Implementierung)
-architektur designentscheidung, warum ist lager im marketplace?
-3 stufen aufbau ist OK
-freie lieferzeit in bellman rechnerisch zu komplex
-zeige bellmann mit und ohne lieferverzögerung
-im merchant teil nicht/selten auf Plattform eingehen
-
-szenarien mit 
-lagerkosten in UI
 
 was gemacht?
 warum gemacht?
 was kommt raus?
 preisdifferenz zum günstigsten GEGNER
 
-latex:
-booktabs
-
-sections in Inhaltsverzeichnis
-
-
-gleichung mit sofortiger lieferung?
-
-roter faden, docker beschreiben
-architecture != deployment
-gründe, warum? motivation
-discount in formel mit rein?
-lösungsansatz kommt nach modell
-maximum inventory level
-nächster lagerbestand abschneiden an 0 und Nmax
+motivation!!!
 numeric example (or chart) and change some parameter and show changes in results/policy
 
 check: consistent use of item/product
+glossary: item, product, market situation, 
