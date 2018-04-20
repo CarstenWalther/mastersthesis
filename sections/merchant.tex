@@ -183,6 +183,7 @@ The other way around, an ordering policy might require certain prices for a bett
 This mutual influence is the reason, why ordering and pricing should be decided jointly.
 
 \subsection{Model Description}
+\label{subs:joint_model}
 This model is a extension of the model from \cref{subs:ordering_model}.
 %pricing decision
 Instead of a fixed selling price $a_{fix}$, the merchant sets a price $a_t$ in each period $t$, with $a_t \geq 0$.
@@ -332,33 +333,57 @@ This allows the merchant to encounter many different market situations and obtai
 \section{Competition}
 Until now, the merchant offered items on the marketplace in a monopoly.
 This is usually not the case on real online marketplaces.
-Other merchants offer the same or a similar product and each merchant wants to make the most attractive offer.
+Other merchants offer the same or similar products and everyone wants to make the most attractive offer.
 A common strategy to do that is to offer the cheapest price.
 When multiple merchants pursue this strategy, the price will spiral downwards.
 Such a commercial competition is called price war.
 It is not the best strategy to always undercut the competitors because of decreasing profit margins.
 Sometimes it is better to offer a higher price.
 This reduces sales, but the profit margin is higher.
-This section proposes a merchant that makes optimized ordering and pricing decisions with the goal to maximize the profit.
+This section proposes a merchant that makes optimized ordering and pricing decisions under competition with the goal to maximize profit.
 
-In the previous sections, the sale probability was only influenced by the merchant's actions, to be specific it was influenced by the selling price that the merchant chose.
-In this scenario, also the competitor's actions influence the merchant's sale probabilities.
-It is important to react fast and effective on the frequently changing market situations.
+In the previous sections, the sale probability was only influenced by the merchant's own actions, to be specific it was influenced by the selling price that the merchant sets.
+In this scenario, the merchant's sale probability is also influenced by competitor's actions.
+%model description
+The model is the same as in \cref{subs:joint_model} with the exception that number of sold items $X_t$ within a period depends on the merchant's offer price and the competitor's offer prices.
+Merchants have access to historical market and sales data.
+The sales data contains only information about a merchant's own sales, not the sales from the competitors.
 
-%Zeige, dass zu langsam. Zeige, wie schneller gemacht wird
-%only sees onw sales
-\subsection{Model Description}
+%merchant must be fast
+Market situations can change frequently on online marketplaces.
+A merchant must able to quickly and effectively react on new market situations in order to offer an optimal price for the new situation.
+Getting fast decisions is a challenge because the increasing complexity of the inventory and dynamic pricing problem over the last sections resulting in solutions with increasing computational effort.
+Nevertheless, there are ways to improve the speed of the dynamic programming approach which are described in \cref{section:faster_dyn_prog}.
+
 \subsection{Solution Approach}
-%build on top of solution from previous section
-%features ausbauen, da situatino complizierter geworden ist.
-
 %Idee: Effiziente dynamische Programmierung und erweiterte datenbasierte Nachfrageschätzung
 
-%linear regression, features: ...
+%build on top of solution from previous section
+%features ausbauen, da situatino complizierter geworden ist.
+%describe features
 
 %state is inventory level
 %state could be market situation -> dimensions huge
 % -> calculate new policy for new situation
+The inventory level was the only state on which ordering and pricing decisions were based on in the previous problems.
+With competitors on the marketplace, the merchant must also consider their offers when making ordering and pricing decisions.
+One possible approach is to add competitors' offers to the state in the dynamic programming calculation.
+We decided against this solution because it drastically increases the state by multiple dimensions and therefore slows the computation down by multiple orders of magnitude.
+Additionally, demand learning must predict transitions of competitors' offers from one time period to another.
+This requires a substantial amount of trainings data to make sensible predictions.
+%instead
+%easier to train -> less data needed -> better predictions 
+
+
+\subsection{Faster dynamic programming}
+\label{section:faster_dyn_prog}
+%Zeige, dass zu langsam. Zeige, wie schneller gemacht wird
+%performance non-issue before, but now must be computed each iteration
+%adapt search space
+%use last expected profit
+%tradeoff speed performance (genauigkeit))
+%todo fix title
+%not done here, quantisation
 \subsection{Evaluation}
 %verlgeiche genauen Wert mit relaxierten Wert
 

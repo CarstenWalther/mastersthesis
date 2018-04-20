@@ -11,4 +11,25 @@ motivation!!!
 numeric example (or chart) and change some parameter and show changes in results/policy
 
 check: consistent use of item/product
-glossary: item, product, market situation, 
+glossary: item, product, market situation
+
+
+TODO:
+Competion
+Eval Ordering
+Eval joint
+Eval learning
+Eval Competition
+Merchant Implementation
+Order with multiple Items
+Fixed Order Cost
+Holding Cost
+Shipping Time
+Benchmark Tool
+Conclusion
+finish Related Work
+Abstract
+
+todos:
+fix german words in template
+fill/remove table of figures and stuff
