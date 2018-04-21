@@ -425,14 +425,47 @@ In the next section, we will reduce this time to allow shorter decision interval
 In this section, we present four approaches to increase the computational efficiency of dynamic programming.
 These approaches are applied to our merchant to reduce time spent on computing policies.
 This allows the merchant to react faster on new market situations.
-The approaches are:
+The approaches are: using a better start value, adapt decision sets, and tweaking the number of iterations.
 
-\subsubsection{using good stuff}
-this is a test
-%adapt search space
-%use last expected profit
-%change number of iteration tradeoff speed performance (genauigkeit))
-%quantisation (not done here)
+%better start value
+%todo reference to convergence figure
+%todo how to call 'start value', 'end value'?
+Figure (...) shows that dynamic programming converges faster if the start value is near the end value.
+We assume that the expected profit from two successive market situations is similar because the market situations will not fundamentally change in that short time frame.
+%wtf, explain more detailed
+Setting the start value to the expected profit from the previous computation will reduce the time until dynamic programming converges.
+Even if the assumption does not hold true and there is a big change in expected profit, the computation converges most of the time faster than with the old start value of zero.
+%equation with start value
+
+%adapt decision sets
+%todo remove t from decision set A and B
+%very passiv part
+Another way to increase the efficiency of the dynamic programming approach is to change the set of pricing decisions $A$ and set of ordering decisions $B$ to only contain relevant decisions.
+E.g., a order quantity of 100 is an irrelevant decision if the final policy only uses order quantities around 10.
+The irrelevant decision can be removed from the decision set without affecting the result.
+%better name/include for T
+The dynamic programming approach is run for a reduced number of periods $T$ for approximations of pricing and ordering policies.
+%maybe explain this with min, max
+After that, new decision sets are created, containing the range of decisions that occur in the approximated policy.
+The ranges are increased by some constant to contain decisions that were not used before.
+The new decision sets are used to compute pricing and ordering policies again.
+The second dynamic programming computation is faster because it works on a reduced pricing and ordering decision sets.
+This process can be repeated in order to adapt the decision sets multiple times.
+This approach is not only faster than computing policies on the full decision sets, it also removes the limitation of having a static lower and upper limit on the price and order quantity.
+The decision sets can be adapted until they contain relevant decision.
+No prior knowledge of relevant prices and order quantities is necessary.
+%mention 0 special value for order decisions?
+%stop after x iterations or until policy converged
+%quantisation (not done here) (range vs stride)
+
+%change number of iteration
+The end time $T$ is a parameter that affects the number of iterations and therefore the computation time of the dynamic programming approach.
+The choice of this parameter is a trade-off between precision for large $T$ and efficiency for small $T$.
+
+
+
+%show speed increase, maybe here maybe in eval
+
 \subsection{Evaluation}
 %verlgeiche genauen Wert mit relaxierten Wert
 %show price war, this is sparta!
