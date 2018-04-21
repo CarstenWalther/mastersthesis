@@ -461,16 +461,21 @@ No prior knowledge of relevant prices and order quantities is necessary.
 %change number of iteration
 The end time $T$ is a parameter that affects the number of iterations and therefore the computation time of the dynamic programming approach.
 The choice of this parameter is a trade-off between precision for large $T$ and efficiency for small $T$.
-
-
+One observation is that the policy converges faster than the calculated expected profit.
+This can be used to reduce $T$ without affecting the precision of the resulting policies.
+It is possible to further reduce the end time $T$, if approximations of the optimal pricing and ordering policies are sufficient.
 
 %show speed increase, maybe here maybe in eval
 
 \subsection{Evaluation}
-%verlgeiche genauen Wert mit relaxierten Wert
-%show price war, this is sparta!
-%zeige Anpassung an verändertes Kaufverhalten?
+\todo{compare speed and result of full dyn programming and more efficient way}
+
+\todo{show price war between merchants}
+
+\todo{show reaction when changing demand or fixed ordering cost}
+
 \section{Implementation}
 %extra section for adaptive dynamic programming? -> runs in 0.1 sec
 %write about dummy offer?
 %easy change/add of features
+%in python numpy -> vectorization super fast
