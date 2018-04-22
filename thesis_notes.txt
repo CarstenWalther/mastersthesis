@@ -5,7 +5,6 @@ structure of thesis irgendwo erklären
 was gemacht?
 warum gemacht?
 was kommt raus?
-preisdifferenz zum günstigsten GEGNER
 
 motivation!!!
 numeric example (or chart) and change some parameter and show changes in results/policy
@@ -14,6 +13,9 @@ descripte effect of discount factor delta: 0 -> myopic, 1 -> long-term
 
 check: consistent use of item/product
 glossary: item, product, market situation, model vs demand model, decision interval
+did i mention start value for bellman?
+abrehevation: REST, API, explain somewhere
+put merchant architecture somewhere (in implementation?)
 
 
 TODO:

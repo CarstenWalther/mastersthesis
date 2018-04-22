@@ -469,13 +469,42 @@ It is possible to further reduce the end time $T$, if approximations of the opti
 
 \subsection{Evaluation}
 \todo{compare speed and result of full dyn programming and more efficient way}
-
+%speed down to 0.1 sec
+% fazit: now fast enough for fast reactions
 \todo{show price war between merchants}
 
 \todo{show reaction when changing demand or fixed ordering cost}
 
 \section{Implementation}
-%extra section for adaptive dynamic programming? -> runs in 0.1 sec
-%write about dummy offer?
-%easy change/add of features
-%in python numpy -> vectorization super fast
+%todo ref python and libs
+%how is merchant implemented? (language choice)
+Merchants on the \pricewars platform can be written in any language as long as they comply with the platform's REST APIs.
+%ref to pytho
+We decided to implement our merchant in the Python programming language for the following reasons.
+Python has great library support for numerical computing.
+These libraries allow a concise and efficient implementation without reinventing the wheel.
+The \pricewars platform offers a library written in Python, that implements the APIs to communicate with the platform's services.
+Lastly, it is possible to quickly create prototypes in that language.
+
+%how is dynamic programming implemented?
+%todo ref to equation
+The dynamic programming function is the computational most expensive part of the merchant.
+This requires an efficient implementation in order that the merchant can make fast decisions.
+We use the numpy library with its multidimensional arrays and vectorized array operations.
+
+
+The dynamic programming approach is ....
+%todo write about using multdimensional arrays for this
+This was implemented using the numpy library.
+Numpy is a library focused on numeric computation.
+We use numpy's multidimensional arrays and vectorized array operations to implement the dynamic programming approach efficiently.
+
+%how is demand learning implemented?
+%todo more detail
+We use the reliable linear regression implementation from the scikit-learn library.
+The demand learning is implemented in a way that make it easy to add or change explanatory variables.
+Only one function must be changed to add new explanatory variables.
+ 
+%dummy offer
+%write about merchant <-> price wars interaction
+%link to merchant code
