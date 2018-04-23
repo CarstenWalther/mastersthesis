@@ -1,7 +1,7 @@
-Seitenanzahl: min 50 Inhalt (~70 insgesamt)
-structure of thesis irgendwo erklären
+Seitenanzahl: min 50 nur Inhalt (~70 insgesamt)
 
 Frage nach fett, kursiv Text
+Was soll in Implementation rein?
 
 
 was gemacht?
@@ -9,33 +9,35 @@ warum gemacht?
 was kommt raus?
 
 motivation!!!
-numeric example (or chart) and change some parameter and show changes in results/policy
 
+IDEAS:
+numeric example (or chart) and change some parameter and show changes in results/policy
 descripte effect of discount factor delta: 0 -> myopic, 1 -> long-term
 
-check: consistent use of item/product
-glossary: item, product, market situation, model vs demand model, decision interval
+CHECK:
+structure of thesis irgendwo erklären
+consistent use of item/product
 did i mention start value for bellman?
 abrehevation: REST, API, explain somewhere
 put merchant architecture somewhere (in implementation?)
+merchant: mention run training in background
 
 
 TODO:
-Competion
 Eval Ordering
 Eval joint
 Eval learning
 Eval Competition
-Merchant Implementation
 Order with multiple Items
 Fixed Order Cost
 Holding Cost
 Shipping Time
+inventory graph
 Benchmark Tool
 Conclusion
 finish Related Work
 Abstract
 
 todos:
-fix german words in template
+glossary: item, product, market situation, model vs demand model, decision interval
 fill/remove table of figures and stuff

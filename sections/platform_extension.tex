@@ -1,20 +1,57 @@
 
 \chapter{\pricewars Platform Extension}
 
-%maybe be more specific in title:
-% Ordering on the Price Wars Platform 
-% Platform Extension by Ordering
+%problem + former state
+This thesis develops a merchant that runs on the \pricewars platform and is exposed to the inventory and dynamic pricing problem.
+The merchant competes against other merchants and makes automatic ordering and pricing decisions.
+The platform in its original form did support pricing decisions.
+The problem is that the platform did not support ordering decisions.
+Merchants could order items from the producer but only one item at a time.
+%motivation
+This is an unrealistic setting.
+Real merchants actually order multiple items at once to prevent high shipping costs.
+But this leads to the inventory control problem.
+Merchants have to decide at what point in time to order and how many items.
+They have to keep customer demand in mind to avoid stock-outs.
+This thesis extends the \pricewars platform by the inventory control problem.
+This allows to simulate competitions of merchants, that make ordering and pricing decisions.
+Different merchant strategies can be evaluated this way.
 
-\section{Order with multiple Items}
+%new state + describe following structure
+We added effects and costs to the platform that will influence merchants' ordering decisions.
+These extensions are explained in the following sections.
+The last two \cref{section:inventory_graph,section:benchmark_tool} present helpful additions to evaluate merchant performances.
+
+\section{Ordering multiple Items}
+\label{section:multiple_items}
+First of all, merchants must be able to order multiple items in one order.
+Some parts of the platform already supported this use case.
+For example, expense and profit calculation for merchants already supported orders of multiple items.
+However, there was no option to order more than one item from the producer.
+By adding a parameter to the order request \texttt{POST /orders}, merchants can request their desired amount, e.g., \texttt{POST /orders?amount=14}.
+Accordingly, the producer returns an order with that many items.
+Ordering different product type with one order is not supported.
+
+The option to order multiple items will not affect merchants' strategies.
+They can still order a single item whenever they need one.
+The next section introduces fixed order cost to discourage this behavior.
 
 \section{Fixed Order Cost}
-
+\label{section:fixed_order_cost}
+%total order cost only on producer, not producer and flink
+%like shipping cost
 \section{Holding Cost}
+\label{section:holding_cost}
 %architektur designentscheidung, warum ist lager im marketplace?
-
+%flink
 
 \section{Shipping Time}
+\label{section:shipping_time}
 
-%added price graph
+\section{Inventory Graph}
+\label{section:inventory_graph}
+
+\section{Benchmark Tool}
+\label{section:benchmark_tool}
+
 %refactored + added inventory to example merchants
-%benchmark tool

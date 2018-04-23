@@ -474,7 +474,7 @@ It is possible to further reduce the end time $T$, if approximations of the opti
 \todo{show price war between merchants}
 
 \todo{show reaction when changing demand or fixed ordering cost}
-
+%run two data-driven merchants against each other
 \section{Implementation}
 %todo ref python and libs
 %how is merchant implemented? (language choice)
@@ -488,6 +488,7 @@ Lastly, it is possible to quickly create prototypes in that language.
 
 %architecture
 Our merchant consists of four components as it is shown in \cref{fig:merchant_architecture}.
+%motivation for this architacture
 %main loop
 The main loop is the central component.
 It regularly checks the marketplace for open offers, updates prices, and orders items from the producer.
