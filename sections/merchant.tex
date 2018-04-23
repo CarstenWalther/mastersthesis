@@ -486,6 +486,13 @@ These libraries allow a concise and efficient implementation without reinventing
 The \pricewars platform offers a library written in Python, that implements the APIs to communicate with the platform's services.
 Lastly, it is possible to quickly create prototypes in that language.
 
+%architecture
+Our merchant consists of four components as it is shown in \cref{fig:merchant_architecture}.
+%main loop
+The main loop is the central component.
+It regularly checks the marketplace for open offers, updates prices, and orders items from the producer.
+After enough time passed, the merchant requests new market and sales data from the kafka reverse proxy and provides it to the demand learning component to analyze demand.
+
 \bgroup
 \tikzstyle{block} = [draw, rectangle, minimum height=3em, minimum width=6em]
 \tikzstyle{pinstyle} = [pin edge={<-,thin,black}]
@@ -495,11 +502,10 @@ Lastly, it is possible to quickly create prototypes in that language.
 \renewcommand{\arraystretch}{0.4}
 
 \begin{figure}[t]
-\label{fig:merchant_architecture}
 \begin{tikzpicture}[auto, node distance=2cm,>=latex']
 
 \node [block] (demand) {Demand Learning};
-\node [block, right of=demand, node distance=4cm] (policy) {Policy Module};
+\node [block, right of=demand, node distance=5cm] (policy) {Policy Component};
 \node [block, below of=demand, pin={[rpinstyle]left:
 		\begin{tabular}{@{}cc@{}}
 		Marketplace \\
@@ -522,10 +528,14 @@ Lastly, it is possible to quickly create prototypes in that language.
 
 \end{tikzpicture}
 \caption{Architecture of the proposed merchant}
+\label{fig:merchant_architecture}
 \end{figure}
 \egroup
 
-%how is dynamic programming implemented?
+%policy
+The merchant makes ordering and pricing decisions based on policies that are computed by the policy component.
+The policy component contains the dynamic programming approach.
+The merchant provides all arguments that are necessary for the policy creation and sale probabilities are requested from the demand learning component.
 %todo ref to equation
 The dynamic programming function is the computational most expensive part of the merchant.
 An efficient implementation reduces the time needed for a pricing and ordering decision.
@@ -536,18 +546,21 @@ We use fast and vectorized array operations from the numpy library to compute th
 Python is a high-level programming language and has a lot of computational overhead.
 Numpy provides data structures and functions implemented in the C programming language to overcome Python's overhead for numeric computations.
 
-%how is demand learning implemented?
-The merchant's demand learning module is responsible for estimating sale probabilities and for bringing market and sales data into a form that can be used for training.
+%demand learning
+The merchant's demand learning component is responsible for estimating sale probabilities and for bringing market and sales data into a form that can be used for training.
 The module uses linear regression to learn and predict the demand.
 We use the scikit-learn library for a reliable linear regression implementation.
 As an additional benefit, it is easy to change between regression algorithms using scikit-learn.
 The demand learning is implemented in a way that make it easy to add new or change existing explanatory variables.
 Only only single function (named \texttt{extract\_features}) must be changed to add new explanatory variables.
 
+%server
+The merchant server receives sales events from the marketplace and triggers the appropriate action.
+Our merchant just logs sales events.
+Moreover, the server receives configuration updates from the management UI and applies them.  
+
 The merchant's code is open source and can be found on Github: \url{https://github.com/CarstenWalther/pricewars-merchant}.
 
 %dummy offer
-%write about merchant <-> price wars interaction
-%link to merchant code
-%show merchant main loop as code
+%show merchant main loop as code?
 %write about pandas and data transformation?
