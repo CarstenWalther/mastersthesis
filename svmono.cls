@@ -190,7 +190,7 @@
 \clubpenalty=10000
 \widowpenalty=10000
 
-%\setlength\footnotesep{7.7\p@}
+\setlength\footnotesep{7.7\p@}
 
 \newdimen\betweenumberspace          % dimension for space between
 \betweenumberspace=5\p@               % number and text of titles
@@ -550,7 +550,7 @@
 \let\labelitemiii=\labelitemiv
 
 % labels of description
-\renewcommand*\descriptionlabel[1]{\hspace\labelsep #1\hfil}
+\renewcommand*\descriptionlabel[1]{\hspace\labelsep \textbf{#1}\hfil}
 
 % fixed indentation for standard itemize-environment
 \newdimen\svitemindent \setlength{\svitemindent}{\parindent}
