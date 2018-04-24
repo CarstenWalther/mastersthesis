@@ -50,10 +50,18 @@ The redundant order cost calculations may cause errors if the implementations ar
 To prevent these errors, only the producer calculates the cost and writes this information to the event.
 The event analysis service becomes simpler and changing the order cost formula means only updating the producer.
 
+With orders of multiple items and fixed order cost in place, a good merchant strategy is to make one big order at the start.
+To prevent that, we introduce holding cost in the next section.
+
 \section{Holding Cost}
 \label{section:holding_cost}
+
+
+
 %architektur designentscheidung, warum ist lager im marketplace?
-%flink
+%flink + diagram
+
+%tradeoff holding cost & order cost
 
 \section{Shipping Time}
 \label{section:shipping_time}

@@ -289,8 +289,8 @@ Given the sales per minute $y_1, y_2, \ldots, y_n$ and the independent variables
 
 %todo fix on https://en.wikipedia.org/wiki/Linear_regression, ask Rainer
 \begin{equation}
-\vec{\beta} = \Big(\sum{\vec{x}_i \vec{x}_i^\intercal} \Big)^{-1}
-			  \Big(\sum{y_i \vec{x}_i} \Big)
+\vec{\beta} = \bigg(\sum_{i=1}^n{\vec{x}_i \vec{x}_i^\intercal} \bigg)^{-1}
+			  \bigg(\sum_{i=1}^n{y_i \vec{x}_i} \bigg)
 \end{equation}
 
 %predicted mean demand -> distribution
@@ -306,9 +306,9 @@ Equation \ref{eq:probability} shows to integration of the Poisson distribution a
 \label{eq:probability}
 P(i, \vec{x}) =
 	e^{\frac{-1}{\vec{x}^\intercal \vec{\beta} \cdot p}}
-	(\vec{x}^\intercal \vec{\beta} \cdot p)^{-k}
+	(\vec{x}^\intercal \vec{\beta} \cdot p)^{-i}
 	\frac{1}
-	{k!}
+	{i!}
 \end{equation}
 %todo fix ugly transpose
 
@@ -499,6 +499,12 @@ After enough time passed, the merchant requests new market and sales data from t
 \tikzstyle{block} = [draw, rectangle, minimum height=3em, minimum width=6em]
 \tikzstyle{pinstyle} = [pin edge={<-,thin,black}]
 \tikzstyle{rpinstyle} = [pin edge={->,thin,black}]
+
+%todo better figure
+%server?
+%main loop?
+%merchant rectangle
+%refer to fmc diagram
 
 %reduce tabular row height, bgroup and egroup should limit scope of this command
 \renewcommand{\arraystretch}{0.4}

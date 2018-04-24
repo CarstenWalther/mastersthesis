@@ -50,7 +50,7 @@
 \usepackage{algpseudocode}
 %\usepackage{algorithmic}
 \usepackage{xspace} % solves problem with missing space after \newcommand
-\usepackage{cleveref} % use for \cref command
+\usepackage[capitalise]{cleveref} % use for \cref command
 
 % http://homepage.ruhr-uni-bochum.de/Georg.Verweyen/pakete.html
 \usepackage{ellipsis}
@@ -67,6 +67,12 @@
 	\renewcommand{\headrulewidth}{0pt}
 	\renewcommand{\footrulewidth}{0pt}
 }
+
+\crefname{chapter}{Chapter}{Chapters}
+\crefname{section}{Section}{Sections}
+\Crefname{chapter}{Chapter}{Chapters}
+\Crefname{section}{Section}{Sections}
+\crefname{equation}{}{}
 
 
 %Kopf- und Fußzeile
