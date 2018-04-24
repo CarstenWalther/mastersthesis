@@ -38,8 +38,18 @@ The next section introduces fixed order cost to discourage this behavior.
 
 \section{Fixed Order Cost}
 \label{section:fixed_order_cost}
-%total order cost only on producer, not producer and flink
-%like shipping cost
+Fixed order cost is a fixed value that is added to the total cost of each order.
+Fixed order cost is comparable to shipping cost.
+The total order cost from an order can be calculated with \cref{eq:order_cost}.
+Merchants can reduce their fixed order costs by making few big orders.
+They can request the size of the fixed order cost from the producer.
+
+Besides the producer, the event aggregation service needs to know the total order cost to calculate merchants' profits and expenses.
+The event aggregation service used to calculate the total order cost from the amount of ordered items and the cost per item.
+The redundant order cost calculations may cause errors if the implementations are inconsistent.
+To prevent these errors, only the producer calculates the cost and writes this information to the event.
+The event analysis service becomes simpler and changing the order cost formula means only updating the producer.
+
 \section{Holding Cost}
 \label{section:holding_cost}
 %architektur designentscheidung, warum ist lager im marketplace?

@@ -62,12 +62,13 @@ Each order causes a order cost, which consists of fixed order cost $c_{fix}$ and
 %order costs paid upfront
 Order costs are defined by:
 
-$$
+\begin{equation}
+\label{eq:order_cost}
 C(b) := \begin{cases}
-c_{fix} + c_{var} \cdot b  & \quad \text{if } b > 0 \\
-0  & \quad \text{if } b = 0
+	c_{fix} + c_{var} \cdot b  & \quad \text{if } b > 0 \\
+	0  & \quad \text{if } b = 0
 \end{cases}
-$$
+\end{equation}
 
 %sales
 The probability to sell $i$ items is denoted by $P(i)$.
