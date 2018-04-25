@@ -39,6 +39,7 @@ The next section introduces fixed order cost to discourage this behavior.
 \section{Fixed Order Cost}
 \label{section:fixed_order_cost}
 Fixed order cost is a fixed value that is added to the total cost of each order.
+%maybe write formula again
 Fixed order cost is comparable to shipping cost.
 The total order cost from an order can be calculated with \cref{eq:order_cost}.
 Merchants can reduce their fixed order costs by making few big orders.
@@ -50,18 +51,96 @@ The redundant order cost calculations may cause errors if the implementations ar
 To prevent these errors, only the producer calculates the cost and writes this information to the event.
 The event analysis service becomes simpler and changing the order cost formula means only updating the producer.
 
-With orders of multiple items and fixed order cost in place, a good merchant strategy is to make one big order at the start.
-To prevent that, we introduce holding cost in the next section.
+With orders of multiple items and fixed order cost in place, a good merchant strategy is to make one big order at the beginning.
+To disincentivize this behavior, we introduce holding cost in the next section.
 
 \section{Holding Cost}
 \label{section:holding_cost}
+%what
+Holding costs are costs that occur when merchants store items in their inventory.
+Each item that a merchant received from the producer and has not sold yet on the marketplace causes holding costs over time.
+%why
+Holding cost punishes merchants that overestimate demand and order to many items.
+Thus they have high inventory levels and high holding costs.
+There is no inventory capacity limit but profit-oriented merchant will have a practical inventory limit in order to avoid high holding costs.
 
+% interaction with fixed order cost
+A strategy to minimize holding costs is ordering often few items.
+This keeps the inventory level constantly low.
+Disadvantage of this strategy are high fixed order costs.
+In order to maximize profit, merchants must find a trade-off between low fixed order cost with few big orders and low holding cost with many small orders.
 
+%how
+Real-world merchants are responsible for their inventory management and the resulting holding costs.
+In the simulation on the \pricewars platform is no need to store physical items.
+Merchants could easily cheat by reporting wrong holding cost.
+We decided to not trust merchants in that regard on calculate holding cost on the platform's services.
 
-%architektur designentscheidung, warum ist lager im marketplace?
-%flink + diagram
+%holding cost rate on marketplace
+The marketplace manages the holding cost rate for each merchant.
+The holding cost rate indicates how much it cost to hold one item for a minute in the inventory.
+Merchants can request their current holding cost rate from the marketplace.
 
-%tradeoff holding cost & order cost
+%holding cost in flink
+The actual holding cost calculation happens in Flink, the event aggregation service of the \pricewars platform.
+Flink receives events about inventory growth whenever a merchant gets items from the producer and about inventory reduction whenever a merchant sells items on the marketplace.
+Flink tracks the current inventory level of each merchant using information from these events.
+Additionally, Flink receives events about changes of holding cost rates.
+Having access to inventory levels over time and holding cost rates, it is possible to calculate holding costs in Flink.
+
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+title={Visualizied calculation of a merchant's holding costs},
+xlabel={Time},
+ylabel={Inventory Level},
+xmin=0, xmax=3.5,
+ymin=0, ymax=8,
+xtick={0,1,2,3},
+xticklabels={$t_0$,$t_1$,$t_2$,$t_3$},
+ytick={2,5,6},
+yticklabels={$n_0$,$n_1$,$n_2$},
+legend pos=north west,
+grid style=dashed,
+axis lines = left,
+width=0.8\textwidth,
+]
+
+\addplot[color=blue,mark=*,const plot mark left]
+coordinates {(0,6)(2,5)(3,2)};
+\legend{Inventory Level over Time}
+
+\addplot[color=brown!60!black,dashed]
+coordinates {(1,0)(1,6)};
+
+\addplot[color=brown!60!black,dashed]
+coordinates {(2,0)(2,5)};
+
+\addplot[color=brown!60!black,dashed]
+coordinates {(3,0)(3,2)};
+
+\node[] at (axis cs: 0.5,3) {$l_0 n_2 (t_1 - t_0) $};
+\node[] at (axis cs: 1.5,3) {$l_1 n_2 (t_2 - t_1) $};
+\node[] at (axis cs: 2.5,3) {$l_1 n_1 (t_3 - t_2) $};
+
+\end{axis}
+\end{tikzpicture}
+%area under graph
+\caption{
+	This graph visualized how holding costs are calculated.
+	Whenever a merchant's inventory level or holding cost rate changes, the holding costs since the previous change are computed.
+	At $t_1$ the holding cost rate changes from $l_0$ to $l_1$.}
+\label{fig:holding_cost}
+\end{figure}
+
+%write about connected streams?
+The computation of holding costs is triggered every time a merchant's inventory level or holding cost rate changes.
+In that case, the holding costs since the last change are calculated.
+\cref{fig:holding_cost} shows an example of this process.
+%check: formulate this as equation
+The holding cost of the interval between two consecutive equals the inventory level multiplied with the duration and the holding cost rate. 
+Note that changes in inventory level or holding cost rate can happen at any time and are not periodically.
 
 \section{Shipping Time}
 \label{section:shipping_time}

@@ -1,6 +1,5 @@
 Seitenanzahl: min 50 nur Inhalt (~70 insgesamt)
 
-Frage nach fett, kursiv Text
 Was soll in Implementation rein?
 
 
@@ -13,6 +12,8 @@ motivation!!!
 IDEAS:
 numeric example (or chart) and change some parameter and show changes in results/policy
 descripte effect of discount factor delta: 0 -> myopic, 1 -> long-term
+überblick über scenarien in tabelle
+lessons learned
 
 CHECK:
 structure of thesis irgendwo erklären
@@ -21,16 +22,13 @@ did i mention start value for bellman?
 abrehevation: REST, API, explain somewhere
 put merchant architecture somewhere (in implementation?)
 merchant: mention run training in background
-
+equations resf in text
 
 TODO:
 Eval Ordering
 Eval joint
 Eval learning
 Eval Competition
-Order with multiple Items
-Fixed Order Cost
-Holding Cost
 Shipping Time
 inventory graph
 Benchmark Tool
@@ -39,5 +37,14 @@ finish Related Work
 Abstract
 
 todos:
-glossary: item, product, market situation, model vs demand model, decision interval
 fill/remove table of figures and stuff
+figure refs abkürzung vermeiden
+descriptive titles: merchant ordering, competition, extending pricewars platform
+
+README:
+UI
+marketplace
+schreibe über lagerkosten
+
+glossary:
+item, product, market situation, model vs demand model, decision interval, UI, REST, API
