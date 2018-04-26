@@ -179,8 +179,24 @@ This solution increases the complexity to order items from one HTTP request to t
 An advantage for this approach is the known duration until the order is ready.
 Hence, the merchant does not need to poll the producer until the response is positive.
 
-\section{Inventory Graph}
+\section{Inventory Chart}
 \label{section:inventory_graph}
+
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/inventory_graph}
+	\caption{Chart from the management UI showing the inventory levels over time of two competing merchants.}
+	\label{fig:invnetory_graph}
+\end{figure}
+
+%more motivation?
+The platform extensions create the inventory control problem for merchants.
+Merchants' inventory levels are more important than ever before because of this problem.
+In order to analyze how merchants control their inventory, we added an inventory chart to the management UI.
+Users have access to a new chart that shows inventory levels over time from all merchants.
+\cref{fig:invnetory_graph} shows an example of the inventory chart.
+This chart is shown along other charts, which present metrics like profit and revenue. 
+We used the highcharts\footnote{Javascript chart library, Highcharts: \url{https://www.highcharts.com/}} library to have the same look and feel as the existing charts.
 
 \section{Benchmark Tool}
 \label{section:benchmark_tool}

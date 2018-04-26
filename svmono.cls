@@ -722,7 +722,9 @@
 \def\definitionname{Definition}%
 \def\examplename{Example}%
 \def\exercisename{Exercise}%
-\def\figurename{Fig.}%
+%\def\figurename{Fig.}%
+%dont use abbreviation from svmono template
+\def\figurename{Figure}%
 \def\keywordname{{\bf Key words:}}%
 \def\indexname{Index}%
 \def\lemmaname{Lemma}%
