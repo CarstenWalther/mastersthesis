@@ -198,7 +198,39 @@ Users have access to a new chart that shows inventory levels over time from all 
 This chart is shown along other charts, which present metrics like profit and revenue. 
 We used the highcharts\footnote{Javascript chart library, Highcharts: \url{https://www.highcharts.com/}} library to have the same look and feel as the existing charts.
 
-\section{Benchmark Tool}
+\section{Benchmarking Tool}
 \label{section:benchmark_tool}
+%problem
+A problem while developing a merchant for the \pricewars platform were comparable results from multiple simulations.
+The charts on the management UI are great to evaluate a single simulation run but it is not precise enough to compare multiple runs this way.
+%check: why not precise enough?
+Another way to compare simulation runs with each other is especially important in a monopoly scenario.
+For example, one use case is the performance comparison between
+differently configured merchants in monopolies.
+%check: ref to our monopoly comparision
+%profit not realtime value, but aggregated
 
-%refactored + added inventory to example merchants
+%solution
+%check: need to explain events?
+We developed a benchmarking tool that starts the platform, starts specified merchants, and let the platform run for a certain duration.
+With this tool, the user can run simulations with the same duration and do not have to read a chart at the right point in time.
+After a run, the benchmark tool saves all events.
+The events are analyzed to determine each merchant's profit, revenue, and expenses as shown in \cref{tab:benchmark_tool}.
+Users can run additional analysis afterwards because the events are available.
+Another benefit from using the benchmark tool is the automated setup and teardown of the platform.
+This process would need some manual steps otherwise.
+
+\begin{table}[t]
+\centering
+\begin{tabular}{ @{}lrrrr@{} }
+	\hline
+	& Profit & Revenue & Holding Cost & Order Cost \\
+	\hline
+	Merchant A & 534.17 & 3547.00 & 212.83 & 2800.00 \\
+	Merchant B & 315.12 & 4063.80 & 363.80 & 3385.00 \\
+	Merchant C & 492.50 & 3844.80 & 152.30 & 3200.00 \\
+	\hline
+\end{tabular}
+\caption{The benchmark tool generates a breakdown of expenses and revenues. These are results from a five minute simulation.}
+\label{tab:benchmark_tool}
+\end{table}

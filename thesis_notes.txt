@@ -14,6 +14,7 @@ numeric example (or chart) and change some parameter and show changes in results
 descripte effect of discount factor delta: 0 -> myopic, 1 -> long-term
 überblick über scenarien in tabelle
 lessons learned
+write about refactored example merchants (+inventory)?
 
 CHECK:
 structure of thesis irgendwo erklären
@@ -30,8 +31,6 @@ Eval Ordering
 Eval joint
 Eval learning
 Eval Competition
-inventory graph
-Benchmark Tool
 Conclusion
 finish Related Work
 Abstract
