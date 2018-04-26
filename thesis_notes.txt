@@ -37,14 +37,13 @@ finish Related Work
 Abstract
 
 todos:
-fill/remove table of figures and stuff
-figure refs abkürzung vermeiden
+table of figures
 descriptive titles: merchant ordering, competition, extending pricewars platform
+
+glossary:
+item, product, market situation, model vs demand model, decision interval, UI, REST, API
 
 README:
 UI
 marketplace
 schreibe über lagerkosten
-
-glossary:
-item, product, market situation, model vs demand model, decision interval, UI, REST, API
