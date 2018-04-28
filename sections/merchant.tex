@@ -269,27 +269,26 @@ These two data sources can be combined and aggregated to a form that contains th
 
 %bring data into right form, part 2 feature extraction
 We use regression analysis for the demand learning.
-Regression analysis models and analyzes the relationship between a dependent variable and independent variables.
+Regression analysis models and analyzes the relationship between a dependent variable and explanatory variables.
 In this case, the dependent variable is the sales per minute metric.
 Independent variables are extracted from the market situation.
 In the monopoly scenario, the demand depends only on the merchant's price.
-That is why for now, there is only one independent variable, the selling price.
+That is why for now, there is only one explanatory variable, the selling price.
 %motivation: why use linear regression and not something else? is relationship linear?
-We use linear regression to find a relationship between the independent variables $\vec{x}$ of a market situation and the sales per minute $\hat{y}$ for this situation.
+We use linear regression to find a relationship between the explanatory variables $\vec{x}$ of a market situation and the sales per minute for this situation.
 The following equation shows how to predict sales per minute $y$ for a market situation.
 
 %show how x is vector of features and constant 1 \begin{pmatrix} 1 \\ p \end{pmatrix}
 \begin{equation}
 \label{eq:linear_regression}
-y = \vec{x}^\intercal \cdot \vec{\beta}
+\lambda(\vec{x}; \vec{\beta}) = \vec{x}^\intercal \cdot \vec{\beta}
 \end{equation}
 
-$\vec{\beta}$ consists of the weights of the regression model.
-Given the sales per minute $y_1, y_2, \ldots, y_n$ and the independent variables $\vec{x}_1, \vec{x}_2, \ldots, \vec{x}_n$ from $n$ historical market situations, the weights $\vec{\beta}$ are calculated with the least squares approach:
+$\vec{\beta}$ are the weights of the regression model.
+Given observed sales per minute $y_1, y_2, \ldots, y_n$ and the explanatory variables $\vec{x}_1, \vec{x}_2, \ldots, \vec{x}_n$ from $n$ historical market situations, the optimal weights $\vec{\beta}^*$ are calculated with the least squares approach:
 
-%todo fix on https://en.wikipedia.org/wiki/Linear_regression, ask Rainer
 \begin{equation}
-\vec{\beta} = \bigg(\sum_{i=1}^n{\vec{x}_i \vec{x}_i^\intercal} \bigg)^{-1}
+\vec{\beta}^* = \bigg(\sum_{i=1}^n{\vec{x}_i \vec{x}_i^\intercal} \bigg)^{-1}
 			  \bigg(\sum_{i=1}^n{y_i \vec{x}_i} \bigg)
 \end{equation}
 
@@ -304,13 +303,10 @@ Equation \ref{eq:probability} shows to integration of the Poisson distribution a
 
 \begin{equation}
 \label{eq:probability}
-P(i, \vec{x}) =
-	e^{\frac{-1}{\vec{x}^\intercal \vec{\beta} \cdot p}}
-	(\vec{x}^\intercal \vec{\beta} \cdot p)^{-i}
-	\frac{1}
-	{i!}
+P(i, \vec{x}) :=
+	e^{-\lambda(\vec{x}; \vec{\beta}^*)}
+	\frac{\lambda(\vec{x}; \vec{\beta}^*)^{i}}{i!}
 \end{equation}
-%todo fix ugly transpose
 
 $p$ is the length of the merchant's decision period in minutes and $p > 0$.
 The sales per minute are multiplied with the period length to get the number of sales in a period.
@@ -386,12 +382,10 @@ Now, there can be as many offers as competing merchant.
 And the number of offers can change over time when merchants are out of stock.
 In \cref{section:demand_learning}, the merchant's offer price was sufficient to describe a market situation.
 With competition, the sale probability of an offer depends not only on its price but also on the price of the other offers.
-%todo use everywhere explanatory variables instead independent variable
 New explanatory variables are necessary for demand learning to describe the more complex market situations.
 We created two new explanatory variables besides the offer price in order to describe market situations with competition.
 The variables are explained in detail below.
 
-%todo bold bullet points
 \begin{description}
 	\item [Own price]
 		This explanatory variable hold the value of the merchant's current offer price.
@@ -469,11 +463,13 @@ It is possible to further reduce the end time $T$, if approximations of the opti
 %show speed increase, maybe here maybe in eval
 
 \subsection{Evaluation}
+%todo need some intro text here
+\subsubsection{Efficient Dynamic Programming}
 \todo{compare speed and result of full dyn programming and more efficient way}
 %speed down to 0.1 sec
 % fazit: now fast enough for fast reactions
 
-\subsection{Oligopoly Simulation}
+\subsubsection{Oligopoly Simulation}
 This section shows how our merchants performs in an oligopoly.
 The merchants sell products on the \pricewars platform.
 The objective is to maximize the profit.
