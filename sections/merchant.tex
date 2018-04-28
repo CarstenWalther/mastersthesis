@@ -404,9 +404,9 @@ The variables are explained in detail below.
 		For example, it is probable that a merchant sells more items by having the cheapest offer instead of the second cheapest.
 	\item [Price difference to cheapest offer]
 		This is the difference in price from the merchant's offer to the cheapest offer.
-		If the merchant has the cheapest offer, the variables value will be 0€.
+		If the merchant has the cheapest offer, the variables value will be €0.
 		It is a relative variation of the 'own price' metric.
-		This variable could explain effects like: a customer is willing to pay 5€ more than the cheapest product but not 10€ more.
+		This variable could explain effects like: a customer is willing to pay €5 more than the cheapest product but not €10 more.
 \end{description}
 
 With these explanatory variables it is possible to describe the effect of the competition and the merchant's offer price on the sale probabilities.
@@ -472,10 +472,77 @@ It is possible to further reduce the end time $T$, if approximations of the opti
 \todo{compare speed and result of full dyn programming and more efficient way}
 %speed down to 0.1 sec
 % fazit: now fast enough for fast reactions
-\todo{show price war between merchants}
+
+\subsection{Oligopoly Simulation}
+This section shows how our merchants performs in an oligopoly.
+The merchants sell products on the \pricewars platform.
+The objective is to maximize the profit.
+
+%present rule-based merchants
+Our merchant, called data-driven merchant, competes with two rule-based merchants.
+The cheapest merchant always undercuts competitors in order to offer the cheapest product.
+%check: but as high to be still cheapest
+The cheapest merchant tries to have the most sales by offering the best price.
+This merchant does not have a lower price limit and is willing to undercut competitors down to €0.
+The second rule-based merchant, called two bound merchant, undercuts competitors similarly to the cheapest merchant.
+However, the merchant has a upper and lower price bound.
+If offer prices go below the lower price bound, the two bound merchant raises prices to the upper bound.
+Moreover, the upper price bound is the maximum price that this merchant will set.
+Both rule-based merchants have a static ordering policy.
+They order whenever the inventory level falls below a threshold and order as many items to reach a certain inventory level.
+
+\begin{figure}[t]
+\centering
+\begin{subfigure}{0.5\textwidth}
+\centering
+\includegraphics[width=\textwidth]{figures/competition_prices.pdf}
+\end{subfigure}%
+\begin{subfigure}{0.5\textwidth}
+	\centering
+	\includegraphics[width=\textwidth]{figures/competition_inventory.pdf}
+\end{subfigure}	
+	\caption{Price trajectories and inventory levels over time from an oligopoly scenario on the \pricewars platform. Our data-driven merchant competes with two rule-based merchants.}
+	%analyze bahavior in one sentence?
+	\label{fig:competition}
+\end{figure}
+
+We simulated the scenario with competition on the \pricewars platform.
+The management UI shows pricing and ordering decisions during the simulation (see \cref{fig:competition}).
+The data-driven merchant learned the advantage of undercutting competitors' offers.
+However, this creates a price war and offer prices decrease.
+With shrinking profit margins, it becomes unprofitable to set the price below competitors' prices.
+The data-driven merchant pushes the price up in such a situation.
+This action is especially successful if the competitors also increase their offer prices.
+
+\begin{table}[t]
+	\centering
+	\begin{tabular}{ @{}lrrrr@{} }
+		\hline
+		& Profit & Revenue & Holding Cost & Order Cost \\
+		\hline
+		Data-Driven & 5944.13 & 21938.00 & 943.87 & 15050.00 \\
+		Cheapest & 5386.90 & 23770.80 & 903.89 & 17480.00 \\
+		Two Bound & 5038.63 & 20148.30 & 644.67 & 14465.00 \\
+		\hline
+	\end{tabular}
+	\caption{Simulation results of the oligopoly scenario. The data-driven merchant made the most profit. The cheapest merchant made the most revenue.}
+	\label{tab:competition}
+\end{table}
+
+\cref{tab:competition} shows the results of a half an hour competition between three merchants.
+The data-driven merchant outperformed all competitors.
+Our data-driven merchant made around 10\% more profit than the cheapest merchant and 18\% more than the two bound merchant.
+Interestingly, our merchant did not make the most revenue, but the cheapest merchant did.
+The cheapest merchant sold the most items but with low profit per item.
+Our merchant made the most profit by saving a lot of order cost compared the to cheapest merchant.
+The data-driven merchant orders on average more items than the competitors.
+This results in higher holding costs but saves on fixed order cost.
+
+%command: python3 helper_scripts/benchmark.py -o ../runs -d 30 --merchants "python3 /home/carsten/pricewars-merchant/merchant.py --port 5000 --strategy Cheapest" "python3 /home/carsten/pricewars-merchant/merchant.py --port 5001 --strategy \"Two Bound\"" "python3 /home/carsten/pricewars-merchant/merchant_scenario4.py --port 5002" --holding_cost 3
 
 \todo{show reaction when changing demand or fixed ordering cost}
-%run two data-driven merchants against each other
+%
+
 \section{Implementation}
 %todo ref python and libs
 %how is merchant implemented? (language choice)
