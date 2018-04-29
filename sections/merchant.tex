@@ -165,12 +165,35 @@ However, the value function converges earlier if $V_T$ is near the optimal expec
 %direct ref to section?
 We will use this fact in later sections to speed up the policy computation.
 
-%todo use latex graph
-%check: better name for endtime T
+%check: flatten  graph to save page space
 \begin{figure}[t]
-\centering
-\includegraphics[width=0.8\textwidth]{figures/convergence.pdf}
-%maybe use V_0(0)
+\begin{tikzpicture}
+\begin{axis}[
+title={Visualizied calculation of a merchant's holding costs},
+xlabel={$T$},
+ylabel={$V_0(0)$},
+legend pos=north east,
+grid style=dashed,
+axis lines = left,
+width=0.8\textwidth,
+]
+
+\addplot+[mark=none]
+coordinates {(5, 10.650190245476479)(10, 8.8349323075140394)(15, 8.1792648210654963)(20, 7.7971329777749263)(25, 7.5742589181038458) (30, 7.4232242422163681)(35, 7.308928579872326)(40, 7.2279708622948116)(45, 7.161335085202075)(50, 7.1089572918512074) (55, 7.0660029726563431)(60, 7.0295402644629057) (65, 6.9991371516213245) (70, 6.9726912293655996) (75, 6.9498393709566395) (80, 6.929825937583602) (85, 6.9120734346116484) (90, 6.8963337508543576) (95, 6.8821968575926808) (100, 6.8694716786018226)};
+\addlegendentry{$V_T = 10.7$}
+
+\addplot+[mark=none]
+coordinates {(5, 5.6501902454764794) (10, 6.1076595802413101) (15, 6.3042648210654928) (20, 6.3685615492034966) (25, 6.4204127642576871) (30, 6.4554823067324927) (35, 6.4755952465389939) (40, 6.4962635452216384) (45, 6.5091611721585938) (50, 6.5207219977335571) (55, 6.5302886869420531) (60, 6.5377369857743801) (65, 6.5445916970758642) (70, 6.550156018097991) (75, 6.5551025288513722) (80, 6.5594555672132291) (85, 6.5632362253093195) (90, 6.5666634211840238) (95, 6.5696968575926782) (100, 6.5724419756315244)
+};
+\addlegendentry{$V_T = 5.7$}
+
+\addplot +[mark=none]
+coordinates {
+	(5, 2.3168569121431455) (10, 4.2894777620594917) (15, 5.0542648210654928) (20, 5.4161805968225405) (25, 5.651181995026918) (30, 5.8103210164099108) (35, 5.9200396909834385) (40, 6.0084586671728593) (45, 6.0743785634629441) (50, 6.1285651349884596) (55, 6.1731458297991981) (60, 6.2098681333153616) (65, 6.2415613940455641) (70, 6.2684658772529209) (75, 6.2919446341145315) (80, 6.3125419869663153) (85, 6.3306780857744362) (90, 6.3468832014038048) (95, 6.3613635242593451) (100, 6.3744221736513262)};
+\addlegendentry{$V_T = 2.3$}
+
+\end{axis}
+\end{tikzpicture}
 \caption{This chart shows how the start value $V_T$ influences the final expected profit $V_0$. The function converges with any start value to the same expected profit, given a sufficiently large $T$. However, $V_0$ converges earlier if $V_T$ is near the optimal expected profit.}
 \label{fig:convergence}
 \end{figure}
