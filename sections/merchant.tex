@@ -155,10 +155,25 @@ The optimal ordering policy $b_t^*(n)$ is given by the arg max of \cref{eq:dyn_p
 The next sections will only consider the case with delayed orders.
 
 \subsection{Evaluation}
-%konvergieren der wertefunktion
-%vergleiche mit startwert 0, gleicher wert, zu hoher wert
-%wie schnell konvergiert es (konvergiert es)? welchen einfluss hat der startwert?
-\todo{show graph of converging value function}
+In the previous section, we used an arbitrary start value $V_T = 0$ and claimed that the value function $V_t(n)$ converges to the optimal expected profit if $T$ is sufficiently large.
+In the following example we show that the value function converges to the same value independently from the start value.
+
+\cref{fig:convergence} shows results of $V_0(0)$ with varying $T$ and start values $V_T$.
+The value function converges to the same result for any $V_T$.
+It does not matter if the start value is bigger or smaller than the resulting expected profit.
+However, the value function converges earlier if $V_T$ is near the optimal expected profit.
+%direct ref to section?
+We will use this fact in later sections to speed up the policy computation.
+
+%todo use latex graph
+%check: better name for endtime T
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.8\textwidth]{figures/convergence.pdf}
+%maybe use V_0(0)
+\caption{This chart shows how the start value $V_T$ influences the final expected profit $V_0$. The function converges with any start value to the same expected profit, given a sufficiently large $T$. However, $V_0$ converges earlier if $V_T$ is near the optimal expected profit.}
+\label{fig:convergence}
+\end{figure}
 
 %told, that this is a optimal ordering policy
 %deviations from that should result in worse performance (profit)

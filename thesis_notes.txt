@@ -1,12 +1,5 @@
 Seitenanzahl: min 50 nur Inhalt (~70 insgesamt)
 
-Was soll in Implementation rein?
-
-
-was gemacht?
-warum gemacht?
-was kommt raus?
-
 motivation!!!
 
 IDEAS:
@@ -15,6 +8,7 @@ descripte effect of discount factor delta: 0 -> myopic, 1 -> long-term
 überblick über scenarien in tabelle
 lessons learned
 write about refactored example merchants (+inventory)?
+run two data-driven merchants against each other
 
 CHECK:
 structure of thesis irgendwo erklären
@@ -39,7 +33,7 @@ Abstract
 todos:
 table of figures
 descriptive titles: merchant ordering, competition, extending pricewars platform
-describe merchant in first eval
+describe merchant in first eval (or gradualy)
 
 glossary:
 item, product, market situation, model vs demand model, decision interval, UI, REST, API, http
