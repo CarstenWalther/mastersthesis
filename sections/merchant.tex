@@ -461,14 +461,11 @@ This allows the merchant to react faster on new market situations.
 The approaches are: using a better start value, adapt decision sets, and tweaking the number of iterations.
 
 %better start value
-%todo reference to convergence figure
-%todo how to call 'start value', 'end value'?
-Figure (...) shows that dynamic programming converges faster if the start value is near the end value.
+%check: mache abschnitt verständlicher
+\cref{fig:convergence} shows that dynamic programming converges faster if the start value $V_T$ is near the final expected profit.
 We assume that the expected profit from two successive market situations is similar because the market situations will not fundamentally change in that short time frame.
-%wtf, explain more detailed
-Setting the start value to the expected profit from the previous computation will reduce the time until dynamic programming converges.
-Even if the assumption does not hold true and there is a big change in expected profit, the computation converges most of the time faster than with the old start value of zero.
-%equation with start value
+Setting the $V_T$ to the expected profit from the previous computation will reduce the time until dynamic programming converges.
+Even if the assumption does not hold true and there is a big change in expected profit, the computation converges most of the time faster than with our previous start value $V_T = 0$.
 
 %adapt decision sets
 %todo remove t from decision set A and B
@@ -502,10 +499,75 @@ It is possible to further reduce the end time $T$, if approximations of the opti
 
 \subsection{Evaluation}
 %todo need some intro text here
+
 \subsubsection{Efficient Dynamic Programming}
-\todo{compare speed and result of full dyn programming and more efficient way}
-%speed down to 0.1 sec
-% fazit: now fast enough for fast reactions
+%check: have i mentioned early stopping in text?
+
+The goal of our efficient dynamic programming approaches is to reduce the computation time in order to be able to react faster to new market situations.
+We measured the runtime performance of the dynamic programming variations to show the impact of the optimizations.
+All variations calculate pricing and ordering policies for the same market situation for a comparison.
+The market situation contains one own offer and two competitor offers.
+
+
+%baseline
+The baseline for the measurements is the pure dynamic programming approach without any of the methods from \cref{section:faster_dyn_prog}.
+We set the end time $T = 500$, i.e., 500 iterations.
+%use last value (why faster -> less iterations)
+The first optimization method sets the start value $V_T$ to the expected profit from the last computation.
+This way $V_T$ is closer to the final expected profit compared to $V_T = 0$.
+The value function converges earlier with an appropriate start value.
+We utilize this fact and reduce the number of iterations to 200 in order to decrease the computation time with only a minimal precision loss.
+%adapt decisions (also reuses space)
+The next optimization method is the adaption of the ordering and pricing decision sets.
+We makes 10 successive dynamic programming calculations with 20 iterations each.
+This are in total again 200 iterations, but the decision sets are adapted between calculations.
+This reduces the size of the decision sets without omitting relevant decisions.
+Relevant decisions are decisions that occur in the optimal policy.
+Smaller decisions sets lead to a more efficient computation of pricing and ordering policies.
+Adapted ordering and pricing decision sets are reused from the previous computation similarly to the start value.
+%early stopping
+The last optimization method is early stopping.
+This stops the dynamic programming calculation if the ordering and pricing policies do not change after a number of iterations.
+The assumption is that the polices are already converged, or are almost converged and are close enough to the optimal policy.
+Early stopping saves computation time by cutting out iterations that do not have a great impact on the resulting policies.
+The results are listed in \cref{tab:speedup}.
+Note that each row in the table also contains the optimizations from the rows above.
+
+\begin{table}[t]
+	\centering
+	\begin{tabular}{ lrr }
+		\hline
+		Optimization Method & Computation Time [ms] & Error [\%] \\
+		\hline
+		\hline
+		Baseline & 9425 & 0.53 \\
+		\hline
+		Set start value to result \\ of previous computation & 3734 & 0.98 \\
+		\hline
+		Adapt ordering \& pricing decisions & 1550 & 5.71 \\
+		\hline
+		Early stopping & 747 & 5.71\\
+		\hline
+	\end{tabular}
+	\caption{These are the results of the computation time optimizations applied to the dynamic programming approach.
+	Each row contains a new optimization method and the methods from the rows above. The last column shows the difference between calculated and actual expected profit of 18.68.}
+	\label{tab:speedup}
+%calculated expected profits
+%18.5891472589
+%18.5045225348
+%16.5739895402
+%16.5740436621
+% actual:
+%18.6885701077
+\end{table}
+
+Applying all three optimization methods to the dynamic programming approach reduces the computation time in our example from 9.4 seconds to 0.75.
+This is fast enough to quickly update prices after a new market situation.
+These optimizations come at the cost of precision of the dynamic programming approach.
+The precision loss for setting the start value to the expected profit from the previous result and for early stopping are neglectable.
+In contrast, the adaption of the decision sets introduce an error of around 5\% to the resulting expected profit.
+Despite the precision error, the computed policies usually are identically to the optimal policy.
+We are willing to accept the the loss in precision in order to increase the efficiency of the dynamic programming approach.
 
 \subsubsection{Oligopoly Simulation}
 This section shows how our merchants performs in an oligopoly.
