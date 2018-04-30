@@ -519,7 +519,7 @@ The value function converges earlier with an appropriate start value.
 We utilize this fact and reduce the number of iterations to 200 in order to decrease the computation time with only a minimal precision loss.
 %adapt decisions (also reuses space)
 The next optimization method is the adaption of the ordering and pricing decision sets.
-We makes 10 successive dynamic programming calculations with 20 iterations each.
+We makes 5 successive dynamic programming calculations with 40 iterations each.
 This are in total again 200 iterations, but the decision sets are adapted between calculations.
 This reduces the size of the decision sets without omitting relevant decisions.
 Relevant decisions are decisions that occur in the optimal policy.

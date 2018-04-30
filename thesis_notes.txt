@@ -21,6 +21,8 @@ equations resf in text
 refs for used libraries
 conpetition: talk about cheapest and two bound order strategy
 we use decision space from last iteration, (can be adapted if wrong)
+mention cpu for performance test
+allignment of chapters to odd/even pages
 
 TODO:
 Eval Ordering
