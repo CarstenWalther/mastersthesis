@@ -1,5 +1,8 @@
 Seitenanzahl: min 50 nur Inhalt (~70 insgesamt)
 
+question:
+	graphen über ganze Seite ok?
+
 motivation!!!
 
 IDEAS:
@@ -11,18 +14,14 @@ write about refactored example merchants (+inventory)?
 run two data-driven merchants against each other
 
 CHECK:
-structure of thesis irgendwo erklären
 consistent use of item/product
 did i mention start value for bellman?
 abrehevation: REST, API, explain somewhere
-put merchant architecture somewhere (in implementation?)
 merchant: mention run training in background
 equations resf in text
 refs for used libraries
-conpetition: talk about cheapest and two bound order strategy
-we use decision space from last iteration, (can be adapted if wrong)
 mention cpu for performance test
-allignment of chapters to odd/even pages
+learning: sales per iteration instead of per minute?
 
 TODO:
 Eval Ordering
@@ -31,15 +30,44 @@ Eval learning
 Eval Competition
 Conclusion
 finish Related Work
-Abstract
+eigenständigkeitserklärung
+
+EVAL:
+wie viele iterationen für optimale Politik nötig?
+Graph V_0(n) für verschiedene n -> zeige, dass erwarteter profit kaum von n abhängt
+konvergenz zeigen für verschiedene n in V_0(n) ?
+graph expected profits over time -> belege, das V_0 guter startwert ist
+vergleiche strat mit/ohne delay
+my merchant vs my merchant -> mehr oder weniger profit für alle beteiligten?
+show profit after changing pricing/ordering policy -> wie entscheident ist pricing/ordering?
+zeige duopole
 
 todos:
-table of figures
+rainers feedback einarbeiten
+platform extension rüberlesen
 descriptive titles: merchant ordering, competition, extending pricewars platform
-describe merchant in first eval (or gradualy)
+mittwoch stand schreiben
+freitag 13:30 treffen
+table of figures fix names
+describe consumer in first eval (or gradualy)
+structure of thesis irgendwo erklären
 
 glossary:
 item, product, market situation, model vs demand model, decision interval, UI, REST, API, http
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 README:
 UI

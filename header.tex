@@ -66,8 +66,8 @@
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.7}
 
-%two figures next to each other
-\usepackage{subcaption}
+%used for newline in table cell
+\usepackage{makecell}
 
 %\counterwithout{footnote}{chapter}
 
@@ -132,3 +132,17 @@
 \definecolor{grey}{rgb}{0.85,0.85,0.85}
 \definecolor{hpi_orange}{rgb}{0.88, 0.43, 0.20}
 \definecolor{hpi}{rgb}{0.537,0.063,0.165}
+
+\lstset{breaklines=true,
+	numbersep=5pt,
+	stepnumber=1,
+	numbers=left,
+	captionpos=b,
+	float=htbp,
+	basicstyle=\ttfamily\fontsize{9}{12}\selectfont
+}
+\lstset{frame=tb, aboveskip=0.5cm, belowskip=0.5cm}
+
+\newcommand{\todo}[1]{
+	\textbf{\textcolor{hpi}{TODO #1}}
+}

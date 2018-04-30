@@ -536,18 +536,14 @@ Note that each row in the table also contains the optimizations from the rows ab
 \begin{table}[t]
 	\centering
 	\begin{tabular}{ lrr }
-		\hline
+		\toprule
 		Optimization Method & Computation Time [ms] & Error [\%] \\
-		\hline
-		\hline
+		\midrule
 		Baseline & 9425 & 0.53 \\
-		\hline
-		Set start value to result \\ of previous computation & 3734 & 0.98 \\
-		\hline
+		\makecell[l]{Set start value to \\ result of previous computation} & 3734 & 0.98 \\
 		Adapt ordering \& pricing decisions & 1550 & 5.71 \\
-		\hline
 		Early stopping & 747 & 5.71\\
-		\hline
+		\bottomrule
 	\end{tabular}
 	\caption{These are the results of the computation time optimizations applied to the dynamic programming approach.
 	Each row contains a new optimization method and the methods from the rows above. The last column shows the difference between calculated and actual expected profit of 18.68.}
@@ -574,6 +570,15 @@ This section shows how our merchants performs in an oligopoly.
 The merchants sell products on the \pricewars platform.
 The objective is to maximize the profit.
 
+\begin{figure}[p]
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/competition_prices.pdf}
+	\includegraphics[width=0.8\textwidth]{figures/competition_inventory.pdf}
+	\caption{Price trajectories and inventory levels over time from an oligopoly scenario on the \pricewars platform. Our data-driven merchant competes with two rule-based merchants.}
+	%analyze bahavior in one sentence?
+	\label{fig:competition}
+\end{figure}
+
 %present rule-based merchants
 Our merchant, called data-driven merchant, competes with two rule-based merchants.
 The cheapest merchant always undercuts competitors in order to offer the cheapest product.
@@ -587,21 +592,6 @@ Moreover, the upper price bound is the maximum price that this merchant will set
 Both rule-based merchants have a static ordering policy.
 They order whenever the inventory level falls below a threshold and order as many items to reach a certain inventory level.
 
-\begin{figure}[t]
-\centering
-\begin{subfigure}{0.5\textwidth}
-\centering
-\includegraphics[width=\textwidth]{figures/competition_prices.pdf}
-\end{subfigure}%
-\begin{subfigure}{0.5\textwidth}
-	\centering
-	\includegraphics[width=\textwidth]{figures/competition_inventory.pdf}
-\end{subfigure}	
-	\caption{Price trajectories and inventory levels over time from an oligopoly scenario on the \pricewars platform. Our data-driven merchant competes with two rule-based merchants.}
-	%analyze bahavior in one sentence?
-	\label{fig:competition}
-\end{figure}
-
 We simulated the scenario with competition on the \pricewars platform.
 The management UI shows pricing and ordering decisions during the simulation (see \cref{fig:competition}).
 The data-driven merchant learned the advantage of undercutting competitors' offers.
@@ -612,14 +602,14 @@ This action is especially successful if the competitors also increase their offe
 
 \begin{table}[t]
 	\centering
-	\begin{tabular}{ @{}lrrrr@{} }
-		\hline
-		& Profit & Revenue & Holding Cost & Order Cost \\
-		\hline
+	\begin{tabular}{lrrrr}
+		\toprule
+		Merchant & Profit & Revenue & Holding Cost & Order Cost \\
+		\midrule
 		Data-Driven & 5944.13 & 21938.00 & 943.87 & 15050.00 \\
 		Cheapest & 5386.90 & 23770.80 & 903.89 & 17480.00 \\
 		Two Bound & 5038.63 & 20148.30 & 644.67 & 14465.00 \\
-		\hline
+		\bottomrule
 	\end{tabular}
 	\caption{Simulation results of the oligopoly scenario. The data-driven merchant made the most profit. The cheapest merchant made the most revenue.}
 	\label{tab:competition}

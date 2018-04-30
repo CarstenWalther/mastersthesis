@@ -22,7 +22,7 @@ We added effects and costs to the platform that will influence merchants' orderi
 These extensions are explained in the following sections.
 The last two \cref{section:inventory_graph,section:benchmark_tool} present helpful additions to evaluate merchant performances.
 
-\section{Ordering multiple Items}
+\section{Ordering Multiple Items}
 \label{section:multiple_items}
 First of all, merchants must be able to order multiple items in one order.
 Some parts of the platform already supported this use case.
@@ -52,9 +52,9 @@ To prevent these errors, only the producer calculates the cost and writes this i
 The event analysis service becomes simpler and changing the order cost formula means only updating the producer.
 
 With orders of multiple items and fixed order cost in place, a good merchant strategy is to make one big order at the beginning.
-To disincentivize this behavior, we introduce holding cost in the next section.
+To disincentivize this behavior, we introduce holding costs in the next section.
 
-\section{Holding Cost}
+\section{Holding Costs}
 \label{section:holding_cost}
 %what
 Holding costs are costs that occur when merchants store items in their inventory.
@@ -68,13 +68,13 @@ There is no inventory capacity limit but profit-oriented merchant will have a pr
 A strategy to minimize holding costs is ordering often few items.
 This keeps the inventory level constantly low.
 Disadvantage of this strategy are high fixed order costs.
-In order to maximize profit, merchants must find a trade-off between low fixed order cost with few big orders and low holding cost with many small orders.
+In order to maximize profit, merchants must find a trade-off between low fixed order cost with few big orders and low holding costs with many small orders.
 
 %how
 Real-world merchants are responsible for their inventory management and the resulting holding costs.
 In the simulation on the \pricewars platform is no need to store physical items.
-Merchants could easily cheat by reporting wrong holding cost.
-We decided to not trust merchants in that regard on calculate holding cost on the platform's services.
+Merchants could easily cheat by reporting wrong holding costs.
+We decided to not trust merchants in that regard on calculate holding costs on the platform's services.
 
 %holding cost rate on marketplace
 The marketplace manages the holding cost rate for each merchant.
@@ -92,7 +92,7 @@ Having access to inventory levels over time and holding cost rates, it is possib
 \centering
 \begin{tikzpicture}
 \begin{axis}[
-title={Visualizied calculation of a merchant's holding costs},
+title={Visualized calculation of a merchant's holding costs},
 xlabel={Time},
 ylabel={Inventory Level},
 xmin=0, xmax=3.5,
@@ -139,7 +139,7 @@ The computation of holding costs is triggered every time a merchant's inventory 
 In that case, the holding costs since the last change are calculated.
 \cref{fig:holding_cost} shows an example of this process.
 %check: formulate this as equation
-The holding cost of the interval between two consecutive equals the inventory level multiplied with the duration and the holding cost rate. 
+The holding costs of the interval between two consecutive equals the inventory level multiplied with the duration and the holding cost rate.
 Note that changes in inventory level or holding cost rate can happen at any time and are not periodically.
 %motivate why this implementation; what is alternative (calc periodically)?
 
@@ -222,14 +222,14 @@ This process would need some manual steps otherwise.
 
 \begin{table}[t]
 \centering
-\begin{tabular}{ @{}lrrrr@{} }
-	\hline
-	& Profit & Revenue & Holding Cost & Order Cost \\
-	\hline
-	Merchant A & 534.17 & 3547.00 & 212.83 & 2800.00 \\
-	Merchant B & 315.12 & 4063.80 & 363.80 & 3385.00 \\
-	Merchant C & 492.50 & 3844.80 & 152.30 & 3200.00 \\
-	\hline
+\begin{tabular}{ lrrrr }
+	\toprule
+	Merchant & Profit & Revenue & Holding Cost & Order Cost \\
+	\midrule
+	Merchant A & 534.17 & 3\,547.00 & 212.83 & 2\,800.00 \\
+	Merchant B & 315.12 & 4\,063.80 & 363.80 & 3\,385.00 \\
+	Merchant C & 492.50 & 3\,844.80 & 152.30 & 3\,200.00 \\
+	\bottomrule
 \end{tabular}
 \caption{The benchmark tool generates a breakdown of expenses and revenues. These are results from a five minute simulation.}
 \label{tab:benchmark_tool}
