@@ -9,7 +9,6 @@
 
 \usepackage{amssymb}
 \usepackage[english]{varioref}		% Vario REF \vref
-\usepackage{hyperref}			% Clickable links
 \usepackage{url}
 %\usepackage{graphics}
 \usepackage{graphicx}							% Graphic support for eps
@@ -50,10 +49,6 @@
 \usepackage{algpseudocode}
 %\usepackage{algorithmic}
 \usepackage{xspace} % solves problem with missing space after \newcommand
-% used for \cref command
-\usepackage[capitalise,noabbrev]{cleveref}
-% dont give equations a name
-\crefname{equation}{}{}
 
 % http://homepage.ruhr-uni-bochum.de/Georg.Verweyen/pakete.html
 \usepackage{ellipsis}
@@ -68,6 +63,14 @@
 
 %used for newline in table cell
 \usepackage{makecell}
+
+% Clickable links
+% import hyperref last to prevent error: "name{Hfootnote.xx} has been referenced but does not exist"
+\usepackage{hyperref}
+% used for \cref command
+\usepackage[capitalise,noabbrev]{cleveref}
+% dont give equations a name
+\crefname{equation}{}{}
 
 %\counterwithout{footnote}{chapter}
 
