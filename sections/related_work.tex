@@ -2,7 +2,6 @@
 \chapter{Related Work}
 
 The merchant's task can be separated into the inventory problem and dynamic pricing problem.
-
 %inventory problem
 %dyn prog first used in Clark and Scarf (1960)
 The inventory problem is solved for some restricted environments.
@@ -22,7 +21,7 @@ This is applicable if it is cheap and fast to change prices like in e-commerce o
 Dynamic pricing in this thesis is about time discriminating prices and not customer discriminating prices. %todo reformulate and maybe one sentence for explanation
 Den Boer~\cite{den2015dynamic} gives an extensive overview over this topic.
 Araman and Caldentey propose methods for the dynamic pricing problem with complete and incomplete information about the demand distribution~\cite{araman2011revenue}.
-~\cite{DBLP:journals/ijecommerce/KannanK01} %importance of dynamic pricing by comparing virtual to physical
+%~\cite{DBLP:journals/ijecommerce/KannanK01} importance of dynamic pricing by comparing virtual to physical
 % Pricing and Revenue Optimization; profit-based pricing for loans
 
 %many pricing paper have inventory but without reorder
@@ -32,14 +31,14 @@ The inventory problem and dynamic pricing problem cannot be solved independently
 %influence not each other; influence expected result
 Elmaghraby and Keskinocak review papers that offer solutions for the dynamic pricing problem under inventory considerations~\cite{elmaghraby2003dynamic}.
 They separate solutions into three categories:
-(Non-)Replenishment of inventory, (non-)dependent demand over time and myopic versus strategic customers.
+(Non-)Replenishment of inventory, (non-)dependent demand over time, and myopic versus strategic customers.
 %Extensive reviews of the literatureon simultaneous optimization of price and inventory decisions can be found inEliashberg andSteinberg(1993),Federgruen and Heching(1999),Elmaghraby and Keskinocak(2003, Section4.1),Yano and Gilbert(2005),Chan et al.(2004), andChen and Simchi-Levi(2012).
 
 %with competition, demand learning?
 
 %%%Implementation:
-Serth et al. built a simulation on which merchants can compete against each other inspired by the Amazon marketplace~\cite{DBLP:conf/recsys/0001SPSBLLSU17, edoc2017pricewars}.
-This master's thesis builds upon that platform.
+Serth et al. built an interactive simulation platform, called \pricewars, to test and evaluate merchant strategies on online marketplaces~\cite{DBLP:conf/recsys/0001SPSBLLSU17, edoc2017pricewars}.
+We developed our merchant with the help of this platform.
 %cite architecture (REST, microservice), or flink?
 
 

@@ -1,64 +1,59 @@
 
-\chapter{Merchant}
-This thesis proposes a merchant software agent that can compete against competition on an online marketplaces.
-The merchant makes ordering and pricing decisions with the goal to maximize the profit.
-The merchant uses demand learning to estimate future customer demand from historical market situations and sales data.
-The estimated demand is used in a dynamic programming approach to generate ordering and pricing policies.
+\chapter{Data-Driven Merchant}
+This thesis proposes a merchant software agent that uses demand learning and a dynamic optimization approach to compete with other merchants on online marketplaces.
+The merchant makes ordering and pricing decisions with the goal to maximize expected long-term profits.
+Demand learning estimates future customer demand from historical customer actions.
+The estimated demand is used in a dynamic programming approach to generate optimized ordering and pricing policies.
 %what is a policy?
 
 We developed the merchant in four phases to overcome the complexity of this problem.
-The first phase constrained the merchant's problem the most and only considers the inventory problem with known customer demand in a monopoly.
-Each following phase adds a new difficulty for the merchant until the fourth phase which represents our final problem: The joint inventory and dynamic pricing problem with unknown customer behavior under competition.
+The first phase in \cref{section:ordering} is constrained to the ordering problem with known customer demand in a monopoly.
+Each following phase adds a new difficulty that the merchant must manage.
+\cref{section:joint_ordering_pricing} describes the second phase, which adds free choice over the offer price.
+The merchant's chosen price will affect sales.
+In the third phase (\cref{section:demand_learning}), demand is no longer known and the merchant has to find ways to estimate future demand.
+The fourth and last phase (\cref{section:competition}) represents the final problem: The joint ordering and dynamic pricing problem with unknown customer behavior under competition.
 
-Each of the following sections explains one phase in detail.
-\todo{explain each ''step'' short in some sentences each with references to chapter} \cref{section:ordering}.
-%explain structure of following sections
-
-\section{Ordering}
+\section{Ordering Problem}
 \label{section:ordering}
-In this scenario, the merchant cannot make pricing decisions.
-Instead, all products are sold to a fixed price.
-The merchant can focus on the ordering problem and make ordering decisions that promise the most expected long-term profit.
-The merchant has a monopoly and does not have to care about any competitor.
+The merchant focuses on the ordering problem in this scenario and makes ordering decisions that promise the most expected long-term profit.
+The merchant cannot make pricing decisions, instead all products are sold at a fixed price.
 Ordering decisions depend on the customer demand.
 The demand is stochastic and its distribution is known to the merchant.
-There are no backlogs. %sentence to short?
-If a customer arrives when the merchant is out of stock, the merchant will miss the sale.
+There are no backlogs.
+If a customer arrives while the merchant is out of stock, the merchant will miss the sale.
+The merchant operates in a monopoly and does not have to care about competitors.
 
 \subsection{Model Description}
 \label{subs:ordering_model}
 %situation
-%todo more intro/situation
-The merchant wants to sell items on the marketplace.
+The merchant sell items over the marketplace.
 % price & revenue
-Items are offered at a fixed price $a_{fix}$ and each sold item generates a revenue of $a_{fix}$.
-% time horizon
-% write about t here?
-The time horizon is infinite.
-% discrete time
-Since in real-life applications prices cannot be adjusted arbitrarily often, we use a discrete time
-model.
+Items are offered at a fixed price $a_{fix}$ and each sold item generates the full offer price $a_{fix}$ as revenue.
 %discounting
 We use discounting to increase the relevance of short-term profits.
 A discount factor $\delta$, $0 < \delta \leq 1$, is applied to each time period.
+% time horizon
+% write about t here?
+The time horizon is infinite.
+% discrete time %why use discrete time?
+The merchant makes exactly one order decision in each discrete time period.
 
 % inventory + holding cost
-%todo introduce time and periods before that
 The merchant holds items in an inventory.
-The random inventory level at the start of period $t$ is denoted by $N_t$.
-Storing items in the inventory causes holding costs of $l$ per item per time period. % l > 0
+The random inventory level at the start of period $t$ is denoted by $N_t$, ($t = 0, 1, \ldots$).
+Storing items in the inventory causes holding costs of $l$ per item per time period, $l > 0$.
 
 %ordering
 The merchant can reorder items to increase the inventory level.
-Order decisions, which can be made once each time period, will influence the merchant's profit.
 The number of items ordered at time $t$ are denoted by $b_t$, with $b_t \geq 0$.
-A order of size $b_t = 0$ means that no order is made.
+An order of size $b_t = 0$ means that no order is made.
 %todo order delay
 %set depends on time, yes? no?
 The set of admissible orders quantities is denoted $B_t$.
 % order cost
-% explain fixed/variable order cost? explain somewhere else?
-Each order causes a order cost, which consists of fixed order cost $c_{fix}$ and variable order cost $c_{var}$.
+Each order causes order costs, which consists of fixed order costs $c_{fix}$ and variable order costs $c_{var}$.
+Order decisions influence the merchant's profit based on ordering costs, holding costs, and future potential sales.
 %order costs paid upfront
 Order costs are defined by:
 
@@ -71,74 +66,73 @@ C(b) := \begin{cases}
 \end{equation}
 
 %sales
-The probability to sell $i$ items is denoted by $P(i)$.
-%check: myopic somewhere mentioned and explained
-Note, that the probability is time-independent because of the consumer's myopic buying behavior.
-Additionally, the probability in this scenario is independent from offer prices because the merchants sells in a monopoly with a fixed price.
+The probability to sell $i$ items within one period of time is denoted by $P(i)$, $(i = 0, 1, \ldots)$.
+A changing customer behavior over time is out of scope of this work, thus the sale probability $P(i)$ does not depend on the time period $t$.
+The sale probability in the first phase does not directly depend on the price or market situation because the merchant sells at a fixed price in a monopoly.
 The random number of sold items within the period $(t-1, t)$ is denoted by $X_t$.
-%check: backorders mentioned in previous section
-%can I express the line below with random variables?
-The merchant cannot sell more items than the inventory holds, i.e. $N_t \geq X_{t+1}$. % use specific n
+The merchant cannot sell more items than the inventory holds, i.e. $N_t \geq X_{t+1}$, $(t = 0, 1, \ldots)$.
 
 %whats ordering strategy?
 %how to write the policy?
-Depending on a given ordering policy $(b_t)_t$, the random accumulated profit from time period $t$ is:
+Depending on a given ordering policy $(b_t)_t$, the random accumulated discounted profit from time period $t$ is:
 
-%can I do inf sum here? or switch to avg profit?
 $$
 G_t := \sum_{s=t+1}^{\infty} (\delta^{s-t} \cdot (a_{fix} \cdot X_s - l \cdot N_{s-1} - C(b_{s-1}(N_{s-1})))
 $$
 
-The objective is to find a ordering policy that maximizes the expected total profit $E(G_0 | N_0)$.
+The objective is to find an ordering policy that maximizes the expected total profit $E(G_0 | N_0)$.
 
 % end of model descripiton, maybe write what comes next
 %Sales decrease the inventory level over time and orders increase it.
 
 \subsection{Solution Approach}
+\label{section:ordering_solution}
 %why use dyn prog? -> optimal; why optimal?
 
 %what? -> dyn programming
-In this section, we want to derive optimal ordering policies.
-% with and without delay
-We use the dynamic programming approach to find the best expected profit of the stochastic control problem.
-% is n defined?
-The recursive value function $V_t(n)$ describes the best expected profit $E_t(G_t | N_t)$.
-Since this this value function cannot be calculated over an infinite time horizon, we introduce the end time $T$ so that $t = 0, 1, 2, ..., T$.
-If $T$ is sufficiently large, $V_t$ converged enough in order that the optimal ordering policy is not affected.
-%V_T = 0
+Goal of this section is to derive optimal ordering policies for the ordering problem.
+We use a dynamic programming approach to find the ordering policy promises the best expected profit for the stochastic control problem.
+The value function $V_t(n)$ describes the best expected profit $E_t(G_t | N_t)$.
+$N_{max}$ denotes an upper limit of the inventory level $n$ and the order decision $b$, $0 \leq n, b \leq N_{max}$. This does not affect the optimal solution as long as $N_{max}$ is greater than the biggest inventory level that can occur in the optimal policy.
 
-$N_{max}$ denotes the upper limit of the inventory level and the order decision, $0 \leq n, b \leq N_{max}$. This does not affect the optimal solution as long as $N_{max}$ is greater than the biggest inventory level that can occur in the optimal policy.
+%why do we limit time horizon?
+We limit the time horizon to the end time $T$.
+If $T$ is sufficiently large, the value iteration over $V_t$ converged enough so that the optimal ordering policy is not affected.
+The start value $u$ defines the result of the value function at the end of the time horizon, $V_t(n) = u$ for all $n$.
+For now, the start value is set to $u := 0$.
+
+%instant vs delayed order, zugangübergänge
+We consider $V_t(n)$ with instantaneous and delayed orders.
+With instantaneous orders, available items from the start of the time period and the newly ordered items can be sold within that period.
+The following time period starts with an inventory of items that were not sold in the previous period.
+With delayed orders, only items that are available from the start of the time period can be sold within that period.
+The following time period starts with an inventory of items that were not sold in the previous period plus the number of items ordered in the previous period.
 
 The value function with an instantaneous arrival of orders is:
-%where comes i from?
-% solve infinite sum over i problem: upper limit, rest probability for i >= n
+%todo special case P(n_max) -> rest probability
 \begin{equation}
 \begin{split}
 V_t(n) = \max_{b \in B_t} \Bigg\{
-\sum_{i \geq 0} \Big(
-P(i) \cdot (
-a_{fix} \cdot min(i, n + b) %sales
+\sum_{i \geq 0}^{N_{max}}
+P(i) \cdot \Big(
+(a_{fix} \cdot min(i, n + b) %sales
 - l \cdot (n + b) % holding cost
-- C(b) % order cost
-) \\
+- C(b)) % order cost
+ \\
 + \delta \cdot V_{t+1}\big(min(max(n + b - i, 0), N_{max}))\big)
 \Big)\Bigg\}
 \end{split}
 \label{eq:dyn_prog_no_delay}
 \end{equation}
 
-%check: order delay mentioned in model description?
-Solving this problem with any order delay results in a huge increase in dimensions for the calculation.
-The computation time would be to long to make fast and dynamic decisions on an online marketplace.
-To avoid these long computation times, we assume that the order delay is exactly one period.
-This solution is a heuristic for different order delays.
+%todo: order delay mentioned in model description?
 The value function with order delay is shown in the following equation:
 
 \begin{equation}
 \begin{split}
 V_t(n) = \max_{b \in B_t} \Bigg\{
-	\sum_{i \geq 0} \Big(
-		P(i) \cdot (
+	\sum_{i \geq 0}^{N_{max}} 
+		P(i) \cdot \Big((
 			a_{fix} \cdot min(i, n) %sales
 			- l \cdot n % holding cost
 			- C(b) % order cost
@@ -149,13 +143,55 @@ V_t(n) = \max_{b \in B_t} \Bigg\{
 \label{eq:dyn_prog}
 \end{equation}
 
-The set of order quantities $B_t$ must contain zero to allow to make no order.
-The optimal ordering policy $b_t^*(n)$ is given by the arg max of \cref{eq:dyn_prog_no_delay} and \cref{eq:dyn_prog} respectively.
-%address that arg max is set, do that in next sections too
-The next sections will only consider the case with delayed orders.
+The set of order quantities $B_t$ is a discrete set of integers and must contain zero to allow the merchant to make no order.
+The optimal ordering decision $b^*(n)$ is given by using arg max on \cref{eq:dyn_prog_no_delay,eq:dyn_prog}.
+
+That is for instantaneous orders
+
+\begin{equation}
+\begin{split}
+b^*(n) = \argmax_{b \in B_t} \Bigg\{
+\sum_{i \geq 0}^{N_{max}}
+P(i) \cdot \Big(
+(a_{fix} \cdot min(i, n + b) %sales
+- l \cdot (n + b) % holding cost
+- C(b)) % order cost
+\\
++ \delta \cdot V_{1}\big(min(max(n + b - i, 0), N_{max}))\big)
+\Big)\Bigg\}
+\end{split}
+\end{equation}
+
+and for delayed orders
+
+\begin{equation}
+\begin{split}
+b^*(n) = \argmax_{b \in B_t} \Bigg\{
+\sum_{i \geq 0}^{N_{max}} 
+P(i) \cdot \Big((
+a_{fix} \cdot min(i, n) %sales
+- l \cdot n % holding cost
+- C(b) % order cost
+) \\
++ \delta \cdot V_{1}\big(min(max(n - i, 0) + b, N_{max}))\big)
+\Big)\Bigg\}
+\end{split}
+\label{eq:optimal_order}
+\end{equation}
+
+Equation \cref{eq:optimal_order} is the optimal solution to the ordering problem if the order delay is exactly the length of a time period.
+It is possible to find optimal ordering policies for arbitrary order delays using this dynamic programming approach.
+However, this greatly increases the dynamic programming state and results in long computation times.
+In order have reasonable decision times for the merchant, we use the presented approach, which is a heuristic for order delays different from the length of the time period and otherwise an exact solution.
+The following phases will only consider the variation with delayed orders.
 
 \subsection{Evaluation}
-In the previous section, we used an arbitrary start value $V_T = 0$ and claimed that the value function $V_t(n)$ converges to the optimal expected profit if $T$ is sufficiently large.
+
+\subsubsection{Numeric Example}
+\todo{show solution for specific parameters, compare with/without delay}
+
+\subsubsection{Effect of Start Value $u$ on $V_0(n)$}
+In \cref{section:ordering_solution}, we used an arbitrary start value $u := 0$ and claimed that the value function $V_0(n)$ converges to the optimal expected profit if $T$ is sufficiently large.
 In the following example we show that the value function converges to the same value independently from the start value.
 
 \cref{fig:convergence} shows results of $V_0(0)$ with varying $T$ and start values $V_T$.
@@ -165,11 +201,10 @@ However, the value function converges earlier if $V_T$ is near the optimal expec
 %direct ref to section?
 We will use this fact in later sections to speed up the policy computation.
 
-%check: flatten  graph to save page space
 \begin{figure}[t]
 \begin{tikzpicture}
 \begin{axis}[
-title={Visualizied calculation of a merchant's holding costs},
+title={Convergence of $V_0(0)$ for different start values $u$},
 xlabel={$T$},
 ylabel={$V_0(0)$},
 legend pos=north east,
@@ -180,21 +215,21 @@ width=0.8\textwidth,
 
 \addplot+[mark=none]
 coordinates {(5, 10.650190245476479)(10, 8.8349323075140394)(15, 8.1792648210654963)(20, 7.7971329777749263)(25, 7.5742589181038458) (30, 7.4232242422163681)(35, 7.308928579872326)(40, 7.2279708622948116)(45, 7.161335085202075)(50, 7.1089572918512074) (55, 7.0660029726563431)(60, 7.0295402644629057) (65, 6.9991371516213245) (70, 6.9726912293655996) (75, 6.9498393709566395) (80, 6.929825937583602) (85, 6.9120734346116484) (90, 6.8963337508543576) (95, 6.8821968575926808) (100, 6.8694716786018226)};
-\addlegendentry{$V_T = 10.7$}
+\addlegendentry{$u = 10.7$}
 
 \addplot+[mark=none]
 coordinates {(5, 5.6501902454764794) (10, 6.1076595802413101) (15, 6.3042648210654928) (20, 6.3685615492034966) (25, 6.4204127642576871) (30, 6.4554823067324927) (35, 6.4755952465389939) (40, 6.4962635452216384) (45, 6.5091611721585938) (50, 6.5207219977335571) (55, 6.5302886869420531) (60, 6.5377369857743801) (65, 6.5445916970758642) (70, 6.550156018097991) (75, 6.5551025288513722) (80, 6.5594555672132291) (85, 6.5632362253093195) (90, 6.5666634211840238) (95, 6.5696968575926782) (100, 6.5724419756315244)
 };
-\addlegendentry{$V_T = 5.7$}
+\addlegendentry{$u = 5.7$}
 
 \addplot +[mark=none]
 coordinates {
 	(5, 2.3168569121431455) (10, 4.2894777620594917) (15, 5.0542648210654928) (20, 5.4161805968225405) (25, 5.651181995026918) (30, 5.8103210164099108) (35, 5.9200396909834385) (40, 6.0084586671728593) (45, 6.0743785634629441) (50, 6.1285651349884596) (55, 6.1731458297991981) (60, 6.2098681333153616) (65, 6.2415613940455641) (70, 6.2684658772529209) (75, 6.2919446341145315) (80, 6.3125419869663153) (85, 6.3306780857744362) (90, 6.3468832014038048) (95, 6.3613635242593451) (100, 6.3744221736513262)};
-\addlegendentry{$V_T = 2.3$}
+\addlegendentry{$u = 2.3$}
 
 \end{axis}
 \end{tikzpicture}
-\caption{This chart shows how the start value $V_T$ influences the final expected profit $V_0$. The function converges with any start value to the same expected profit, given a sufficiently large $T$. However, $V_0$ converges earlier if $V_T$ is near the optimal expected profit.}
+\caption{This chart shows how the start value $u$ influences the final expected profit $V_0$. The function converges with any start value to the same expected profit, given a sufficiently large $T$. However, $V_0$ converges earlier if $u$ is near the optimal expected profit.}
 \label{fig:convergence}
 \end{figure}
 
@@ -202,7 +237,7 @@ coordinates {
 %deviations from that should result in worse performance (profit)
 %let's compare computed optimal policy in monopoly with policy that orders one item more(less)
 %hint: use bigger dif if you cannot see difference in policies
-\todo{compare with merchant that buys always one more / one less}
+\todo{compare different n}
 
 \section{Joint Ordering and Pricing}
 \label{section:joint_ordering_pricing}
@@ -366,6 +401,7 @@ This allows the merchant to encounter many different market situations and obtai
 \todo{show prediction quality over number of training examples}
 
 \section{Competition}
+\label{section:competition}
 Until now, the merchant offered items on the marketplace in a monopoly.
 This is usually not the case on real online marketplaces.
 Other merchants offer the same or similar products and everyone wants to make the most attractive offer.

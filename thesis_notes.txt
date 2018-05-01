@@ -2,6 +2,8 @@ Seitenanzahl: min 50 nur Inhalt (~70 insgesamt)
 
 question:
 	graphen über ganze Seite ok?
+	related work noch erweitern, wie viele refs?
+	how to say b* equation? check formula
 
 motivation!!!
 
@@ -12,6 +14,8 @@ descripte effect of discount factor delta: 0 -> myopic, 1 -> long-term
 lessons learned
 write about refactored example merchants (+inventory)?
 run two data-driven merchants against each other
+sequence diagram for holding cost update
+demand learning: show merchant changes price according to inventory level
 
 CHECK:
 consistent use of item/product
@@ -24,6 +28,7 @@ mention cpu for performance test
 learning: sales per iteration instead of per minute?
 eigenständigkeitserklärung auf englisch?
 features is function on market situation
+start value is u
 
 TODO:
 Eval Ordering
@@ -32,6 +37,8 @@ Eval learning
 Eval Competition
 Conclusion
 finish Related Work
+longer intro
+longer problem description
 
 
 EVAL:
@@ -43,11 +50,12 @@ vergleiche strat mit/ohne delay
 my merchant vs my merchant -> mehr oder weniger profit für alle beteiligten?
 show profit after changing pricing/ordering policy -> wie entscheident ist pricing/ordering?
 zeige duopole
+demand learning: compare predicted % to real % (price_learning.py)
 
 todos:
 rainers feedback einarbeiten
 platform extension rüberlesen
-descriptive titles: merchant ordering, competition, extending pricewars platform
+platform -> deploy not architecture
 mittwoch stand schreiben
 freitag 13:30 treffen
 table of figures fix names

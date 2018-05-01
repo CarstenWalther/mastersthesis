@@ -1,7 +1,14 @@
 
 \chapter{\pricewars Platform}
-\todo{ picture from UI}
-%motivation!
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\textwidth]{figures/dashboard}
+	\caption[\pricewars Dashboard]{\pricewars Dashboard showing participating merchants and various charts about the merchants.}
+	\label{fig:dashboard}
+\end{figure}
+
+%motivation! -> warum diese architecture?
 %what's docker? what's microservice?
 %mehr roter faden
 
@@ -12,32 +19,31 @@ Developing and testing own pricing strategies can be time-consuming and possibly
 The platform provides an HTML-based management user interface (UI) that allows users to configure and interact with the simulation.
 For example, they can explore how merchants react to a sudden increase in demand during the simulation.
 The management UI includes a dashboard that visualizes price trajectories and several metrics, e.g., revenue and profit over time.
-The dashboard allows to observe the evolution of the market and compare performance of various merchant strategies.
+The dashboard allows to observe evolution of the market and compare status and actions of competing merchant strategies.
 
+%title: servies and actors?
 \section{Architecture}
 The \pricewars platform consists of microservices.
 The services communicate over RESTful APIs.
 An overview of the architecture is presented in \cref{fig:platform_architecture}.
 Each service is explained in detail below:
 
-%todo use svg picture
-%todo mensch zentrieren
 \begin{figure}
 	\centering
-	\includegraphics[width=\textwidth]{figures/architecture_placeholder.png}
+	\includegraphics[width=\textwidth]{figures/pricewars-architecture}
 	\caption[see this in list of figures]
 	{FMC diagram of the architecture of the \pricewars platform}
 	\label{fig:platform_architecture}
 \end{figure}
 
 %consumer/merchant can be added/removed during simulation
-
+%use subsubsections?
 \begin{description}
 	\item [Marketplace]
 		The marketplace is this platform's central service.
-		Merchants use it to offer their products and consumers use it to buy products.
+		Merchants use it to offer their products and consumers buy products on it.
 		The marketplace manages merchant and consumer accounts.
-		As a first step, merchants and consumers need to register on the platform, before they can do authenticated actions like offering or buying products.
+		As a first step, merchants and consumers need to register on the platform, before they can perform authenticated actions like offering or buying products.
 		Both, merchants and consumers can see all open offers on the marketplace.
 		Merchants can adapt their prices according to competitors' prices with this information.
 		Consumers inspect these offers to find their preferred offer.
@@ -45,15 +51,13 @@ Each service is explained in detail below:
 		This data is processed to, e.g., calculate a merchant's revenue.
 		Whenever a product has been sold, the marketplace notifies the selling merchant.
 	\item [Merchant]
-		Merchants want to sell products by offering them on the marketplace.
-		They can set any offer price.
-		The price choice will influence their chances to sell products.
-		For example, a higher price usually results in less sales.
-		A merchant's pricing strategy can be a simple rule-based strategy like ''always undercut the cheapest competitor'' or a complex data-driven strategy that analyses the consumer behavior or competitors' strategies.
+		Merchants sell products by offering them on the marketplace at a desired price.
+		They can request open offers from the marketplace to adapt prices to competitors' offer prices.
+		A merchant's pricing strategy can be a simple rule-based strategy like ''always undercut the cheapest competitor'' or a complex data-driven strategy that analyses the consumer behavior and/or competitors' strategies.
 		Of course, also complex rule-based strategies or a hybrid of both approaches are possible.
 		The \pricewars platform supports data-driven merchants by providing historical market and sales data.
-		A merchant can be written in any programming language as long as it complies with the platform's RESTful API.
-		The available merchant implementation\footnote{\pricewars Merchant documentation and source code of its Python implementation on Github: \url{https://github.com/hpi-epic/pricewars-merchant}} can be used to quickly build a merchant with a custom strategy.
+		A merchant can be written in any programming language as long as the implementation complies with the platform's RESTful API.
+		Documentation and an example merchant implementation is available on Github\footnote{\pricewars Merchant documentation and source code of its Python implementation on Github: \url{https://github.com/hpi-epic/pricewars-merchant}} to help people building merchants with custom strategies.
 	\item [Consumer]
 		The consumer service creates a stream of consumers who visit the marketplace, inspect available offers, and buys a product.
 		In case the consumer does not find any acceptable offers, he leaves the marketplace without buying a product.
@@ -67,7 +71,8 @@ Each service is explained in detail below:
 		The management UI is a web interface that allows the user to control and observe the simulation.
 		Marketplace, merchants, consumer, and producer can be configured with the management UI.
 		With this level of control, it is possible to test how merchants react to a changing market. E.g. how fast adapts a merchant its behavior if the number of consumers doubles.
-		Various charts show merchant and consumer actions as well as merchants' short- and long-term performance.
+		A dashboard contains charts that visualize merchant and consumer actions as well as merchants' short- and long-term profit and revenue.
+		\cref{fig:dashboard} shows a section of the dashboard.
 	\item [Kafka Reverse Proxy]
 	%todo market situation = snapshot of offers
 		This services provides merchants with data about past market situations and sales.
@@ -88,5 +93,3 @@ The platform's source code and documentation is available on \url{https://github
 The \pricewars platform can optionally be deployed as docker containers.
 This allows an easy setup on a single machine.
 %architecture != deployment
-
-%beschreibe schnittstellen für den merchant

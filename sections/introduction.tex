@@ -3,21 +3,19 @@
 \chapter{Introduction}
 %Why dynamic pricing?
 Price updates on today's online markets increase in number and happen in shorter intervals.
-Merchants want an advantage by adjusting their prices to competitors' prices.
+Merchants get an advantage by adjusting their prices to competitors' prices.
 The frequent updating of prices is called dynamic pricing and is used by merchants to increase their profit compared to traditional pricing strategies.
+Online marketplaces are ideal environments for dynamic pricing strategies because there are almost no costs for price changes.
 Human agents lack the fast response times and endurance to compete with software agents.
 Additionally, these programs are able to analyze huge amounts of historical market data and can estimate customer buying behavior from it.
-%Online marketplaces are ideal environments to apply dynamic pricing strategies because there is almost no cost for price changes.
 %human irrational decisions
 
 %Why inventory control?
 Another important task of a merchant is keeping track of the inventory.
-If the inventory level is to low, the merchant might miss potential sales due to a stock-out.
-But storing to many items causes preventable extra costs.
-This is the inventory control problem and it is about when to order how many new products.
+If the inventory level is too low, the merchant might miss potential sales due to a stock-out.
+But storing a lot of items causes high holding costs.
+This is the inventory control problem or ordering problem and it is about when to order how many items.
 It is crucial to accurately predict future demand for good order decisions.
-%todo put following sentence somewhere after costs are introduced
-%The merchant wants to find a good balance between few big orders, which minimizes fixed order costs, and many small orders, which minimizes holding costs.
 
 %Joint pricing and inventory
 Pricing and inventory decisions influence each other.
@@ -31,7 +29,7 @@ Because of this mutual influence, ordering and pricing should be decided jointly
 %joint ordering/pricing repetition
 We developed a merchant that makes joint ordering and pricing decisions using dynamic programming with the goal to maximize its profit.
 The merchant uses demand learning to estimate future demand based on data of previous sales.
-This merchant runs on the \pricewars platform, a open framework to simulate dynamic pricing competition on online marketplaces.
+This merchant runs on the \pricewars platform, an open framework to simulate dynamic pricing competition on online marketplaces.
 % word 'settings' is ambiguous
 The platform was created to test how merchant strategies perform in realistic settings.
 This thesis extends the platform by the inventory control problem.
