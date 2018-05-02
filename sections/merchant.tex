@@ -306,7 +306,7 @@ The optimal ordering policy $b^*_t(n)$ and pricing policy $a^*_t(n)$ are given b
 
 \begin{equation}
 \begin{split}
-a^*_t(n) = \argmax_{a \in A_t} \Bigg\{
+(a^*_t(n), b^*_t(n)) = \argmax_{\substack{b \in B_t \\ a \in A_t}} \Bigg\{
 \sum_{i = 0}^{N_{max}}
 P(i, a) \cdot \Big((
 a \cdot min(i, n) %sales
@@ -316,22 +316,7 @@ a \cdot min(i, n) %sales
 + \delta \cdot V_{1}\big(min(max(n - i, 0) + b, N_{max}))\big)
 \Big)\Bigg\}
 \end{split}
-\label{eq:joint_best_price}
-\end{equation}
-
-\begin{equation}
-\begin{split}
-b^*_t(n) = \argmax_{b \in B_t} \Bigg\{
-\sum_{i = 0}^{N_{max}}
-P(i, a) \cdot \Big((
-a \cdot min(i, n) %sales
-- l \cdot n % holding cost
-- C(b) % order cost
-) \\
-+ \delta \cdot V_{1}\big(min(max(n - i, 0) + b, N_{max}))\big)
-\Big)\Bigg\}
-\end{split}
-\label{eq:joint_best_order}
+\label{eq:joint_best_price_order}
 \end{equation}
 
 %todo schreibe hier irgendwas hin, nicht mit gleichungen enden
@@ -412,7 +397,7 @@ P(i, \vec{x}) :=
 	\frac{\lambda(\vec{s}; \vec{\beta}^*)^{i}}{i!}
 \end{equation}
 
-This sales probability function is used in \cref{eq:joint_best_price,eq:joint_best_order} to calculate optimal ordering and pricing policies.
+This sales probability function is used in \cref{eq:joint_best_price_order} to calculate optimal ordering and pricing policies.
 
 %retraining
 The merchant has access to a steadily growing collection of market situations and sales data over time.
