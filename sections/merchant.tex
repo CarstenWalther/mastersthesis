@@ -150,7 +150,7 @@ That is for instantaneous orders
 
 \begin{equation}
 \begin{split}
-b^*(n) = \argmax_{b \in B_t} \Bigg\{
+b^*_{instant} = \argmax_{b \in B_t} \Bigg\{
 \sum_{i = 0}^{N_{max}}
 P(i) \cdot \Big(
 (a_{fix} \cdot min(i, n + b) %sales
@@ -160,6 +160,7 @@ P(i) \cdot \Big(
 + \delta \cdot V_{1}\big(min(max(n + b - i, 0), N_{max}))\big)
 \Big)\Bigg\}
 \end{split}
+\label{eq:optimal_order_instant}
 \end{equation}
 
 and for delayed orders
@@ -188,8 +189,87 @@ The following phases will only consider the variation with delayed orders.
 \subsection{Evaluation}
 
 \subsubsection{Numeric Example}
-\todo{show solution for specific parameters, compare policy with/without delay}
-%compare effect of parameter on policy
+This section shows the explicit result of \cref{eq:optimal_order_instant,eq:optimal_order} for specific parameters. A time period has the length of one second.
+The maximum considered inventory level is $N_{max} = 40$
+Items are sold at price $a_{fix} = 35$.
+Fixed order cost is $c_{fix} = 30$ and variable order cost is $c_{var} = 20$.
+Holding costs per time period are $l = 0.4$.
+The number of iterations is $T = 500$.
+
+The time between customers is exponential distributed with a mean time of one second.
+We sampled this process to get the following sales probabilities.
+
+%todo table horizontal?
+\begin{table}
+\centering
+\begin{tabular}{rr}
+	\toprule
+	$i$ & $P(i)$ \\
+	\midrule
+	0 & 0.189 \\
+	0 & 0.316 \\
+	0 & 0.261 \\
+	0 & 0.146 \\
+	0 & 0.061 \\
+	0 & 0.020 \\
+	0 & 0.006 \\
+	0 & 0.001 \\
+	other & 0.000 \\
+	\bottomrule
+\end{tabular}
+\end{table}
+
+Using \cref{eq:optimal_order_instant,eq:optimal_order} results in these ordering policies:
+
+\begin{table}
+	\centering
+	\begin{tabular}{rrr}
+		\toprule
+		$n$ & $b^*_{instant}(n)$ & $b^*(n)$ \\
+		\midrule
+		0 & 17 & 18 \\
+		1 & 16 & 18 \\
+		2 & 0 & 17 \\
+		3 & 0 & 16\\
+		other & 0 & 0 \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+The merchant begins to order new items at a higher inventory level if orders are delayed.
+Additionally, the merchant restocks more items.
+This behavior reduces the risks of an stock-out until the ordered items arrive.
+
+\begin{table}
+	\centering
+	\begin{tabular}{rrrrrr}
+		\toprule
+		& & $l= 0.1$ & $c_{fix} = 15$ & $c_{var} = 27$ & $a_{fix} = 55$ \\
+		$n$ & $b^*(n)$ & $b^*(n)$ & $b^*(n)$ & $b^*(n)$ & $b^*(n)$ \\
+		\midrule
+		0 & 18 & 35 & 14 & 17 & 19\\
+		1 & 18 & 34 & 13 & 17 & 19\\
+		2 & 17 & 34 & 13 & 16 & 18\\
+		3 & 16 & 33 & 12 &  0 & 17\\
+		4 &  0 & 32 & 11 &  0 & 17\\
+		other & 0 & 0 & 0 & 0 &  0\\
+		\bottomrule
+	\end{tabular}
+	\caption{Effect of parameters on ordering policy $b^*(n).$}
+	\label{table:order_policy_parameter}
+\end{table}
+
+
+\cref{table:order_policy_parameter} shows the effect of different parameters on $b^*(n)$.
+When holding costs decrease, the merchant makes bigger orders because it is less costly to hold these items in the inventory.
+The merchant buys less items per order if fixed order costs are lower.
+This results in more frequent orders and an on average lower inventory level, which saves holding costs.
+Higher variable order costs reduce the merchant's profit margin.
+The merchant orders only in few different sizes that promise the best trade-off between holding costs and order costs.
+The merchant risks stock-outs to avoid high order costs. 
+If variable order costs are too high, the stops ordering completely.
+At a higher selling price, the merchant orders more products and refills the inventory earlier.
+The loss of potential revenue becomes more important than the additional holding costs.
 
 \subsubsection{Effect of Start Value $u$ on $V_0(n)$}
 In \cref{section:ordering_solution}, we used an arbitrary start value $u := 0$ and claimed that the value function $V_0(n)$ converges to the optimal expected profit if $T$ is sufficiently large.

@@ -3,9 +3,9 @@ Seitenanzahl: min 50 nur Inhalt (~70 insgesamt)
 question:
 	graphen über ganze Seite ok?
 	related work noch erweitern, wie viele refs?
-	how to say b* equation? check formula
+	how to say b* equation withwithout t? check formula
 	what's feedback? (markov stuff)
-	can i do arg max over two variables?
+	no ss policy with delay?
 
 motivation!!!
 
