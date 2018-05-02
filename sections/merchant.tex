@@ -519,8 +519,7 @@ With these explanatory variables it is possible to describe the effect of the co
 
 The predicted sales probability are used in the dynamic programming approach to compute ordering and pricing policy.
 As explained above, the policies are computed for each new market situation.
-%todo fix time mentioned
-At this point, the computation takes around two seconds to complete.
+At this point, the computation takes around 10 seconds to complete.
 This is to long for the merchant to quickly and frequently react on the changing market.
 In the next section, we will reduce this time to allow shorter decision intervals for the merchant.
 
@@ -536,10 +535,10 @@ The approaches are: using a better start value, adapt decision sets, and tweakin
 
 %better start value
 %check: mache abschnitt verständlicher
-\cref{fig:convergence} shows that dynamic programming converges faster if the start value $V_T$ is near the final expected profit.
+\cref{fig:convergence} shows that dynamic programming converges faster if the start value $u$ is near the final expected profit.
 We assume that the expected profit from two successive market situations is similar because the market situations will not fundamentally change in that short time frame.
-Setting the $V_T$ to the expected profit from the previous computation will reduce the time until dynamic programming converges.
-Even if the assumption does not hold true and there is a big change in expected profit, the computation converges most of the time faster than with our previous start value $V_T = 0$.
+Setting the $u$ to the expected profit from the previous computation will reduce the time until dynamic programming converges.
+Even if the assumption does not hold true and there is a big change in expected profit, the computation converges most of the time faster than with our previous start value $u = 0$.
 
 %adapt decision sets
 %todo remove t from decision set A and B
@@ -758,9 +757,9 @@ After enough time passed, the merchant requests new market and sales data from t
 	}] (server) {Server};
 
 \draw [->] (server) -- node {forward}(main);
-\draw [->] (main) -- node {train} (demand);
-\draw [->] (main) -- node[sloped, ,pos=0.7] {create} (policy);
-\draw [<-] (demand) -- node {predict} (policy);
+\draw [->] (main) -- node {training data} (demand);
+\draw [<-] (main) -- node[sloped, ,pos=0.7] {policies} (policy);
+\draw [->] (demand) -- node {predictions} (policy);
 
 \end{tikzpicture}
 \caption{Architecture of the proposed merchant}

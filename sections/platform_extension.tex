@@ -4,55 +4,56 @@
 %problem + former state
 This thesis develops a merchant that runs on the \pricewars platform and is exposed to the inventory and dynamic pricing problem.
 The merchant competes against other merchants and makes automatic ordering and pricing decisions.
-The platform in its original form did support pricing decisions.
-The problem is that the platform did not support ordering decisions.
-Merchants could order items from the producer but only one item at a time.
+The platform in its original form supported pricing decisions.
+However, the platform did not support ordering decisions.
+Merchants could order from the producer but only one item at a time.
 %motivation
-This is an unrealistic setting.
+This is an unrealistic environment.
 Real merchants actually order multiple items at once to prevent high shipping costs.
 But this leads to the inventory control problem.
 Merchants have to decide at what point in time to order and how many items.
-They have to keep customer demand in mind to avoid stock-outs.
+They have to keep customer demand in mind to avoid stock-outs and excessive stocks.
 This thesis extends the \pricewars platform by the inventory control problem.
 This allows to simulate competitions of merchants, that make ordering and pricing decisions.
-Different merchant strategies can be evaluated this way.
+Different merchant ordering and pricing strategies can be tested and evaluated using the extended platform.
 
 %new state + describe following structure
-We added effects and costs to the platform that will influence merchants' ordering decisions.
+We added new costs to the platform that will influence merchants' ordering decisions.
+Moreover, merchants must deal with shipping times for their orders.
 These extensions are explained in the following sections.
-The last two \cref{section:inventory_graph,section:benchmark_tool} present helpful additions to evaluate merchant performances.
+The last two \cref{section:inventory_graph,section:benchmark_tool} present helpful additions to evaluate merchant strategies.
 
 \section{Ordering Multiple Items}
 \label{section:multiple_items}
 First of all, merchants must be able to order multiple items in one order.
 Some parts of the platform already supported this use case.
-For example, expense and profit calculation for merchants already supported orders of multiple items.
+For example, expense and profit calculation for merchants already considered orders of multiple items.
 However, there was no option to order more than one item from the producer.
 By adding a parameter to the order request \texttt{POST /orders}, merchants can request their desired amount, e.g., \texttt{POST /orders?amount=14}.
 Accordingly, the producer returns an order with that many items.
-Ordering different product type with one order is not supported.
+Ordering different product types in order is not supported.
 
 The option to order multiple items will not affect merchants' strategies.
 They can still order a single item whenever they need one.
 The next section introduces fixed order cost to discourage this behavior.
 
-\section{Fixed Order Cost}
+\section{Fixed Order Costs}
 \label{section:fixed_order_cost}
-Fixed order cost is a fixed value that is added to the total cost of each order.
+Fixed order cost is a fixed value that is added to the total costs of each order.
 %maybe write formula again
-Fixed order cost is comparable to shipping cost.
-The total order cost from an order can be calculated with \cref{eq:order_cost}.
+Fixed order costs are comparable to shipping costs.
+The total order costs from an order can be calculated with \cref{eq:order_cost}.
 Merchants can reduce their fixed order costs by making few big orders.
-They can request the size of the fixed order cost from the producer.
+They can learn about the current fixed order costs per order from the producer.
 
-Besides the producer, the event aggregation service needs to know the total order cost to calculate merchants' profits and expenses.
+Besides producer and merchants, the event aggregation service needs to know the total order cost to calculate merchants' profits and expenses.
 The event aggregation service used to calculate the total order cost from the amount of ordered items and the cost per item.
 The redundant order cost calculations may cause errors if the implementations are inconsistent.
-To prevent these errors, only the producer calculates the cost and writes this information to the event.
-The event analysis service becomes simpler and changing the order cost formula means only updating the producer.
+To prevent these errors, only the producer calculates the cost and adds this information to the order event.
+The event analysis service becomes simpler and changing the order cost formula requires only to update the producer.
 
 With orders of multiple items and fixed order cost in place, a good merchant strategy is to make one big order at the beginning.
-To disincentivize this behavior, we introduce holding costs in the next section.
+To make ordering decisions more interesting and natural, we introduce holding costs in the next section.
 
 \section{Holding Costs}
 \label{section:holding_cost}
@@ -60,9 +61,8 @@ To disincentivize this behavior, we introduce holding costs in the next section.
 Holding costs occur when merchants store items in their inventory.
 Each item that a merchant received from the producer and has not sold yet on the marketplace causes holding costs over time.
 %why
-Holding cost punishes merchants that overestimate demand and order to many items.
-Thus they have high inventory levels and high holding costs.
-There is no inventory capacity limit but profit-oriented merchant will have a practical inventory limit in order to avoid high holding costs.
+Holding costs punish merchants that overestimate demand and have excessive inventory levels.
+There is no inventory capacity limit but profit-oriented merchants have a practical inventory limit in order to avoid high holding costs.
 
 % interaction with fixed order cost
 A strategy to minimize holding costs is ordering often few items.
@@ -70,22 +70,22 @@ This keeps the inventory level constantly low.
 Disadvantage of this strategy are high fixed order costs.
 In order to maximize profit, merchants must find a trade-off between low fixed order cost with few big orders and low holding costs with many small orders.
 
-%how
+%how, implementation
 Real-world merchants are responsible for their inventory management and the resulting holding costs.
 In the simulation on the \pricewars platform is no need to store physical items.
-Merchants could easily cheat by reporting wrong holding costs.
-We decided to not trust merchants in that regard on calculate holding costs on the platform's services.
+Merchants could easily cheat by reporting lower holding costs.
+We decided to not trust merchants in that regard and calculate holding costs on the platform's services.
 
 %holding cost rate on marketplace
 The marketplace manages the holding cost rate for each merchant.
-The holding cost rate indicates how much it cost to hold one item for a minute in the inventory.
+The holding cost rate indicates how much it costs to hold one item for a minute in the inventory.
 Merchants can request their current holding cost rate from the marketplace.
 
 %holding cost in flink
 The actual holding cost calculation happens in Flink, the event aggregation service of the \pricewars platform.
 Flink receives events about inventory growth whenever a merchant gets items from the producer and about inventory reduction whenever a merchant sells items on the marketplace.
 Flink tracks the current inventory level of each merchant using information from these events.
-Additionally, Flink receives events about changes of holding cost rates.
+Additionally, Flink receives events about changes of holding cost rates from the marketplace.
 Having access to inventory levels over time and holding cost rates, it is possible to calculate holding costs in Flink.
 
 \begin{figure}[t]
@@ -139,7 +139,7 @@ The computation of holding costs is triggered every time a merchant's inventory 
 In that case, the holding costs since the last change are calculated.
 \cref{fig:holding_cost} shows an example of this process.
 %check: formulate this as equation
-The holding costs of the interval between two consecutive equals the inventory level multiplied with the duration and the holding cost rate.
+The holding costs of the interval between two consecutive events is the inventory level multiplied with the duration and the holding cost rate.
 Note that changes in inventory level or holding cost rate can happen at any time and are not periodically.
 %motivate why this implementation; what is alternative (calc periodically)?
 
@@ -150,34 +150,38 @@ After a merchant orders items from the producer, some time should pass until the
 This is the shipping time from producer to merchant.
 Previously on the \pricewars platform, merchants received ordered products instantly.
 %why
-The addition of shipping time will result in a more realistic simulation of merchant competition on the online marketplace.
-Merchants have to estimate demand and order before the inventory is empty, or else they will risk stock-outs.
+Merchants must think ahead of time while ordering to receive the products at the right time.
+If merchants underestimate demand, they risk stock-outs before the ordered products arrive.
+The addition of shipping time will result in a more realistic competition between merchants on the online marketplace.
 
 %how
 Previously, merchants made a HTTP request to the producer for an order and the response contained the ordered items.
-In order to add a shipping time to this process, we considered three approaches: long-running HTTP requests, web sockets, and two separate HTTP requests. 
+To add a shipping time to this process, we considered three approaches: long-running HTTP requests, web sockets, and two separate HTTP requests. 
 
 Long-running HTTP requests are the simplest solution to implement shipping time.
 The producer creates the ordered items and waits a certain time to respond.
-However, this approach has problems with timeouts and may block execution of the producer or merchant.
+However, this approach is problematic due to timeouts and may block execution of the producer or merchant.
 We decided against long-running requests.
 
 Web sockets are a flexible alternative to HTTP requests and create a bi-directional connection.
 The merchant opens a web socket to the producer, then sends an order over the web socket.
-The producer can send the ordered items at any time after that.
-When the merchant received the items, the web socket can be closed or kept open for more orders.
+The producer can send the ordered items at any time as a response.
+When the merchant received the items, the web socket can be closed or kept open for additional orders.
 The consensus on the usage of web sockets is that they should not be used to replicate request-response communication.
-Thus web sockets are not the optimal solution to implement shipping time and we implemented the third approach, two separate requests.
+Thus web sockets are not the optimal solution to implement shipping time and we used the third approach, two separate requests.
 
-The process of ordering products and receiving them is split into two separate HTTP requests.
-The merchant create a new order with an order request.
-The producer response with an estimated time until the order is ready.
-A receive is used to get the previously ordered items.
-The producer returns the ordered items if the order is ready.
+The process of ordering and receiving products is split into two separate HTTP requests.
+The merchant creates a new order with an order request.
+The producer responds with an estimated time until the order is ready.
+If the shipping time is over, the merchant can make a request to receive the ordered items from the producer.
+The producer only returns the ordered items if the shipping time is over.
 An order can only be received once.
-This solution increases the complexity to order items from one HTTP request to two, but this is only a small overhead and uses common web technologies.
-An advantage for this approach is the known duration until the order is ready.
-Hence, the merchant does not need to poll the producer until the response is positive.
+
+This solution requires an additional HTTP request compared to instant orders.
+This is only a small additional overhead and it is easy to update existing merchants to the new ordering process.
+but this is only a small overhead and uses common web technologies.
+The known duration until the order is ready is advantageous for this approach.
+The merchant does not need to poll the producer until the order is ready.
 
 \section{Inventory Chart}
 \label{section:inventory_graph}
@@ -192,31 +196,27 @@ Hence, the merchant does not need to poll the producer until the response is pos
 %more motivation?
 The platform extensions create the inventory control problem for merchants.
 Merchants' inventory levels are more important than ever before because of this problem.
-In order to analyze how merchants control their inventory, we added an inventory chart to the management UI.
-Users have access to a new chart that shows inventory levels over time from all merchants.
+In order to analyze how merchants control their inventory levels, we added an inventory chart to the management UI.
+Users have access to the new chart that shows inventory levels over time from all merchants.
 \cref{fig:invnetory_graph} shows an example of the inventory chart.
-This chart is shown along other charts, which present metrics like profit and revenue. 
+This chart is shown along other charts, which present metrics like prices, profit, and revenue. 
 We used the highcharts\footnote{Javascript chart library, Highcharts: \url{https://www.highcharts.com/}} library to have the same look and feel as the existing charts.
 
 \section{Benchmarking Tool}
 \label{section:benchmark_tool}
 %problem
-A problem while developing a merchant for the \pricewars platform were comparable results from multiple simulations.
-The charts on the management UI are great to evaluate a single simulation run but it is not precise enough to compare multiple runs this way.
-%check: why not precise enough?
-Another way to compare simulation runs with each other is especially important in a monopoly scenario.
-For example, one use case is the performance comparison between
-differently configured merchants in monopolies.
-%check: ref to our monopoly comparision
-%profit not realtime value, but aggregated
+Getting comparable results over multiple simulations on the \pricewars platform was problematic while developing our merchant.
+The charts on the management UI are great to evaluate a single simulation run but it is not precise enough to compare multiple runs.
+It is not feasible to manually examine charts at an exact timing.
+A better way to compare simulation runs with each other is especially important in monopoly scenarios, when merchant with different configurations or strategies are compared.
 
 %solution
 %check: need to explain events?
-We developed a benchmarking tool that starts the platform, starts specified merchants, and let the platform run for a certain duration.
-With this tool, the user can run simulations with the same duration and do not have to read a chart at the right point in time.
-After a run, the benchmark tool saves all events.
-The events are analyzed to determine each merchant's profit, revenue, and expenses as shown in \cref{tab:benchmark_tool}.
-Users can run additional analysis afterwards because the events are available.
+We developed a benchmarking tool that runs the \pricewars platform for a certain duration with specified merchants.
+This tool allows the user to run simulations the same duration and they do not have to read a chart at the right point in time.
+After a run, the benchmark tool saves all events from the event log.
+Events are analyzed to determine each merchant's profit, revenue, and expenses as shown in \cref{tab:benchmark_tool}.
+Users can run additional analysis afterwards on the saved events, e.g. how many stock-outs had each merchant.
 Another benefit from using the benchmark tool is the automated setup and teardown of the platform.
 This process would need some manual steps otherwise.
 
@@ -234,3 +234,5 @@ This process would need some manual steps otherwise.
 \caption{The benchmark tool generates a breakdown of expenses and revenues. These are results from a five minute simulation.}
 \label{tab:benchmark_tool}
 \end{table}
+
+%todo implemenation? calls docker-compose, start merchants directly

@@ -4,6 +4,8 @@ question:
 	graphen über ganze Seite ok?
 	related work noch erweitern, wie viele refs?
 	how to say b* equation? check formula
+	what's feedback? (markov stuff)
+	can i do arg max over two variables?
 
 motivation!!!
 
@@ -53,8 +55,6 @@ zeige duopole
 demand learning: compare predicted % to real % (price_learning.py)
 
 todos:
-rainers feedback einarbeiten
-platform extension rüberlesen
 platform -> deploy not architecture
 mittwoch stand schreiben
 freitag 13:30 treffen
