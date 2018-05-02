@@ -67,8 +67,8 @@ C(b) := \begin{cases}
 
 %sales
 The probability to sell $i$ items within one period of time is denoted by $P(i)$, $(i = 0, 1, \ldots)$.
-A changing customer behavior over time is out of scope of this work, thus the sale probability $P(i)$ does not depend on the time period $t$.
-The sale probability in the first phase does not directly depend on the price or market situation because the merchant sells at a fixed price in a monopoly.
+A changing customer behavior over time is out of scope of this work, thus the sales probability $P(i)$ does not depend on the time period $t$.
+The sales probability in the first phase does not directly depend on the price or market situation because the merchant sells at a fixed price in a monopoly.
 The random number of sold items within the period $(t-1, t)$ is denoted by $X_t$.
 The merchant cannot sell more items than the inventory holds, i.e. $N_t \geq X_{t+1}$, $(t = 0, 1, \ldots)$.
 
@@ -113,7 +113,7 @@ The value function with an instantaneous arrival of orders is:
 \begin{equation}
 \begin{split}
 V_t(n) = \max_{b \in B_t} \Bigg\{
-\sum_{i \geq 0}^{N_{max}}
+\sum_{i = 0}^{N_{max}}
 P(i) \cdot \Big(
 (a_{fix} \cdot min(i, n + b) %sales
 - l \cdot (n + b) % holding cost
@@ -131,7 +131,7 @@ The value function with order delay is shown in the following equation:
 \begin{equation}
 \begin{split}
 V_t(n) = \max_{b \in B_t} \Bigg\{
-	\sum_{i \geq 0}^{N_{max}} 
+	\sum_{i = 0}^{N_{max}} 
 		P(i) \cdot \Big((
 			a_{fix} \cdot min(i, n) %sales
 			- l \cdot n % holding cost
@@ -151,7 +151,7 @@ That is for instantaneous orders
 \begin{equation}
 \begin{split}
 b^*(n) = \argmax_{b \in B_t} \Bigg\{
-\sum_{i \geq 0}^{N_{max}}
+\sum_{i = 0}^{N_{max}}
 P(i) \cdot \Big(
 (a_{fix} \cdot min(i, n + b) %sales
 - l \cdot (n + b) % holding cost
@@ -167,7 +167,7 @@ and for delayed orders
 \begin{equation}
 \begin{split}
 b^*(n) = \argmax_{b \in B_t} \Bigg\{
-\sum_{i \geq 0}^{N_{max}} 
+\sum_{i = 0}^{N_{max}} 
 P(i) \cdot \Big((
 a_{fix} \cdot min(i, n) %sales
 - l \cdot n % holding cost
@@ -188,7 +188,8 @@ The following phases will only consider the variation with delayed orders.
 \subsection{Evaluation}
 
 \subsubsection{Numeric Example}
-\todo{show solution for specific parameters, compare with/without delay}
+\todo{show solution for specific parameters, compare policy with/without delay}
+%compare effect of parameter on policy
 
 \subsubsection{Effect of Start Value $u$ on $V_0(n)$}
 In \cref{section:ordering_solution}, we used an arbitrary start value $u := 0$ and claimed that the value function $V_0(n)$ converges to the optimal expected profit if $T$ is sufficiently large.
@@ -245,8 +246,8 @@ coordinates {
 In this section, the merchant is in the same situation as in \cref{section:ordering} but additionally gains control over the selling price.
 With ordering and pricing decisions enabled, the merchant's actions on the marketplace are unconstrained.
 %Difference in demand
-The demand in this scenario depends on the chosen selling price.
-A higher price usually results in less demand.
+Demand in this scenario depends on the chosen selling price.
+A higher price typically results in less demand.
 As in the previous problem, the demand distribution is known.
 
 %Why joint:
@@ -255,10 +256,11 @@ Ordering and pricing decisions influence each other.
 Setting a price changes the demand, which requires a different ordering policy.
 The other way around, an ordering policy might require certain prices for a better control over inventory levels.
 This mutual influence is the reason, why ordering and pricing should be decided jointly.
+However, this is a more complex problem compared to solving the ordering problem and pricing problem separately.
 
 \subsection{Model Description}
 \label{subs:joint_model}
-This model is a extension of the model from \cref{subs:ordering_model}.
+This model is an extension of the model from \cref{subs:ordering_model}.
 %pricing decision
 Instead of a fixed selling price $a_{fix}$, the merchant sets a price $a_t$ in each period $t$, with $a_t \geq 0$.
 The set of admissible pricing decisions is denoted $A_t$.
@@ -267,13 +269,12 @@ Each sold item in period $t$ generates a revenue of $a_t$.
 
 %demand
 The probability to sell $i$ items depends now on price $a$.
-The merchant knows the price-dependent probability distribution.
+The merchant knows the price-dependent probability distribution in this scenario.
 
-Depending on a given pricing and ordering policy $(a_t, b_t)_t$, the random accumulated profit from time period $t$ is:
+Depending on a given pricing and ordering policy $(a_t, b_t)_t$, which can depend on the current inventory level, the random accumulated discounted profit from time period $t$ is:
 
-% can i reuse name from previous section?
 $$
-G_t := \sum_{s=t+1}^{\infty} (\delta^{s-t} \cdot (a_{s-1} \cdot X_s - l \cdot N_{s-1} - C(b_{s-1}(N_{s-1})))
+G_t := \sum_{s=t+1}^{\infty} (\delta^{s-t} \cdot (a_{s-1}(N_{s-1}) \cdot X_s - l \cdot N_{s-1} - C(b_{s-1}(N_{s-1})))
 $$
 
 The objective is to find a joint pricing and ordering policy that maximizes the expected total profit $E(G_0 | N_0)$.
@@ -281,14 +282,14 @@ The objective is to find a joint pricing and ordering policy that maximizes the 
 \subsection{Solution Approach}
 \label{section:joint_solution}
 As a basis, we use the dynamic programming approach shown in \cref{eq:dyn_prog}.
-The Bellman equation is extended by one dimension that contains all pricing decisions $A_t$.
+The action space is extended by one dimension that contains all potential pricing decisions $A_t$.
 
 %todo remove t from A and B.
 \begin{equation}
 \begin{split}
 V_t(n) = \max_{\substack{b \in B_t \\ a \in A_t}} \Bigg\{
-\sum_{i \geq 0} \Big(
-P(i, a) \cdot (
+\sum_{i = 0}^{N_{max}}
+P(i, a) \cdot \Big((
 a \cdot min(i, n) %sales
 - l \cdot n % holding cost
 - C(b) % order cost
@@ -300,22 +301,53 @@ a \cdot min(i, n) %sales
 \end{equation}
 
 There are three changes to the value function.
-The probability is price-dependent ($P(i, a)$), the revenue in one period depends on the chosen price ($a \cdot min(i, n)$), and the maximum expected profit over all ordering decisions and pricing decisions is used.
-The optimal ordering policy $b^*_t(n)$ and pricing policy $a^*_t(n)$ are given by the arg max of \cref{eq:dyn_prog_joint}.
-%optimal pricing decision
+The probability is price-dependent ($P(i, a)$), the revenue in one period depends on the chosen price ($a \cdot min(i, n)$), and the action space is extended by the set of pricing decisions $A_t$.
+The optimal ordering policy $b^*_t(n)$ and pricing policy $a^*_t(n)$ are given by
+
+\begin{equation}
+\begin{split}
+a^*_t(n) = \argmax_{a \in A_t} \Bigg\{
+\sum_{i = 0}^{N_{max}}
+P(i, a) \cdot \Big((
+a \cdot min(i, n) %sales
+- l \cdot n % holding cost
+- C(b) % order cost
+) \\
++ \delta \cdot V_{1}\big(min(max(n - i, 0) + b, N_{max}))\big)
+\Big)\Bigg\}
+\end{split}
+\label{eq:joint_best_price}
+\end{equation}
+
+\begin{equation}
+\begin{split}
+b^*_t(n) = \argmax_{b \in B_t} \Bigg\{
+\sum_{i = 0}^{N_{max}}
+P(i, a) \cdot \Big((
+a \cdot min(i, n) %sales
+- l \cdot n % holding cost
+- C(b) % order cost
+) \\
++ \delta \cdot V_{1}\big(min(max(n - i, 0) + b, N_{max}))\big)
+\Big)\Bigg\}
+\end{split}
+\label{eq:joint_best_order}
+\end{equation}
+
+%todo schreibe hier irgendwas hin, nicht mit gleichungen enden
 
 \subsection{Evaluation}
-\todo{show policies with increasing prices}
+\todo{numeric example; show policies with increasing prices}
 % anything else I can show here?
-
+% compare different parameters, effect on price or on order
 \section{Demand Learning}
 \label{section:demand_learning}
 
-This section extends the joint inventory and dynamic pricing problem from \cref{section:joint_ordering_pricing} by not providing the merchant with the demand distribution.
+This section extends the joint inventory and dynamic pricing problem from \cref{section:joint_ordering_pricing} by not providing the merchant with sales probabilities.
 %the merchant, the merchant, the merchant...
-The merchant needs to know the customer behavior in order to make effective ordering and pricing decisions.
+The merchant needs to estimate the customer behavior in order to make effective ordering and pricing decisions.
 The merchant can get information about the customer behavior from past customer actions.
-The merchant can analyze historical market situation and sales in order to deduce future customer behavior.
+The merchant can analyze historical market situation and sales in order to deduce future sales probabilities.
 %what is this dat, where is it from? (how does it look like?)
 This is called demand learning.
 
@@ -325,73 +357,78 @@ This is called demand learning.
 
 \subsection{Solution Approach}
 In order to overcome the inventory and dynamic pricing problem with missing demand information, we split the whole problem into two parts.
-The first part is the training of a model from historical market situations and sales in order to predict sale probabilities.
-These probabilities are used in the second part to create ordering and pricing policies.
+The first part is the training of a model from historical market situations and sales in order to predict sales probabilities.
+These probabilities are used in the second part to create optimized ordering and pricing policies.
 %why sales prob = demand prob? check whole section
-Given predicted sale probabilities, the dynamic programming solution from \cref{section:joint_solution} can be used as it is, to calculate ordering and pricing policies.
+Given predicted sales probabilities, the dynamic programming solution from \cref{section:joint_solution} can be used as it is, to calculate ordering and pricing policies.
 
-Assuming, the merchant predicts the demand correctly, the result will optimal policies.
-In other cases, the quality of policies will depend on the quality of predictions. 
-The separation of the problem let us focus on the prediction of the demand probability, while having a working solution for the policy creation.
+Assuming, the merchant predicts sales probabilities correctly, the dynamic programming approach creates optimal policies.
+In other cases, the quality of policies will depend on the accuracy of predictions. 
+The separation of demand prediction and policy creation lets us focus on the prediction of the demand probabilities, while having a working solution for the policy creation.
 
 %bring data into right form
-In order to to use market and sales data for demand learning, it must be transformed into a usable form.
+In order to use market and sales data for demand learning, it must be transformed into a usable form.
 From the market data we know, at what times the market situation changed and what the market situation was.
 The sales data contains information about all of a merchant's sales, including when the sales happened.
-These two data sources can be combined and aggregated to a form that contains the number of sales per minute for each market situation.
+These two data sources can be combined and aggregated to a form that contains the number of sales per time period for each market situation.
+The size of a period corresponds the period in which the merchant makes a order and pricing decision.
 
 %bring data into right form, part 2 feature extraction
 We use regression analysis for the demand learning.
 Regression analysis models and analyzes the relationship between a dependent variable and explanatory variables.
-In this case, the dependent variable is the sales per minute metric.
+In this case, the dependent variable is the sales per period metric.
 Independent variables are extracted from the market situation.
-In the monopoly scenario, the demand depends only on the merchant's price.
-That is why for now, there is only one explanatory variable, the selling price.
+In this scenario, the demand depends only on the merchant's price.
 %motivation: why use linear regression and not something else? is relationship linear?
-We use linear regression to find a relationship between the explanatory variables $\vec{x}$ of a market situation and the sales per minute for this situation.
-The following equation shows how to predict sales per minute $y$ for a market situation.
+We use linear regression to find a relationship between the explanatory variables $\vec{x}(\vec{s})$ of a market situation $\vec{s}$ and the sales per period for this situation.
+The following equation shows how to predict mean sales per period for a market situation $\vec{s}$.
 
-%show how x is vector of features and constant 1 \begin{pmatrix} 1 \\ p \end{pmatrix}
 \begin{equation}
 \label{eq:linear_regression}
-\lambda(\vec{x}; \vec{\beta}) = \vec{x}^\intercal \cdot \vec{\beta}
+\lambda(\vec{s}; \vec{\beta}) = \vec{x}(\vec{s})^\intercal \cdot \vec{\beta}
 \end{equation}
 
 $\vec{\beta}$ are the weights of the regression model.
-Given observed sales per minute $y_1, y_2, \ldots, y_n$ and the explanatory variables $\vec{x}_1, \vec{x}_2, \ldots, \vec{x}_n$ from $n$ historical market situations, the optimal weights $\vec{\beta}^*$ are calculated with the least squares approach:
+Given observed sales per period $y_1, y_2, \ldots, y_J$ and explanatory variables $\vec{x}_1, \vec{x}_2, \ldots, \vec{x}_J$ from $J$ historical market situations, the optimal weights $\vec{\beta}^*$ are calculated with the linear least squares objective:
 
 \begin{equation}
-\vec{\beta}^* = \bigg(\sum_{i=1}^n{\vec{x}_i \vec{x}_i^\intercal} \bigg)^{-1}
-			  \bigg(\sum_{i=1}^n{y_i \vec{x}_i} \bigg)
+\vec{\beta}^* = \bigg(\sum_{i=1}^J{\vec{x}_i \vec{x}_i^\intercal} \bigg)^{-1}
+			  \bigg(\sum_{i=1}^J{y_i \vec{x}_i} \bigg)
 \end{equation}
 
 %predicted mean demand -> distribution
-The merchant is able to predict mean sales per minute for a market situation with the regression analysis.
+The merchant is able to predict mean sales per period for a market situation with the regression analysis.
 However, sales probabilities are needed for the dynamic programming approach.
-The mean sales per minute can be used as a parameter to create a probability distribution.
+The mean sales per period can be used as a parameter to create a suitable probability distribution.
 %find better citation with a study or something to show that.
 We describe the demand distribution with a Poisson distribution.
 This discrete distribution is a good approximation for the arrival and buying process of customers \cite{DBLP:journals/ior/Wolff82}.
-Equation \ref{eq:probability} shows to integration of the Poisson distribution and the linear regression from \cref{eq:linear_regression} in order to create a demand probability function.
+Equation \ref{eq:probability} shows the calibration of the Poisson distribution with the linear regression from \cref{eq:linear_regression} in order to obtain estimated sales probabilities for a market situation $\vec{s}$.
 
 \begin{equation}
 \label{eq:probability}
 P(i, \vec{x}) :=
-	e^{-\lambda(\vec{x}; \vec{\beta}^*)}
-	\frac{\lambda(\vec{x}; \vec{\beta}^*)^{i}}{i!}
+	e^{-\lambda(\vec{s}; \vec{\beta}^*)}
+	\frac{\lambda(\vec{s}; \vec{\beta}^*)^{i}}{i!}
 \end{equation}
 
-$p$ is the length of the merchant's decision period in minutes and $p > 0$.
-The sales per minute are multiplied with the period length to get the number of sales in a period.
-This demand probability function is used in \cref{eq:dyn_prog_joint} to calculate order and pricing policies without knowing the demand distribution.
+This sales probability function is used in \cref{eq:joint_best_price,eq:joint_best_order} to calculate optimal ordering and pricing policies.
 
 %retraining
 The merchant has access to a steadily growing collection of market situations and sales data over time.
 The quality of predictions is increased by periodic trainings that utilize the new data.
-There is no trainings data available at the start of a merchant's career on the marketplace.
-In that case, we use a rule-based ordering strategy and an exploration pricing strategy.
+There is no sales data available at the start of a merchant's career on the online marketplace.
+In that case, we use a rule-based ordering and pricing strategy until enough training data is available.
+The rule-based pricing strategy sets random prices to explore the customer behavior in different market situations.
 The exploration pricing strategy sets random prices.
 This allows the merchant to encounter many different market situations and obtain sales data for these situations.
+
+%features + algo
+%gebe ich constant an?
+Our explanatory variables $\vec{x}$ consists of the price $p$ and the constant 1.
+Other variations like $\sqrt{p}$ or $p^2$ are possible to recognize non-linear relations to the price.
+$\vec{x}$ will be extended by additional variables in the next phase.
+Additionally, the linear regression algorithm can be easily replaced by another regression approach like decision tree regression.
 
 \subsection{Evaluation}
 
@@ -404,25 +441,26 @@ This allows the merchant to encounter many different market situations and obtai
 \label{section:competition}
 Until now, the merchant offered items on the marketplace in a monopoly.
 This is usually not the case on real online marketplaces.
-Other merchants offer the same or similar products and everyone wants to make the most attractive offer.
+Other merchants offer the same or similar products and everyone competes for market share.
 A common strategy to do that is to offer the cheapest price.
 When multiple merchants pursue this strategy, the price will spiral downwards.
 Such a commercial competition is called price war.
 It is not the best strategy to always undercut the competitors because of decreasing profit margins.
-Sometimes it is better to offer a higher price.
+Sometimes it is better to also raise prices.
 This reduces sales, but the profit margin is higher.
 This section proposes a merchant that makes optimized ordering and pricing decisions under competition with the goal to maximize profit.
 
-In the previous sections, the sale probability was only influenced by the merchant's own actions, to be specific it was influenced by the selling price that the merchant sets.
-In this scenario, the merchant's sale probability is also influenced by competitor's actions.
+In the previous sections, the sales probability was only influenced by the merchant's own pricing decisions.
+In this scenario, the merchant's sales probability is also influenced by competitor's offers.
 %model description
-The model is the same as in \cref{subs:joint_model} with the exception that number of sold items $X_t$ within a period depends on the merchant's offer price and the competitor's offer prices.
+The model is the same as in \cref{subs:joint_model} with the exception that the number of sold items $X_t$ within a period depends on the merchant's offer price and the competitor's offer prices.
 Merchants have access to historical market and sales data.
-The sales data contains only information about a merchant's own sales, not the sales from the competitors.
+The market data contains competitors' prices.
+However, sales data is limited to the merchant's own sales and does not contain sales from competitors.
 
 %merchant must be fast
 Market situations can change frequently on online marketplaces.
-A merchant must able to quickly and effectively react on new market situations in order to offer an optimal price for the new situation.
+A merchant must be able to quickly and effectively react on new market situations in order to offer an suitable price for the new situation.
 Getting fast decisions is a challenge because the increasing complexity of the inventory and dynamic pricing problem over the last sections resulting in solutions with increasing computational effort.
 Nevertheless, there are ways to improve the speed of the dynamic programming approach which are described in \cref{section:faster_dyn_prog}.
 
@@ -437,14 +475,14 @@ Nevertheless, there are ways to improve the speed of the dynamic programming app
 The inventory level was the only state on which ordering and pricing decisions were based on in the previous problems.
 With competitors on the marketplace, the merchant must also consider their offers when making ordering and pricing decisions.
 One possible approach is to add competitors' offers to the state in the dynamic programming calculation.
-We decided against this solution because it drastically increases the state by multiple dimensions and therefore slows the computation down by multiple orders of magnitude.
+We decided against this solution because it drastically increases the state by multiple dimensions and therefore slows the computation down by multiple orders of magnitude due to the curse if dimensionality.
 Moreover, demand learning must predict transitions of competitors' offers from one time period to another.
 This means that competitors' strategies must be learned, which requires a substantial amount of trainings data and a complex demand model to make sensible predictions.
 Instead, we take the following approach.
 We create ordering and pricing policies whenever the market situation changes for that specific new market situation.
 The ordering and pricing decisions for this approach depend only on the merchant's inventory level.
 This keeps the computation fast and efficient.
-Additionally, only sale probabilities are predicted but not the competitors' price reactions.
+Additionally, only sales probabilities are predicted but not the competitors' price reactions.
 This can be done by a relatively simple demand model, which can make good predictions even with few market and sales data.
 The disadvantage is that new policies must be computed for each new market situation.
 The next sections tackles the problem of how to quickly compute ordering and pricing policies for new market situations.
@@ -452,10 +490,10 @@ The next sections tackles the problem of how to quickly compute ordering and pri
 %market situation more complex -> more features
 Market situations become more complex with the introduction of competition.
 Previously, there was at most one active offer at a time.
-Now, there can be as many offers as competing merchant.
+In this scenario, a market situation can contain as many offers as there are participating merchants.
 And the number of offers can change over time when merchants are out of stock.
 In \cref{section:demand_learning}, the merchant's offer price was sufficient to describe a market situation.
-With competition, the sale probability of an offer depends not only on its price but also on the price of the other offers.
+With competition, the sales probability of an offer depends not only on its price but also on the price of the other offers.
 New explanatory variables are necessary for demand learning to describe the more complex market situations.
 We created two new explanatory variables besides the offer price in order to describe market situations with competition.
 The variables are explained in detail below.
@@ -463,12 +501,12 @@ The variables are explained in detail below.
 \begin{description}
 	\item [Own price]
 		This explanatory variable hold the value of the merchant's current offer price.
-		It helps to explain effects on the sale probability that are based on the total price.
+		It helps to explain effects on the sales probability that are based on the total price.
 		For example, a higher price generally results in less demand.
 	\item [Price rank]
 		This variable describes the merchant's relative position in the price ranking.
 		The price rank is defined by the number of competitors' offer that cost equal or less than the merchant's offer.
-		Demand learning uses this to find a relationship to the sale probability.
+		Demand learning uses this to find a relationship to the sales probability.
 		For example, it is probable that a merchant sells more items by having the cheapest offer instead of the second cheapest.
 	\item [Price difference to cheapest offer]
 		This is the difference in price from the merchant's offer to the cheapest offer.
@@ -477,9 +515,9 @@ The variables are explained in detail below.
 		This variable could explain effects like: a customer is willing to pay €5 more than the cheapest product but not €10 more.
 \end{description}
 
-With these explanatory variables it is possible to describe the effect of the competition and the merchant's offer price on the sale probabilities.
+With these explanatory variables it is possible to describe the effect of the competition and the merchant's offer price on the sales probabilities.
 
-The predicted sale probability are used in the dynamic programming approach to compute ordering and pricing policy.
+The predicted sales probability are used in the dynamic programming approach to compute ordering and pricing policy.
 As explained above, the policies are computed for each new market situation.
 %todo fix time mentioned
 At this point, the computation takes around two seconds to complete.
@@ -733,7 +771,7 @@ After enough time passed, the merchant requests new market and sales data from t
 %policy
 The merchant makes ordering and pricing decisions based on policies that are computed by the policy component.
 The policy component contains the dynamic programming approach.
-The merchant provides all arguments that are necessary for the policy creation and sale probabilities are requested from the demand learning component.
+The merchant provides all arguments that are necessary for the policy creation and sales probabilities are requested from the demand learning component.
 %todo ref to equation
 The dynamic programming function is the computational most expensive part of the merchant.
 An efficient implementation reduces the time needed for a pricing and ordering decision.
@@ -745,7 +783,7 @@ Python is a high-level programming language and has a lot of computational overh
 Numpy provides data structures and functions implemented in the C programming language to overcome Python's overhead for numeric computations.
 
 %demand learning
-The merchant's demand learning component is responsible for estimating sale probabilities and for bringing market and sales data into a form that can be used for training.
+The merchant's demand learning component is responsible for estimating sales probabilities and for bringing market and sales data into a form that can be used for training.
 The module uses linear regression to learn and predict the demand.
 We use the scikit-learn library for a reliable linear regression implementation.
 As an additional benefit, it is easy to change between regression algorithms using scikit-learn.
