@@ -189,12 +189,14 @@ The following phases will only consider the variation with delayed orders.
 \subsection{Evaluation}
 
 \subsubsection{Numeric Example}
+\label{section:order_example}
 This section shows the explicit result of \cref{eq:optimal_order_instant,eq:optimal_order} for specific parameters. A time period has the length of one second.
 The maximum considered inventory level is $N_{max} = 40$
 Items are sold at price $a_{fix} = 35$.
 Fixed order cost is $c_{fix} = 30$ and variable order cost is $c_{var} = 20$.
 Holding costs per time period are $l = 0.4$.
 The number of iterations is $T = 500$.
+The discount factor is $\delta = 1$.
 
 The time between customers is exponential distributed with a mean time of one second.
 We sampled this process to get the following sales probabilities.
@@ -255,7 +257,7 @@ This behavior reduces the risks of an stock-out until the ordered items arrive.
 		other & 0 & 0 & 0 & 0 &  0\\
 		\bottomrule
 	\end{tabular}
-	\caption{Effect of parameters on ordering policy $b^*(n).$}
+	\caption{Effect of control parameters on ordering policy $b^*(n).$}
 	\label{table:order_policy_parameter}
 \end{table}
 
@@ -273,12 +275,12 @@ The loss of potential revenue becomes more important than the additional holding
 
 \subsubsection{Effect of Start Value $u$ on $V_0(n)$}
 In \cref{section:ordering_solution}, we used an arbitrary start value $u := 0$ and claimed that the value function $V_0(n)$ converges to the optimal expected profit if $T$ is sufficiently large.
-In the following example we show that the value function converges to the same value independently from the start value.
+In the following example we show that the value function converges to the same value independently from $u$.
 
-\cref{fig:convergence} shows results of $V_0(0)$ with varying $T$ and start values $V_T$.
-The value function converges to the same result for any $V_T$.
+\cref{fig:convergence} shows results of $V_0(0)$ with varying $T$ and start values $u$. The parameters are the same as in \cref{section:order_example} with $\delta = 0.95$ and $T = 100$.
+The value function converges to the same result for any $u$.
 It does not matter if the start value is bigger or smaller than the resulting expected profit.
-However, the value function converges earlier if $V_T$ is near the optimal expected profit.
+However, the value function converges earlier if $u$ is near the optimal expected discounted profit.
 %direct ref to section?
 We will use this fact in later sections to speed up the policy computation.
 
@@ -295,30 +297,86 @@ width=0.8\textwidth,
 ]
 
 \addplot+[mark=none]
-coordinates {(5, 10.650190245476479)(10, 8.8349323075140394)(15, 8.1792648210654963)(20, 7.7971329777749263)(25, 7.5742589181038458) (30, 7.4232242422163681)(35, 7.308928579872326)(40, 7.2279708622948116)(45, 7.161335085202075)(50, 7.1089572918512074) (55, 7.0660029726563431)(60, 7.0295402644629057) (65, 6.9991371516213245) (70, 6.9726912293655996) (75, 6.9498393709566395) (80, 6.929825937583602) (85, 6.9120734346116484) (90, 6.8963337508543576) (95, 6.8821968575926808) (100, 6.8694716786018226)};
-\addlegendentry{$u = 10.7$}
+coordinates {(5, 420.70235436191115)
+	(10, 378.70641501244478)
+	(15, 346.02067386424631)
+	(20, 320.58230246540893)
+	(25, 300.88897170076484)
+	(30, 285.65349940578312)
+	(35, 273.8651312577353)
+	(40, 264.74349735259943)
+	(45, 257.68533426566137)
+	(50, 252.22386101489249)
+	(55, 247.99787744298365)
+	(60, 244.72789197784797)
+	(65, 242.19763955718636)
+	(70, 240.23977846509317)
+	(75, 238.72482287360947)
+	(80, 237.55257911579616)
+	(85, 236.64551924190459)
+	(90, 235.94365360231592)
+	(95, 235.40056334971575)
+	(100, 234.98033046491173)};
+\addlegendentry{$u = 500$}
 
 \addplot+[mark=none]
-coordinates {(5, 5.6501902454764794) (10, 6.1076595802413101) (15, 6.3042648210654928) (20, 6.3685615492034966) (25, 6.4204127642576871) (30, 6.4554823067324927) (35, 6.4755952465389939) (40, 6.4962635452216384) (45, 6.5091611721585938) (50, 6.5207219977335571) (55, 6.5302886869420531) (60, 6.5377369857743801) (65, 6.5445916970758642) (70, 6.550156018097991) (75, 6.5551025288513722) (80, 6.5594555672132291) (85, 6.5632362253093195) (90, 6.5666634211840238) (95, 6.5696968575926782) (100, 6.5724419756315244)
-};
-\addlegendentry{$u = 5.7$}
+coordinates {(5, 188.56807311191125)
+	(10, 199.08533324093116)
+	(15, 207.03330481632042)
+	(20, 213.03652574284629)
+	(25, 217.67209976421481)
+	(30, 221.26187022290196)
+	(35, 224.04011606145312)
+	(40, 226.18985038306852)
+	(45, 227.85325716953369)
+	(50, 229.14036843187844)
+	(55, 230.13631091132481)
+	(60, 230.90695228176233)
+	(65, 231.50325988201828)
+	(70, 231.9646713340606)
+	(75, 232.32170271984614)
+	(80, 232.59796680029206)
+	(85, 232.81173467946479)
+	(90, 232.9771441894182)
+	(95, 233.10513491510116)
+	(100, 233.20417169881145)};
+\addlegendentry{$u = 200$}
 
 \addplot +[mark=none]
 coordinates {
-	(5, 2.3168569121431455) (10, 4.2894777620594917) (15, 5.0542648210654928) (20, 5.4161805968225405) (25, 5.651181995026918) (30, 5.8103210164099108) (35, 5.9200396909834385) (40, 6.0084586671728593) (45, 6.0743785634629441) (50, 6.1285651349884596) (55, 6.1731458297991981) (60, 6.2098681333153616) (65, 6.2415613940455641) (70, 6.2684658772529209) (75, 6.2919446341145315) (80, 6.3125419869663153) (85, 6.3306780857744362) (90, 6.3468832014038048) (95, 6.3613635242593451) (100, 6.3744221736513262)};
-\addlegendentry{$u = 2.3$}
-
+	(5, 33.811885611911237)
+	(10, 79.337945393255367)
+	(15, 114.37505878436978)
+	(20, 141.33934126113792)
+	(25, 162.19418513984795)
+	(30, 178.33411743431449)
+	(35, 190.82343926393168)
+	(40, 200.48741907004785)
+	(45, 207.96520577211518)
+	(50, 213.75137337653584)
+	(55, 218.2285998902189)
+	(60, 221.69299248437193)
+	(65, 224.37367343190618)
+	(70, 226.44793324670562)
+	(75, 228.05295595067062)
+	(80, 229.29489192328936)
+	(85, 230.25587830450493)
+	(90, 230.99947124748647)
+	(95, 231.57484929202485)
+	(100, 232.02006585474473)};
+\addlegendentry{$u = 0$}
+%policy converged:
+%\addplot[mark=*] coordinates {(8,394.912775771)};
+%\addplot[mark=*] coordinates {(8,195.886646384)};
+%\addplot[mark=*] coordinates {(8,63.202560126)};
 \end{axis}
 \end{tikzpicture}
-\caption{This chart shows how the start value $u$ influences the final expected profit $V_0$. The function converges with any start value to the same expected profit, given a sufficiently large $T$. However, $V_0$ converges earlier if $u$ is near the optimal expected profit.}
+\caption{This chart shows how the start value $u$ influences the final expected discounted profit $V_0$. The function converges with any start value to the same expected profit, given a sufficiently large $T$. However, $V_0$ converges earlier if $u$ is near the resulting expected discounted profit.}
 \label{fig:convergence}
 \end{figure}
 
-%told, that this is a optimal ordering policy
-%deviations from that should result in worse performance (profit)
-%let's compare computed optimal policy in monopoly with policy that orders one item more(less)
-%hint: use bigger dif if you cannot see difference in policies
-\todo{compare different n}
+% show V_0 for different n, no big difference in result
+%todo{compare different n}
 
 \section{Joint Ordering and Pricing}
 \label{section:joint_ordering_pricing}
@@ -405,6 +463,8 @@ a \cdot min(i, n) %sales
 \todo{numeric example; show policies with increasing prices}
 % anything else I can show here?
 % compare different parameters, effect on price or on order
+
+%show convergence of policy
 \section{Demand Learning}
 \label{section:demand_learning}
 
