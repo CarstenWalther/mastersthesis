@@ -763,19 +763,8 @@ In contrast, the adaption of the decision sets introduce an error of around 5\% 
 Despite the precision error, the computed policies usually are identically to the optimal policy.
 We are willing to accept the the loss in precision in order to increase the efficiency of the dynamic programming approach.
 
-\subsubsection{Oligopoly Simulation}
-This section shows how our merchants performs in an oligopoly.
-The merchants sell products on the \pricewars platform.
-The objective is to maximize the profit.
-
-\begin{figure}[p]
-	\centering
-	\includegraphics[width=0.8\textwidth]{figures/competition_prices.pdf}
-	\includegraphics[width=0.8\textwidth]{figures/competition_inventory.pdf}
-	\caption{Price trajectories and inventory levels over time from an oligopoly scenario on the \pricewars platform. Our data-driven merchant competes with two rule-based merchants.}
-	%analyze bahavior in one sentence?
-	\label{fig:competition}
-\end{figure}
+\subsubsection{Duopoly Simulation}
+We investigate the profitability of the proposed merchant in a duopoly scenario in this section and in an oligopoly scenario in the following section.
 
 %present rule-based merchants
 Our merchant, called data-driven merchant, competes with two rule-based merchants.
@@ -789,6 +778,59 @@ If offer prices go below the lower price bound, the two bound merchant raises pr
 Moreover, the upper price bound is the maximum price that this merchant will set.
 Both rule-based merchants have a static ordering policy.
 They order whenever the inventory level falls below a threshold and order as many items to reach a certain inventory level.
+
+%%%%%%%%%%%%%%%%%%
+%data-driven vs. cheapest
+%%%%%%%%%%%%%%%%%%
+
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/duopoly_cheapest_prices}
+	\caption{Price trajectories in the duopoly of data-driven merchant and cheapest merchant.}
+	%analyze bahavior in one sentence?
+	\label{fig:duopoly_cheapest}
+\end{figure}
+
+We simulated the price war in a duopoly between the data-driven and cheapest merchant for 15 minutes.
+\cref{fig:duopoly_cheapest} shows how both merchants undercut each other.
+With variable order costs of €15, the data-driven merchant does not reduce the price below €20 and instead raises the price to €25/26.
+The increased price has lower sales probabilities but a higher profit margin.
+The cheapest merchant increases the price sometimes.
+When the data-driven merchant is out of stock, there is no competitor offer for the cheapest merchant to undercut.
+When this is the case, the cheapest merchant uses a default price.
+
+The final results of this simulation are shown in \cref{tab:duopoly_cheapest}.
+The data-driven merchant has overall more costs but makes more profit because of a higher revenue.
+
+\begin{table}[t]
+	\centering
+	\begin{tabular}{lrrrr}
+		\toprule
+		Merchant & Profit & Revenue & Holding Cost & Order Cost \\
+		\midrule
+		Data-Driven & 7285.78 & 20599.00 & 588.22 & 12725.00 \\
+		Cheapest & 5796.11 & 17165.10 & 418.99 & 10950.00 \\
+		\bottomrule
+	\end{tabular}
+	\caption{Simulation results of the oligopoly scenario. The data-driven merchant made the most profit. The cheapest merchant made the most revenue.}
+	\label{tab:duopoly_cheapest}
+\end{table}
+
+%todo data-driven vs data-driven
+
+\subsubsection{Oligopoly Simulation}
+This section shows how our merchants performs in an oligopoly.
+The merchants sell products on the \pricewars platform.
+The objective is to maximize the expected discounted profit.
+
+\begin{figure}[p]
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/competition_prices.pdf}
+	\includegraphics[width=0.8\textwidth]{figures/competition_inventory.pdf}
+	\caption{Price trajectories and inventory levels over time from an oligopoly scenario on the \pricewars platform. Our data-driven merchant competes with two rule-based merchants.}
+	%analyze bahavior in one sentence?
+	\label{fig:competition}
+\end{figure}
 
 We simulated the scenario with competition on the \pricewars platform.
 The management UI shows pricing and ordering decisions during the simulation (see \cref{fig:competition}).
@@ -821,6 +863,7 @@ The cheapest merchant sold the most items but with low profit per item.
 Our merchant made the most profit by saving a lot of order cost compared the to cheapest merchant.
 The data-driven merchant orders on average more items than the competitors.
 This results in higher holding costs but saves on fixed order cost.
+%todo how did our merchant win?
 
 %command: python3 helper_scripts/benchmark.py -o ../runs -d 30 --merchants "python3 /home/carsten/pricewars-merchant/merchant.py --port 5000 --strategy Cheapest" "python3 /home/carsten/pricewars-merchant/merchant.py --port 5001 --strategy \"Two Bound\"" "python3 /home/carsten/pricewars-merchant/merchant_scenario4.py --port 5002" --holding_cost 3
 
