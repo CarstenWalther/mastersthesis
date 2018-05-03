@@ -858,6 +858,41 @@ The results are in \cref{tab:duopoly_bound}.
 	\label{tab:duopoly_bound}
 \end{table}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%
+% data-driven vs. two bound take 2
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/duopoly_bound_prices_2}
+	\caption{Price trajectories in a duopoly of data-driven merchant and two bound merchant. The two bound merchant hold more items in the inventory to reduce the number of stock-outs.}
+	\label{fig:duopoly_bound_prices_2}
+\end{figure}
+
+In a second simulation of the competition between the data-driven merchant and the two bound merchant, we increased the number of items the two bound merchant holds.
+The two bound merchant restocks to 25 items instead of 15 and makes a new order whenever the inventory level falls below 6 items instead of 3.
+This reduces the risks of having stock-outs.
+The data-driven strategy from the previous simulation to offer items at a high price alongside the two bound merchant's offers is no longer viable.
+The probability to sell items at the previous high prices is small because stock-outs for the two bound merchant are less likely to happen.
+The data-driven merchant expects the most profit from undercutting the competitor.
+This results in both merchants undercutting each other as shown in \cref{fig:duopoly_bound_prices_2}.
+The two bound merchant is programmed to raise the price if it falls below a threshold.
+However, the data-driven merchant was the first to increase the price in this simulation.
+The results are in \cref{tab:duopoly_bound_2}.
+
+\begin{table}[t]
+	\centering
+	\begin{tabular}{lrrrr}
+		\toprule
+		Merchant & Profit & Revenue & Holding Cost & Order Cost \\
+		\midrule
+		Data-Driven & 5\,858.79 & 18\,984.00 & 595.20 & 12\,530.0 \\
+		Two Bound & 5\,230.10 & 16\,952.70 & 527.60 & 11\,195.0 \\
+		\bottomrule
+	\end{tabular}
+	\caption{Simulation results of a duopoly with the data-driven and two bound merchant. The two bound merchant hold more items in the inventory to reduce the number of stock-outs.}
+	\label{tab:duopoly_bound_2}
+\end{table}
 
 %todo data-driven vs data-driven
 
