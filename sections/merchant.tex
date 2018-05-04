@@ -879,6 +879,8 @@ This results in both merchants undercutting each other as shown in \cref{fig:duo
 The two bound merchant is programmed to raise the price if it falls below a threshold.
 However, the data-driven merchant was the first to increase the price in this simulation.
 The results are in \cref{tab:duopoly_bound_2}.
+Both merchants made less profit compared to the previous simulation because of the merchants are in a price war and offer products at lower prices.
+%why more profit? -> better inventory?
 
 \begin{table}[t]
 	\centering
@@ -894,7 +896,41 @@ The results are in \cref{tab:duopoly_bound_2}.
 	\label{tab:duopoly_bound_2}
 \end{table}
 
-%todo data-driven vs data-driven
+%%%%%%%%%%%%%%%%%%%%%%%%%
+% data-driven vs. data-driven
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/duopoly_data_prices}
+	\caption{Price trajectories in a duopoly of two data-driven merchants with the same configuration.}
+	\label{fig:duopoly_data_prices}
+\end{figure}
+
+The next simulation is about the competition between two identical copies of our data-driven merchant.
+%todo zig-zag? or better word
+The price chart in \cref{fig:duopoly_data_prices} shows again the zig-zag pattern of two merchants undercutting each other and periodically pushing the price up to increase profit margins.
+The price war between two data-driven merchants happens at a higher price level (around 32-51) compared to the previous simulation (around 20-26).
+This results in an overall higher profit for both competing merchants.
+%preisabsprache gibt höchsten profit erwähnen?
+The data-driven merchants order new items whenever the inventory level falls below 6 items and restock the inventory to around 28 items.
+The results of this simulation are shown in \cref{tab:duopoly_data}.
+Merchants collect not the same sales experiences which may result in different pricing and ordering policies.
+Different policies and (bad) luck on customer decisions are the reasons for differences in revenue and costs between both merchants.
+
+\begin{table}[t]
+	\centering
+	\begin{tabular}{lrrrr}
+		\toprule
+		Merchant & Profit & Revenue & Holding Cost & Order Cost \\
+		\midrule
+		Data-Driven   & 17\,361.30 & 30\,936.0 & 804.69 & 12\,770.0 \\
+		Data-Driven 2 & 15\,650.58 & 27\,282.0 & 721.41 & 10\,910.0 \\
+		\bottomrule
+	\end{tabular}
+	\caption{Simulation results of a duopoly with two data-driven merchants with the same configuration.}
+	\label{tab:duopoly_data}
+\end{table}
 
 \subsubsection{Oligopoly Simulation}
 This section shows how our merchants performs in an oligopoly.
