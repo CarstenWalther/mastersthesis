@@ -1,66 +1,53 @@
 Seitenanzahl: min 50 nur Inhalt (~70 insgesamt)
+Referenzen: 30 (~2 Seiten)
 
 question:
-	graphen über ganze Seite ok?
-	related work noch erweitern, wie viele refs?
 	how to say b* equation withwithout t? check formula
 	what's feedback? (markov stuff)
-	no ss policy with delay?
 
 motivation!!!
 
 IDEAS:
-numeric example (or chart) and change some parameter and show changes in results/policy
 descripte effect of discount factor delta: 0 -> myopic, 1 -> long-term
 überblick über scenarien in tabelle
 lessons learned
 write about refactored example merchants (+inventory)?
-run two data-driven merchants against each other
 sequence diagram for holding cost update
 demand learning: show merchant changes price according to inventory level
+more eval for joint pricing/ordering?
 
 CHECK:
 consistent use of item/product
-did i mention start value for bellman?
 abrehevation: REST, API, explain somewhere
 merchant: mention run training in background
 equations resf in text
 refs for used libraries
 mention cpu for performance test
-learning: sales per iteration instead of per minute?
 eigenständigkeitserklärung auf englisch?
 features is function on market situation
-start value is u
 
 TODO:
-Eval Ordering
-Eval joint
 Eval learning
-Eval Competition
 Conclusion
+rainer feedback einarbeiten
+martin feedback einarbeiten
+sonntag/montag stand schreiben
+di 11 Uhr treffen
 finish Related Work
-longer intro
+longer intro (contributions, paper structure)
 longer problem description
-
-
-EVAL:
-wie viele iterationen für optimale Politik nötig?
-Graph V_0(n) für verschiedene n -> zeige, dass erwarteter profit kaum von n abhängt
-konvergenz zeigen für verschiedene n in V_0(n) ?
-graph expected profits over time -> belege, das V_0 guter startwert ist
-vergleiche strat mit/ohne delay
-my merchant vs my merchant -> mehr oder weniger profit für alle beteiligten?
-show profit after changing pricing/ordering policy -> wie entscheident ist pricing/ordering?
-zeige duopole
-demand learning: compare predicted % to real % (price_learning.py)
-
-todos:
 platform -> deploy not architecture
-mittwoch stand schreiben
-freitag 13:30 treffen
 table of figures fix names
 describe consumer in first eval (or gradualy)
-structure of thesis irgendwo erklären
+use prob function for ordering numeric example instead of explicit values
+show better start value = faster convergence (but start value independent from n does nothing) (wie viele iterationen für optimale Politik nötig?)
+compare different parameters in numeric example joint
+
+EVAL:
+Graph V_0(n) für verschiedene n -> zeige, dass erwarteter profit kaum von n abhängt
+konvergenz zeigen für verschiedene n in V_0(n) ?
+show profit after changing pricing/ordering policy -> wie entscheident ist pricing/ordering?
+demand learning: compare predicted % to real % (price_learning.py)
 
 glossary:
 item, product, market situation, model vs demand model, decision interval, UI, REST, API, http

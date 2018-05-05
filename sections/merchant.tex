@@ -190,34 +190,26 @@ The following phases will only consider the variation with delayed orders.
 
 \subsubsection{Numeric Example}
 \label{section:order_example}
-This section shows the explicit result of \cref{eq:optimal_order_instant,eq:optimal_order} for specific parameters. A time period has the length of one second.
+This section shows the explicit result of \cref{eq:optimal_order_instant,eq:optimal_order} for specific parameters.
 The maximum considered inventory level is $N_{max} = 40$
 Items are sold at price $a_{fix} = 35$.
 Fixed order cost is $c_{fix} = 30$ and variable order cost is $c_{var} = 20$.
-Holding costs per time period are $l = 0.4$.
+The holding cost rate is $l = 0.4$.
+Time periods have a length of one second.
 The number of iterations is $T = 500$.
 The discount factor is $\delta = 1$.
-The set of ordering decisions is $B_t = \{1, 2, \ldots, 40\}$, $t = 1, 2, \ldots, T$.
+The set of potential ordering decisions is $B_t = \{1, 2, \ldots, 40\}$, $t = 1, 2, \ldots, T$.
 
 The time between customers is exponential distributed with a mean time of one second.
 We sampled this process to get the following sales probabilities.
 
-%todo table horizontal?
 \begin{table}
 \centering
-\begin{tabular}{rr}
+\begin{tabular}{llllllllll}
 	\toprule
-	$i$ & $P(i)$ \\
+	$i$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & other \\
 	\midrule
-	0 & 0.189 \\
-	0 & 0.316 \\
-	0 & 0.261 \\
-	0 & 0.146 \\
-	0 & 0.061 \\
-	0 & 0.020 \\
-	0 & 0.006 \\
-	0 & 0.001 \\
-	other & 0.000 \\
+	$P(i)$ & 0.189 & 0.316 & 0.261 & 0.146 & 0.061 & 0.020 & 0.006 & 0.001 & 0.0\\
 	\bottomrule
 \end{tabular}
 \end{table}
@@ -242,6 +234,7 @@ Using \cref{eq:optimal_order_instant,eq:optimal_order} results in these ordering
 The merchant begins to order new items at a higher inventory level if orders are delayed.
 Additionally, the merchant restocks more items.
 This behavior reduces the risks of an stock-out until the ordered items arrive.
+%todo analyze policies? meintion ss policy?
 
 \begin{table}
 	\centering
@@ -372,7 +365,7 @@ coordinates {
 %\addplot[mark=*] coordinates {(8,63.202560126)};
 \end{axis}
 \end{tikzpicture}
-\caption{This chart shows how the start value $u$ influences the final expected discounted profit $V_0$. The function converges with any start value to the same expected profit, given a sufficiently large $T$. However, $V_0$ converges earlier if $u$ is near the resulting expected discounted profit.}
+\caption[Influence of start value on the value function]{This chart shows how the start value $u$ influences the final expected discounted profit $V_0$. The function converges with any start value to the same expected profit, given a sufficiently large $T$. However, $V_0$ converges earlier if $u$ is near the resulting expected discounted profit.}
 \label{fig:convergence}
 \end{figure}
 
@@ -461,11 +454,59 @@ a \cdot min(i, n) %sales
 %todo schreibe hier irgendwas hin, nicht mit gleichungen enden
 
 \subsection{Evaluation}
-\todo{numeric example; show policies with increasing prices}
-% anything else I can show here?
-% compare different parameters, effect on price or on order
 
-%show convergence of policy
+\subsubsection{Numeric Example}
+This section shows the explicit result of \cref{eq:joint_best_price_order} for specific parameters.
+The maximum considered inventory level is $N_{max} = 10$
+Fixed order cost is $c_{fix} = 5$ and variable order cost is $c_{var} = 15$.
+The holding cost rate is $l = 0.5$.
+Time periods have a length of one second.
+The number of iterations is $T = 500$.
+The discount factor is $\delta = 1$.
+The set of potential pricing decisions is $A = \{20, 21, \ldots, 39, 40\}$ and the set of potential ordering decisions is $B = \{1, 2, \ldots, 10\}$.
+We use a Poisson distribution that depends on the price for the sales probability function for this example, $0 \leq i \leq N_{max}, a \in A$.
+%say more about this function? why this function? efect of price on function result?
+
+$$
+\lambda(a) = \max(2 - 0.05*a, 0)
+$$
+$$
+P(i, a) = \frac{\lambda(a)^ie^{-\lambda(a)}}{i!}
+$$
+
+Using \cref{eq:joint_best_price_order} results in the following policies:
+
+\begin{table}
+	\centering
+	\begin{tabular}{rrr}
+		\toprule
+		$n$ & $a^*(n)$ & $b^*(n)$ \\
+		\midrule
+		0 & - & 5 \\
+		1 & 29 & 4 \\
+		2 & 29 & 0 \\
+		3 & 29 & 0\\
+		4 & 28 & 0\\
+		5 & 28 & 0\\
+		6 & 27 & 0\\
+		7 & 27 & 0\\
+		8 & 27 & 0\\
+		9 & 26 & 0\\
+		10 & 26 & 0\\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+$a^*(0)$ has no meaningful result because the merchant cannot offer items to any price if the inventory is empty.
+
+The pricing policy sets decreasing prices with increasing inventory levels.
+This strategy reduces holding costs for inventories with many items by offering a lower price and selling items faster.
+If only few items remain in inventory, the policy uses higher prices to increase the profit per sold product and increase the time until a new order is necessary.
+
+%todo compare different parameters, effect on price or on order
+
+%see jointness of inventory and pricing
+
 \section{Demand Learning}
 \label{section:demand_learning}
 
@@ -787,7 +828,7 @@ They order whenever the inventory level falls below a threshold and order as man
 \begin{figure}[t]
 	\centering
 	\includegraphics[width=0.8\textwidth]{figures/duopoly_cheapest_prices}
-	\caption{Price trajectories in a duopoly of data-driven merchant and cheapest merchant.}
+	\caption[Price trajectories: data-driven merchant versus cheapest merchant]{Price trajectories in a duopoly of data-driven merchant and cheapest merchant.}
 	\label{fig:duopoly_cheapest}
 \end{figure}
 
@@ -822,7 +863,7 @@ The data-driven merchant has overall more costs but makes more profit because of
 \begin{figure}[t]
 	\centering
 	\includegraphics[width=0.8\textwidth]{figures/duopoly_bound_prices}
-	\caption{Price trajectories in a duopoly of data-driven merchant and two bound merchant.}
+	\caption[Price trajectories: data-driven merchant versus two bound merchant]{Price trajectories in a duopoly of data-driven merchant and two bound merchant.}
 	\label{fig:duopoly_bound_prices}
 \end{figure}
 
@@ -840,7 +881,7 @@ The results are in \cref{tab:duopoly_bound}.
 \begin{figure}[t]
 	\centering
 	\includegraphics[width=0.8\textwidth]{figures/duopoly_bound_inventory}
-	\caption{Inventory levels over time in a duopoly of data-driven merchant and two bound merchant.}
+	\caption[Inventory levels: data-driven merchant versus two bound merchant]{Inventory levels over time in a duopoly of data-driven merchant and two bound merchant.}
 	\label{fig:duopoly_bound_inventory}
 \end{figure}
 
@@ -865,7 +906,7 @@ The results are in \cref{tab:duopoly_bound}.
 \begin{figure}[t]
 	\centering
 	\includegraphics[width=0.8\textwidth]{figures/duopoly_bound_prices_2}
-	\caption{Price trajectories in a duopoly of data-driven merchant and two bound merchant. The two bound merchant hold more items in the inventory to reduce the number of stock-outs.}
+	\caption[Price trajectories: data-driven merchant versus two bound merchant with larger inventory]{Price trajectories in a duopoly of data-driven merchant and two bound merchant. The two bound merchant holds more items in the inventory to reduce the number of stock-outs.}
 	\label{fig:duopoly_bound_prices_2}
 \end{figure}
 
@@ -903,7 +944,7 @@ Both merchants made less profit compared to the previous simulation because of t
 \begin{figure}[t]
 	\centering
 	\includegraphics[width=0.8\textwidth]{figures/duopoly_data_prices}
-	\caption{Price trajectories in a duopoly of two data-driven merchants with the same configuration.}
+	\caption[Price trajectories: data-driven merchant versus data-driven merchant]{Price trajectories in a duopoly of two data-driven merchants with the same configuration.}
 	\label{fig:duopoly_data_prices}
 \end{figure}
 
@@ -941,7 +982,7 @@ The objective is to maximize the expected discounted profit.
 	\centering
 	\includegraphics[width=0.8\textwidth]{figures/competition_prices.pdf}
 	\includegraphics[width=0.8\textwidth]{figures/competition_inventory.pdf}
-	\caption{Price trajectories and inventory levels over time from an oligopoly scenario on the \pricewars platform. Our data-driven merchant competes with two rule-based merchants.}
+	\caption[Price trajectories and inventory levels in oligopoly scenario]{Price trajectories and inventory levels over time from an oligopoly scenario on the \pricewars platform. Our data-driven merchant competes with two rule-based merchants.}
 	%analyze bahavior in one sentence?
 	\label{fig:competition}
 \end{figure}
