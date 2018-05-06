@@ -47,7 +47,6 @@ EVAL:
 Graph V_0(n) für verschiedene n -> zeige, dass erwarteter profit kaum von n abhängt
 konvergenz zeigen für verschiedene n in V_0(n) ?
 show profit after changing pricing/ordering policy -> wie entscheident ist pricing/ordering?
-demand learning: compare predicted % to real % (price_learning.py)
 
 glossary:
 item, product, market situation, model vs demand model, decision interval, UI, REST, API, http
