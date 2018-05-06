@@ -29,7 +29,7 @@ The merchant operates in a monopoly and does not have to care about competitors.
 %situation
 The merchant sell items over the marketplace.
 % price & revenue
-Items are offered at a fixed price $a_{fix}$ and each sold item generates the full offer price $a_{fix}$ as revenue.
+Items are offered at a fixed price $a_{fix}$, $a_{fix} > 0$ and each sold item generates the full offer price $a_{fix}$ as revenue.
 %discounting
 We use discounting to increase the relevance of short-term profits.
 A discount factor $\delta$, $0 < \delta \leq 1$, is applied to each time period.
@@ -41,21 +41,21 @@ The merchant makes exactly one order decision in each discrete time period.
 
 % inventory + holding cost
 The merchant holds items in an inventory.
-The random inventory level at the start of period $t$ is denoted by $N_t$, ($t = 0, 1, \ldots$).
 Storing items in the inventory causes holding costs of $l$ per item per time period, $l > 0$.
+The random inventory level at the start of period $t$ is denoted by $N_t$, $t = 0, 1, \ldots$
 
 %ordering
 The merchant can reorder items to increase the inventory level.
-The number of items ordered at time $t$ are denoted by $b_t$, with $b_t \geq 0$.
+The number of items ordered at time $t$ are denoted by $b_t$, $b_t \geq 0$.
 An order of size $b_t = 0$ means that no order is made.
 %todo order delay
 %set depends on time, yes? no?
-The set of admissible orders quantities is denoted $B_t$.
+The set of admissible orders quantities is denoted $B$.
 % order cost
-Each order causes order costs, which consists of fixed order costs $c_{fix}$ and variable order costs $c_{var}$.
+Each order causes order costs, which consists of fixed order costs $c_{fix}$, $c_{fix} \geq 0$, and variable order costs $c_{var}$, $c_{var} > 0$.
 Order decisions influence the merchant's profit based on ordering costs, holding costs, and future potential sales.
 %order costs paid upfront
-Order costs are defined by:
+Order costs are defined by \cref{eq:order_cost}, $b \in B$.
 
 \begin{equation}
 \label{eq:order_cost}
@@ -66,21 +66,23 @@ C(b) := \begin{cases}
 \end{equation}
 
 %sales
-The probability to sell $i$ items within one period of time is denoted by $P(i)$, $(i = 0, 1, \ldots)$.
+The probability to sell $i$ items within one period of time is denoted by $P(i)$, $i = 0, 1, \ldots$ .
 A changing customer behavior over time is out of scope of this work, thus the sales probability $P(i)$ does not depend on the time period $t$.
 The sales probability in the first phase does not directly depend on the price or market situation because the merchant sells at a fixed price in a monopoly.
 The random number of sold items within the period $(t-1, t)$ is denoted by $X_t$.
-The merchant cannot sell more items than the inventory holds, i.e. $N_t \geq X_{t+1}$, $(t = 0, 1, \ldots)$.
+The merchant cannot sell more items than the inventory holds, i.e. $N_t \geq X_{t+1}$, $t = 0, 1, \ldots$
 
 %whats ordering strategy?
 %how to write the policy?
-Depending on a given ordering policy $(b_t)_t$, the random accumulated discounted profit from time period $t$ is:
+Depending on a given ordering policy $(b_t)_t$, the random accumulated discounted profit from time period $t$, $t = 0, 1, \ldots$, is:
 
 $$
-G_t := \sum_{s=t+1}^{\infty} (\delta^{s-t} \cdot (a_{fix} \cdot X_s - l \cdot N_{s-1} - C(b_{s-1}(N_{s-1})))
+G_t := \sum_{s=t+1}^{\infty} \delta^{s-t} \cdot (a_{fix} \cdot X_s - l \cdot N_{s-1} - C(b_{s-1}(N_{s-1})))
 $$
 
 The objective is to find an ordering policy that maximizes the expected total profit $E(G_0 | N_0)$.
+
+%todo mention notation table here, put it in appendix
 
 % end of model descripiton, maybe write what comes next
 %Sales decrease the inventory level over time and orders increase it.
@@ -92,72 +94,72 @@ The objective is to find an ordering policy that maximizes the expected total pr
 %what? -> dyn programming
 Goal of this section is to derive optimal ordering policies for the ordering problem.
 We use a dynamic programming approach to find the ordering policy promises the best expected profit for the stochastic control problem.
-The value function $V_t(n)$ describes the best expected profit $E_t(G_t | N_t)$.
+The value function $V_t(n)$, $t, n = 0, 1, \ldots$, describes the best expected profit $E_t(G_t | N_t)$.
 $N_{max}$ denotes an upper limit of the inventory level $n$ and the order decision $b$, $0 \leq n, b \leq N_{max}$. This does not affect the optimal solution as long as $N_{max}$ is greater than the biggest inventory level that can occur in the optimal policy.
 
 %why do we limit time horizon?
 We limit the time horizon to the end time $T$.
-If $T$ is sufficiently large, the value iteration over $V_t$ converged enough so that the optimal ordering policy is not affected.
-The start value $u$ defines the result of the value function at the end of the time horizon, $V_t(n) = u$ for all $n$.
+If $T$ is sufficiently large, the value iteration over $V_t$ converged, so that the optimal ordering policy is not affected.
+The start value $u$ defines the result of the value function at the end of the time horizon, $V_T(n) = u$ for all $n$.
 For now, the start value is set to $u := 0$.
 
 %instant vs delayed order, zugangübergänge
-We consider $V_t(n)$ with instantaneous and delayed orders.
+We consider $V_t(n)$ with \textit{instantaneous} and \textit{delayed} orders.
 With instantaneous orders, available items from the start of the time period and the newly ordered items can be sold within that period.
 The following time period starts with an inventory of items that were not sold in the previous period.
 With delayed orders, only items that are available from the start of the time period can be sold within that period.
 The following time period starts with an inventory of items that were not sold in the previous period plus the number of items ordered in the previous period.
 
-The value function with an instantaneous arrival of orders is:
+The value function with an \textit{instantaneous arrival} of orders is \cref{eq:dyn_prog_no_delay}, $t=0,1,\ldots,T$, $n=0,1,\ldots,N_{max}$.
 %todo special case P(n_max) -> rest probability
 \begin{equation}
 \begin{split}
-V_t(n) = \max_{b \in B_t} \Bigg\{
+V_t(n) = \max_{b \in B} \Bigg\{
 \sum_{i = 0}^{N_{max}}
 P(i) \cdot \Big(
-(a_{fix} \cdot min(i, n + b) %sales
+a_{fix} \cdot min(i, n + b) %sales
 - l \cdot (n + b) % holding cost
-- C(b)) % order cost
+- C(b) % order cost
  \\
-+ \delta \cdot V_{t+1}\big(min(max(n + b - i, 0), N_{max}))\big)
++ \delta \cdot V_{t+1}\big(min(max(n + b - i, 0), N_{max})\big)
 \Big)\Bigg\}
 \end{split}
 \label{eq:dyn_prog_no_delay}
 \end{equation}
 
 %todo: order delay mentioned in model description?
-The value function with order delay is shown in the following equation:
+The value function with \textit{order delay} is shown in the following equation:
 
 \begin{equation}
 \begin{split}
-V_t(n) = \max_{b \in B_t} \Bigg\{
+V_t(n) = \max_{b \in B} \Bigg\{
 	\sum_{i = 0}^{N_{max}} 
-		P(i) \cdot \Big((
+		P(i) \cdot \Big(
 			a_{fix} \cdot min(i, n) %sales
 			- l \cdot n % holding cost
 			- C(b) % order cost
-		) \\
-		+ \delta \cdot V_{t+1}\big(min(max(n - i, 0) + b, N_{max}))\big)
+		 \\
+		+ \delta \cdot V_{t+1}\big(min(max(n - i, 0) + b, N_{max})\big)
 	\Big)\Bigg\}
 \end{split}
 \label{eq:dyn_prog}
 \end{equation}
 
-The set of order quantities $B_t$ is a discrete set of integers and must contain zero to allow the merchant to make no order.
+The set of order quantities $B$ is a discrete set of integers and must contain zero to allow the merchant to make no order.
 The optimal ordering decision $b^*(n)$ is given by using arg max on \cref{eq:dyn_prog_no_delay,eq:dyn_prog}.
 
-That is for instantaneous orders
+That is for instantaneous orders, $n=0,1,\ldots,N_{max}$,
 
 \begin{equation}
 \begin{split}
-b^*_{instant} = \argmax_{b \in B_t} \Bigg\{
+b^*_{instant} = \argmax_{b \in B} \Bigg\{
 \sum_{i = 0}^{N_{max}}
 P(i) \cdot \Big(
-(a_{fix} \cdot min(i, n + b) %sales
+a_{fix} \cdot min(i, n + b) %sales
 - l \cdot (n + b) % holding cost
-- C(b)) % order cost
+- C(b) % order cost
 \\
-+ \delta \cdot V_{1}\big(min(max(n + b - i, 0), N_{max}))\big)
++ \delta \cdot V_{1}\big(min(max(n + b - i, 0), N_{max})\big)
 \Big)\Bigg\}
 \end{split}
 \label{eq:optimal_order_instant}
@@ -167,20 +169,21 @@ and for delayed orders
 
 \begin{equation}
 \begin{split}
-b^*(n) = \argmax_{b \in B_t} \Bigg\{
+b^*(n) = \argmax_{b \in B} \Bigg\{
 \sum_{i = 0}^{N_{max}} 
-P(i) \cdot \Big((
+P(i) \cdot \Big(
 a_{fix} \cdot min(i, n) %sales
 - l \cdot n % holding cost
 - C(b) % order cost
-) \\
-+ \delta \cdot V_{1}\big(min(max(n - i, 0) + b, N_{max}))\big)
+ \\
++ \delta \cdot V_{1}\big(min(max(n - i, 0) + b, N_{max})\big)
 \Big)\Bigg\}
 \end{split}
 \label{eq:optimal_order}
 \end{equation}
 
-Equation \cref{eq:optimal_order} is the optimal solution to the ordering problem if the order delay is exactly the length of a time period.
+Equations \cref{eq:optimal_order_instant,eq:optimal_order} yield optimal policies to the ordering problem without and with order delay, respectively.
+The duration of the order delay in \cref{eq:optimal_order} is exactly the length of one period.
 It is possible to find optimal ordering policies for arbitrary order delays using this dynamic programming approach.
 However, this greatly increases the dynamic programming state and results in long computation times.
 In order have reasonable decision times for the merchant, we use the presented approach, which is a heuristic for order delays different from the length of the time period and otherwise an exact solution.
@@ -266,106 +269,108 @@ At a higher selling price, the merchant orders more products and refills the inv
 The loss of potential revenue becomes more important than the additional holding costs.
 
 \subsection{Effect of Start Value on Convergence of Value Function}
-In \cref{section:ordering_solution}, we used an arbitrary start value $u := 0$ and claimed that the value function $V_0(n)$ converges to the optimal expected profit if $T$ is sufficiently large.
-In the following example we show that the value function converges to the same value independently from $u$.
-
-\cref{fig:convergence} shows results of $V_0(0)$ with varying $T$ and start values $u$. The parameters are the same as in \cref{section:order_example} with $\delta = 0.95$ and $T = 100$.
-The value function converges to the same result for any $u$.
-It does not matter if the start value is bigger or smaller than the resulting expected profit.
-However, the value function converges earlier if $u$ is near the optimal expected discounted profit.
-%direct ref to section?
-We will use this fact in later sections to speed up the policy computation.
+In \cref{section:ordering_solution}, we used an arbitrary start value $u := 0$ and claimed that the value function $V_0(n)$, $n=0,1,\ldots,N_{max}$, converges to the optimal expected profit if $T$ is sufficiently large.
+In the following example, we show that the value function converges to the same value independently from $u$.
 
 \begin{figure}[t]
-\begin{tikzpicture}
-\begin{axis}[
-title={Convergence of $V_0(0)$ for different start values $u$},
-xlabel={$T$},
-ylabel={$V_0(0)$},
-legend pos=north east,
-grid style=dashed,
-axis lines = left,
-width=0.8\textwidth,
-]
-
-\addplot+[mark=none]
-coordinates {(5, 420.70235436191115)
-	(10, 378.70641501244478)
-	(15, 346.02067386424631)
-	(20, 320.58230246540893)
-	(25, 300.88897170076484)
-	(30, 285.65349940578312)
-	(35, 273.8651312577353)
-	(40, 264.74349735259943)
-	(45, 257.68533426566137)
-	(50, 252.22386101489249)
-	(55, 247.99787744298365)
-	(60, 244.72789197784797)
-	(65, 242.19763955718636)
-	(70, 240.23977846509317)
-	(75, 238.72482287360947)
-	(80, 237.55257911579616)
-	(85, 236.64551924190459)
-	(90, 235.94365360231592)
-	(95, 235.40056334971575)
-	(100, 234.98033046491173)};
-\addlegendentry{$u = 500$}
-
-\addplot+[mark=none]
-coordinates {(5, 188.56807311191125)
-	(10, 199.08533324093116)
-	(15, 207.03330481632042)
-	(20, 213.03652574284629)
-	(25, 217.67209976421481)
-	(30, 221.26187022290196)
-	(35, 224.04011606145312)
-	(40, 226.18985038306852)
-	(45, 227.85325716953369)
-	(50, 229.14036843187844)
-	(55, 230.13631091132481)
-	(60, 230.90695228176233)
-	(65, 231.50325988201828)
-	(70, 231.9646713340606)
-	(75, 232.32170271984614)
-	(80, 232.59796680029206)
-	(85, 232.81173467946479)
-	(90, 232.9771441894182)
-	(95, 233.10513491510116)
-	(100, 233.20417169881145)};
-\addlegendentry{$u = 200$}
-
-\addplot +[mark=none]
-coordinates {
-	(5, 33.811885611911237)
-	(10, 79.337945393255367)
-	(15, 114.37505878436978)
-	(20, 141.33934126113792)
-	(25, 162.19418513984795)
-	(30, 178.33411743431449)
-	(35, 190.82343926393168)
-	(40, 200.48741907004785)
-	(45, 207.96520577211518)
-	(50, 213.75137337653584)
-	(55, 218.2285998902189)
-	(60, 221.69299248437193)
-	(65, 224.37367343190618)
-	(70, 226.44793324670562)
-	(75, 228.05295595067062)
-	(80, 229.29489192328936)
-	(85, 230.25587830450493)
-	(90, 230.99947124748647)
-	(95, 231.57484929202485)
-	(100, 232.02006585474473)};
-\addlegendentry{$u = 0$}
-%policy converged:
-%\addplot[mark=*] coordinates {(8,394.912775771)};
-%\addplot[mark=*] coordinates {(8,195.886646384)};
-%\addplot[mark=*] coordinates {(8,63.202560126)};
-\end{axis}
-\end{tikzpicture}
-\caption[Influence of start value on the value function]{This chart shows how the start value $u$ influences the final expected discounted profit $V_0$. The function converges with any start value to the same expected profit, given a sufficiently large $T$. However, $V_0$ converges earlier if $u$ is near the resulting expected discounted profit.}
-\label{fig:convergence}
+	\begin{tikzpicture}
+	\begin{axis}[
+	title={Convergence of $V_0(0)$ for different start values $u$},
+	xlabel={$T$},
+	ylabel={$V_0(0)$},
+	legend pos=north east,
+	grid style=dashed,
+	axis lines = left,
+	width=0.8\textwidth,
+	]
+	
+	\addplot+[mark=none]
+	coordinates {(5, 420.70235436191115)
+		(10, 378.70641501244478)
+		(15, 346.02067386424631)
+		(20, 320.58230246540893)
+		(25, 300.88897170076484)
+		(30, 285.65349940578312)
+		(35, 273.8651312577353)
+		(40, 264.74349735259943)
+		(45, 257.68533426566137)
+		(50, 252.22386101489249)
+		(55, 247.99787744298365)
+		(60, 244.72789197784797)
+		(65, 242.19763955718636)
+		(70, 240.23977846509317)
+		(75, 238.72482287360947)
+		(80, 237.55257911579616)
+		(85, 236.64551924190459)
+		(90, 235.94365360231592)
+		(95, 235.40056334971575)
+		(100, 234.98033046491173)};
+	\addlegendentry{$u = 500$}
+	
+	\addplot+[mark=none]
+	coordinates {(5, 188.56807311191125)
+		(10, 199.08533324093116)
+		(15, 207.03330481632042)
+		(20, 213.03652574284629)
+		(25, 217.67209976421481)
+		(30, 221.26187022290196)
+		(35, 224.04011606145312)
+		(40, 226.18985038306852)
+		(45, 227.85325716953369)
+		(50, 229.14036843187844)
+		(55, 230.13631091132481)
+		(60, 230.90695228176233)
+		(65, 231.50325988201828)
+		(70, 231.9646713340606)
+		(75, 232.32170271984614)
+		(80, 232.59796680029206)
+		(85, 232.81173467946479)
+		(90, 232.9771441894182)
+		(95, 233.10513491510116)
+		(100, 233.20417169881145)};
+	\addlegendentry{$u = 200$}
+	
+	\addplot +[mark=none]
+	coordinates {
+		(5, 33.811885611911237)
+		(10, 79.337945393255367)
+		(15, 114.37505878436978)
+		(20, 141.33934126113792)
+		(25, 162.19418513984795)
+		(30, 178.33411743431449)
+		(35, 190.82343926393168)
+		(40, 200.48741907004785)
+		(45, 207.96520577211518)
+		(50, 213.75137337653584)
+		(55, 218.2285998902189)
+		(60, 221.69299248437193)
+		(65, 224.37367343190618)
+		(70, 226.44793324670562)
+		(75, 228.05295595067062)
+		(80, 229.29489192328936)
+		(85, 230.25587830450493)
+		(90, 230.99947124748647)
+		(95, 231.57484929202485)
+		(100, 232.02006585474473)};
+	\addlegendentry{$u = 0$}
+	%policy converged:
+	%\addplot[mark=*] coordinates {(8,394.912775771)};
+	%\addplot[mark=*] coordinates {(8,195.886646384)};
+	%\addplot[mark=*] coordinates {(8,63.202560126)};
+	\end{axis}
+	\end{tikzpicture}
+	\caption[Influence of start value on the value function]{This chart shows how the start value $u$ influences the final expected discounted profit $V_0$. The function converges with any start value to the same expected profit, given a sufficiently large $T$. However, $V_0$ converges faster if $u$ is near the resulting expected discounted profit.}
+	\label{fig:convergence}
 \end{figure}
+
+\cref{fig:convergence} shows results of $V_0(0)$ with varying $T$ and start values $u$.
+The parameters are the same as in \cref{section:order_example}.
+The only differences are $\delta = 0.95$ and $T = 100$.
+The value function converges to the same result for any $u$.
+It does not matter if the start value is bigger or smaller than the resulting expected profit.
+However, the value function converges faster if $u$ is near the optimal expected discounted profit.
+%direct ref to section?
+We will use this fact in later sections to speed up the policy computation.
 
 % show V_0 for different n, no big difference in result
 %todo{compare different n}
@@ -392,19 +397,19 @@ However, this is a more complex problem compared to solving the ordering problem
 \label{subs:joint_model}
 This model is an extension of the model from \cref{subs:ordering_model}.
 %pricing decision
-Instead of a fixed selling price $a_{fix}$, the merchant sets a price $a_t$ in each period $t$, with $a_t \geq 0$.
-The set of admissible pricing decisions is denoted $A_t$.
+Instead of a fixed selling price $a_{fix}$, the merchant sets a price $a_t$ in each period $t$, with $a_t \geq 0$, $t=0,1,\ldots,T$.
+The set of admissible pricing decisions is denoted $A$.
 %revenue
 Each sold item in period $t$ generates a revenue of $a_t$.
 
 %demand
-The probability to sell $i$ items depends now on price $a$.
+The probability to sell $i$ items, $i=0,1,\ldots$, depends now on price $a$.
 The merchant knows the price-dependent probability distribution in this scenario.
 
-Depending on a given pricing and ordering policy $(a_t, b_t)_t$, which can depend on the current inventory level, the random accumulated discounted profit from time period $t$ is:
+Depending on a given pricing and ordering policy $(a_t, b_t)_t$, which can depend on the current inventory level, the random accumulated discounted profit from time period $t$, $t=0,1,\ldots$, is:
 
 $$
-G_t := \sum_{s=t+1}^{\infty} (\delta^{s-t} \cdot (a_{s-1}(N_{s-1}) \cdot X_s - l \cdot N_{s-1} - C(b_{s-1}(N_{s-1})))
+G_t := \sum_{s=t+1}^{\infty} \delta^{s-t} \cdot (a_{s-1}(N_{s-1}) \cdot X_s - l \cdot N_{s-1} - C(b_{s-1}(N_{s-1})))
 $$
 
 The objective is to find a joint pricing and ordering policy that maximizes the expected total profit $E(G_0 | N_0)$.
@@ -412,19 +417,19 @@ The objective is to find a joint pricing and ordering policy that maximizes the 
 \subsection{Extending the Dynamic Programming Approach by Pricing Decisions}
 \label{section:joint_solution}
 As a basis, we use the dynamic programming approach shown in \cref{eq:dyn_prog}.
-The action space is extended by one dimension that contains all potential pricing decisions $A_t$.
+The action space is extended by one dimension that contains all potential pricing decisions $A$.
+This results in equation \cref{eq:dyn_prog_joint}, $t=0, 1, \ldots,T$, $n = 0,1,\ldots,N_{max}$.
 
-%todo remove t from A and B.
 \begin{equation}
 \begin{split}
-V_t(n) = \max_{\substack{b \in B_t \\ a \in A_t}} \Bigg\{
+V_t(n) = \max_{\substack{a \in A \\ b \in B}} \Bigg\{
 \sum_{i = 0}^{N_{max}}
-P(i, a) \cdot \Big((
+P(i, a) \cdot \Big(
 a \cdot min(i, n) %sales
 - l \cdot n % holding cost
 - C(b) % order cost
-) \\
-+ \delta \cdot V_{t+1}\big(min(max(n - i, 0) + b, N_{max}))\big)
+ \\
++ \delta \cdot V_{t+1}\big(min(max(n - i, 0) + b, N_{max})\big)
 \Big)\Bigg\}
 \end{split}
 \label{eq:dyn_prog_joint}
@@ -432,18 +437,18 @@ a \cdot min(i, n) %sales
 
 There are three changes to the value function.
 The probability is price-dependent ($P(i, a)$), the revenue in one period depends on the chosen price ($a \cdot min(i, n)$), and the action space is extended by the set of pricing decisions $A_t$.
-The optimal ordering policy $b^*_t(n)$ and pricing policy $a^*_t(n)$ are given by
+The optimal ordering policy $b^*_t(n)$ and pricing policy $a^*_t(n)$ are given by \cref{eq:joint_best_price_order}, $n=0,1,\ldots,N_{max}$.
 
 \begin{equation}
 \begin{split}
-(a^*_t(n), b^*_t(n)) = \argmax_{\substack{b \in B_t \\ a \in A_t}} \Bigg\{
+(a^*(n), b^*(n)) = \argmax_{\substack{a \in A \\ b \in B}} \Bigg\{
 \sum_{i = 0}^{N_{max}}
-P(i, a) \cdot \Big((
+P(i, a) \cdot \Big(
 a \cdot min(i, n) %sales
 - l \cdot n % holding cost
 - C(b) % order cost
-) \\
-+ \delta \cdot V_{1}\big(min(max(n - i, 0) + b, N_{max}))\big)
+ \\
++ \delta \cdot V_{1}\big(min(max(n - i, 0) + b, N_{max})\big)
 \Big)\Bigg\}
 \end{split}
 \label{eq:joint_best_price_order}
@@ -452,7 +457,7 @@ a \cdot min(i, n) %sales
 %todo schreibe hier irgendwas hin, nicht mit gleichungen enden
 
 \subsection{Numeric Example}
-This section shows the explicit result of \cref{eq:joint_best_price_order} for specific parameters.
+This section shows the explicit results of \cref{eq:joint_best_price_order} for specific parameters.
 The maximum considered inventory level is $N_{max} = 10$
 Fixed order cost is $c_{fix} = 5$ and variable order cost is $c_{var} = 15$.
 The holding cost rate is $l = 0.5$.
@@ -548,15 +553,27 @@ The following equation shows how to predict mean sales per period for a market s
 
 \begin{equation}
 \label{eq:linear_regression}
-\lambda(\vec{s}; \vec{\beta}) = \vec{x}(\vec{s})^\intercal \cdot \vec{\beta}
+\lambda(\vec{s}; \vec{\beta}) = \max(\vec{x}(\vec{s})^\intercal \cdot \vec{\beta}, 0)
 \end{equation}
 
 $\vec{\beta}$ are the weights of the regression model.
-Given observed sales per period $y_1, y_2, \ldots, y_J$ and explanatory variables $\vec{x}_1, \vec{x}_2, \ldots, \vec{x}_J$ from $J$ historical market situations, the optimal weights $\vec{\beta}^*$ are calculated with the linear least squares objective:
+$\lambda(\vec{s}; \vec{\beta})$ has a lower limit of 0 to prevent negative mean sales.
+The number of explanatory variables is denoted by $M$.
+Then is $\vec{x}(\vec{s}) \in \mathbb{R}^M$ and $\vec{\beta} \in \mathbb{R}^M$.
+Given observed sales per period $y_1, y_2, \ldots, y_J$ from $J$ historical market situations $\vec{s}_1, \vec{s}_2, \ldots, \vec{s}_J$, the optimal weights $\vec{\beta}^*$ are given by the linear least squares objective \cref{eq:least_squares_objective}, $j=1, 2, \ldots, J$.
 
 \begin{equation}
-\vec{\beta}^* = \bigg(\sum_{i=1}^J{\vec{x}_i \vec{x}_i^\intercal} \bigg)^{-1}
-			  \bigg(\sum_{i=1}^J{y_i \vec{x}_i} \bigg)
+\vec{\beta}^* := \max_{\vec{\beta} \in \mathbb{R}^M}{\sum_{j=1}^J
+	{(y_j - \lambda(\vec{s}_j; \vec{\beta}))^2}
+}
+\label{eq:least_squares_objective}
+\end{equation}
+
+The optimal weight can be calculated with the following equation:
+
+\begin{equation}
+\vec{\beta}^* = \bigg(\sum_{j=1}^J{\vec{x}(\vec{s}_j) \vec{x}(\vec{s}_j)^\intercal} \bigg)^{-1}
+			  \bigg(\sum_{j=1}^J{y_j \vec{x}(\vec{s}_j)} \bigg)
 \end{equation}
 
 %predicted mean demand -> distribution
@@ -566,11 +583,11 @@ The mean sales per period can be used as a parameter to create a suitable probab
 %find better citation with a study or something to show that.
 We describe the demand distribution with a Poisson distribution.
 This discrete distribution is a good approximation for the arrival and buying process of customers \cite{DBLP:journals/ior/Wolff82}.
-Equation \ref{eq:probability} shows the calibration of the Poisson distribution with the linear regression from \cref{eq:linear_regression} in order to obtain estimated sales probabilities for a market situation $\vec{s}$.
+Equation \cref{eq:probability} shows the calibration of the Poisson distribution with the linear regression from \cref{eq:linear_regression} in order to obtain estimated sales probabilities for a market situation $\vec{s}$, $i = 0,1,...$
 
 \begin{equation}
 \label{eq:probability}
-P(i, \vec{x}) :=
+P(i, \vec{x}; \vec{\beta}^*) :=
 	e^{-\lambda(\vec{s}; \vec{\beta}^*)}
 	\frac{\lambda(\vec{s}; \vec{\beta}^*)^{i}}{i!}
 \end{equation}
@@ -941,21 +958,23 @@ In \cref{section:demand_learning}, the merchant's offer price was sufficient to 
 With competition, the sales probability of an offer depends not only on its price but also on the price of the other offers.
 New explanatory variables are necessary for demand learning to describe the more complex market situations.
 We created two new explanatory variables besides the offer price in order to describe market situations with competition.
-The variables are explained in detail below.
+The own price of market situation $\vec{s}$ is denoted by $a$ and the set of competitor prices by $P$.
+The explanatory variables $\vec{x} = (x_1, x_2, x_3, 1)$ are:
 
 \begin{description}
-	\item [Own price]
-		This explanatory variable hold the value of the merchant's current offer price.
+	\item [Own price] \hfill \\
+		$x_1 := a$ \\
+		This explanatory variable holds the value of the merchant's current offer price.
 		It helps to explain effects on the sales probability that are based on the total price.
 		For example, a higher price generally results in less demand.
-	\item [Price rank]
+	\item [Price rank] \hfill \\
+		$x_2 := |\{p \mid p \in P \land p \leq a\}|$ \\
 		This variable describes the merchant's relative position in the price ranking.
-		The price rank is defined by the number of competitors' offer that cost equal or less than the merchant's offer.
-		Demand learning uses this to find a relationship to the sales probability.
-		For example, it is probable that a merchant sells more items by having the cheapest offer instead of the second cheapest.
-	\item [Price difference to cheapest offer]
-		This is the difference in price from the merchant's offer to the cheapest offer.
-		If the merchant has the cheapest offer, the variables value will be €0.
+		Even if a price change is small, it can have a huge impact on the sales probabilities if an offer is the cheapest or second cheapest offer.
+	\item [Price difference to cheapest offer] \hfill \\
+		$x_3 := a - \min( P \cup \{a\})$ \\
+		This is the difference in price from the merchant's offer to the overall cheapest offer.
+		If the merchant has the cheapest offer, the variable value will be €0.
 		It is a relative variation of the 'own price' metric.
 		This variable could explain effects like: a customer is willing to pay €5 more than the cheapest product but not €10 more.
 \end{description}
@@ -1030,11 +1049,11 @@ We set the end time $T = 500$, i.e., 500 iterations.
 %use last value (why faster -> less iterations)
 The first optimization method sets the start value $V_T$ to the expected profit from the last computation.
 This way $V_T$ is closer to the final expected profit compared to $V_T = 0$.
-The value function converges earlier with an appropriate start value.
+The value function converges faster with an appropriate start value.
 We utilize this fact and reduce the number of iterations to 200 in order to decrease the computation time with only a minimal precision loss.
 %adapt decisions (also reuses space)
 The next optimization method is the adaption of the ordering and pricing decision sets.
-We makes 5 successive dynamic programming calculations with 40 iterations each.
+There are 5 successive dynamic programming calculations with 40 iterations each.
 This are in total again 200 iterations, but the decision sets are adapted between calculations.
 This reduces the size of the decision sets without omitting relevant decisions.
 Relevant decisions are decisions that occur in the optimal policy.
@@ -1054,29 +1073,29 @@ Note that each row in the table also contains the optimizations from the rows ab
 		\toprule
 		Optimization Method & Computation Time [ms] & Error [\%] \\
 		\midrule
-		Baseline & 9425 & 0.53 \\
-		\makecell[l]{Set start value to \\ result of previous computation} & 3734 & 0.98 \\
-		Adapt ordering \& pricing decisions & 1550 & 5.71 \\
+		Baseline & 9\,425 & 0.53 \\
+		\makecell[l]{Set start value to \\ result of previous computation} & 3\,734 & 0.98 \\
+		Adapt ordering \& pricing decisions & 1\,550 & 5.71 \\
 		Early stopping & 747 & 5.71\\
 		\bottomrule
 	\end{tabular}
 	\caption{These are the results of the computation time optimizations applied to the dynamic programming approach.
-	Each row contains a new optimization method and the methods from the rows above. The last column shows the difference between calculated and actual expected profit of 18.68.}
+	Each row contains a new optimization method and the methods from the rows above. The last column is the percent error between calculated profit $V_0(0)$ and actual expected profit $V^*_0(0) = 18.68$.}
 	\label{tab:speedup}
 %calculated expected profits
-%18.5891472589
-%18.5045225348
-%16.5739895402
-%16.5740436621
+%18.5891472589,
+%18.5045225348,
+%17.6215569115,
+%17.6215630075,
 % actual:
 %18.6885701077
 \end{table}
 
-Applying all three optimization methods to the dynamic programming approach reduces the computation time in our example from 9.4 seconds to 0.75.
+Applying all three optimization methods to the dynamic programming approach reduces the computation time in our example from 9.4 seconds to 0.75 seconds, a reduction by 92\%.
 This is fast enough to quickly update prices after a new market situation.
 These optimizations come at the cost of precision of the dynamic programming approach.
 The precision loss for setting the start value to the expected profit from the previous result and for early stopping are neglectable.
-In contrast, the adaption of the decision sets introduce an error of around 5\% to the resulting expected profit.
+In contrast, the adaption of the decision sets introduce an percent error of around 5\% to the resulting expected profit.
 Despite the precision error, the computed policies usually are identically to the optimal policy.
 We are willing to accept the the loss in precision in order to increase the efficiency of the dynamic programming approach.
 
@@ -1279,9 +1298,9 @@ This action is especially successful if the competitors also increase their offe
 		\toprule
 		Merchant & Profit & Revenue & Holding Cost & Order Cost \\
 		\midrule
-		Data-Driven & 5944.13 & 21938.00 & 943.87 & 15050.00 \\
-		Cheapest & 5386.90 & 23770.80 & 903.89 & 17480.00 \\
-		Two Bound & 5038.63 & 20148.30 & 644.67 & 14465.00 \\
+		Data-Driven & 5\,944.13 & 21\,938.00 & 943.87 & 15\,050.00 \\
+		Cheapest & 5\,386.90 & 23\,770.80 & 903.89 & 17\,480.00 \\
+		Two Bound & 5\,038.63 & 20\,148.30 & 644.67 & 14\,465.00 \\
 		\bottomrule
 	\end{tabular}
 	\caption{Simulation results of the oligopoly scenario with the data-driven, cheapest, and two bound merchant. The data-driven merchant made the most profit. The cheapest merchant made the most revenue.}
@@ -1300,7 +1319,7 @@ This results in higher holding costs but saves on fixed order cost.
 
 %command: python3 helper_scripts/benchmark.py -o ../runs -d 30 --merchants "python3 /home/carsten/pricewars-merchant/merchant.py --port 5000 --strategy Cheapest" "python3 /home/carsten/pricewars-merchant/merchant.py --port 5001 --strategy \"Two Bound\"" "python3 /home/carsten/pricewars-merchant/merchant_scenario4.py --port 5002" --holding_cost 3
 
-\todo{show reaction when changing demand or fixed ordering cost}
+%todo{show reaction when changing demand or fixed ordering cost}
 %
 
 \section{Merchant Implementation}

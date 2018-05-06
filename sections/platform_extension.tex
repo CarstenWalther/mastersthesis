@@ -52,6 +52,8 @@ The redundant order cost calculations may cause errors if the implementations ar
 To prevent these errors, only the producer calculates the cost and adds this information to the order event.
 The event analysis service becomes simpler and changing the order cost formula requires only to update the producer.
 
+Variable order costs were already present before this extension, even though it was only possible to order single items.
+
 With orders of multiple items and fixed order cost in place, a good merchant strategy is to make one big order at the beginning.
 To make ordering decisions more interesting and natural, we introduce holding costs in the next section.
 
@@ -97,22 +99,22 @@ xlabel={Time},
 ylabel={Inventory Level},
 xmin=0, xmax=3.5,
 ymin=0, ymax=8,
-xtick={0,1,2,3},
+xtick={0,0.85,2,3},
 xticklabels={$t_0$,$t_1$,$t_2$,$t_3$},
 ytick={2,5,6},
 yticklabels={$n_0$,$n_1$,$n_2$},
 legend pos=north west,
 grid style=dashed,
 axis lines = left,
-width=0.8\textwidth,
+width=0.9\textwidth,
 ]
 
 \addplot[color=blue,mark=*,const plot mark left]
 coordinates {(0,6)(2,5)(3,2)};
-\legend{Inventory Level over Time}
+\legend{Inventory Level}
 
 \addplot[color=brown!60!black,dashed]
-coordinates {(1,0)(1,6)};
+coordinates {(0.85,0)(0.85,6)};
 
 \addplot[color=brown!60!black,dashed]
 coordinates {(2,0)(2,5)};
@@ -120,17 +122,17 @@ coordinates {(2,0)(2,5)};
 \addplot[color=brown!60!black,dashed]
 coordinates {(3,0)(3,2)};
 
-\node[] at (axis cs: 0.5,3) {$l_0 n_2 (t_1 - t_0) $};
-\node[] at (axis cs: 1.5,3) {$l_1 n_2 (t_2 - t_1) $};
-\node[] at (axis cs: 2.5,3) {$l_1 n_1 (t_3 - t_2) $};
+\node[] at (axis cs: 0.43,3) {$l_{old} n_2 (t_1 - t_0) $};
+\node[] at (axis cs: 1.43,3) {$l_{new} n_2 (t_2 - t_1) $};
+\node[] at (axis cs: 2.5,3) {$l_{new} n_1 (t_3 - t_2) $};
 
 \end{axis}
 \end{tikzpicture}
 %area under graph
-\caption{
-	This graph visualized how holding costs are calculated.
-	Whenever a merchant's inventory level or holding cost rate changes, the holding costs since the previous change are computed.
-	At $t_1$ the holding cost rate changes from $l_0$ to $l_1$.}
+\caption[Holding costs calculation]{Whenever a merchant's inventory level or holding cost rate changes, the holding costs since the previous change are computed.
+	Holding costs depend on the holding cost rate, the inventory level, and time since the last change.
+	Holding costs are proportional to the area under the graph segment.
+	At $t_1$ the holding cost rate changes from $l_{old}$ to $l_{new}$.}
 \label{fig:holding_cost}
 \end{figure}
 

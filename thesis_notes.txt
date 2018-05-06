@@ -2,8 +2,7 @@ Seitenanzahl: min 50 nur Inhalt (~70 insgesamt)
 Referenzen: 30 (~2 Seiten)
 
 question:
-	how to say b* equation withwithout t? check formula
-	what's feedback? (markov stuff)
+	feature formeln richtig?
 
 motivation!!!
 
@@ -12,24 +11,25 @@ descripte effect of discount factor delta: 0 -> myopic, 1 -> long-term
 überblick über scenarien in tabelle
 lessons learned
 write about refactored example merchants (+inventory)?
-sequence diagram for holding cost update
-demand learning: show merchant changes price according to inventory level
 more eval for joint pricing/ordering?
 
 CHECK:
 consistent use of item/product
-abrehevation: REST, API, explain somewhere
 merchant: mention run training in background
 equations resf in text
 refs for used libraries
 mention cpu for performance test
 eigenständigkeitserklärung auf englisch?
 features is function on market situation
+title too long for header
+order delay == delivery time
+gleichzeitige Verkäufe im Graph?
+ban2017big citation?
 
 TODO:
-Eval learning
-Conclusion
 rainer feedback einarbeiten
+abstract überarbeiten
+Conclusion
 martin feedback einarbeiten
 sonntag/montag stand schreiben
 di 11 Uhr treffen
@@ -42,6 +42,10 @@ describe consumer in first eval (or gradualy)
 use prob function for ordering numeric example instead of explicit values
 show better start value = faster convergence (but start value independent from n does nothing) (wie viele iterationen für optimale Politik nötig?)
 compare different parameters in numeric example joint
+math notation table
+introduce start value u later in convergence section
+check functions in dyn learning evaluation
+reproduzierbares duopoly oligopoly
 
 EVAL:
 Graph V_0(n) für verschiedene n -> zeige, dass erwarteter profit kaum von n abhängt
