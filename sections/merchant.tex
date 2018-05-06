@@ -1,5 +1,5 @@
 
-\chapter{Data-Driven Merchant}
+\chapter{Dynamic Pricing \& Ordering Optimization Models and Implementations}
 This thesis proposes a merchant software agent that uses demand learning and a dynamic optimization approach to compete with other merchants on online marketplaces.
 The merchant makes ordering and pricing decisions with the goal to maximize expected long-term profits.
 Demand learning estimates future customer demand from historical customer actions.
@@ -14,7 +14,7 @@ The merchant's chosen price will affect sales.
 In the third phase (\cref{section:demand_learning}), demand is no longer known and the merchant has to find ways to estimate future demand.
 The fourth and last phase (\cref{section:competition}) represents the final problem: The joint ordering and dynamic pricing problem with unknown customer behavior under competition.
 
-\section{Ordering Problem}
+\section{Isolated Ordering Problem}
 \label{section:ordering}
 The merchant focuses on the ordering problem in this scenario and makes ordering decisions that promise the most expected long-term profit.
 The merchant cannot make pricing decisions, instead all products are sold at a fixed price.
@@ -24,7 +24,7 @@ There are no backlogs.
 If a customer arrives while the merchant is out of stock, the merchant will miss the sale.
 The merchant operates in a monopoly and does not have to care about competitors.
 
-\subsection{Model Description}
+\subsection{Model of Ordering Process}
 \label{subs:ordering_model}
 %situation
 The merchant sell items over the marketplace.
@@ -85,7 +85,7 @@ The objective is to find an ordering policy that maximizes the expected total pr
 % end of model descripiton, maybe write what comes next
 %Sales decrease the inventory level over time and orders increase it.
 
-\subsection{Solution Approach}
+\subsection{Dynamic Programming Approach}
 \label{section:ordering_solution}
 %why use dyn prog? -> optimal; why optimal?
 
@@ -186,9 +186,7 @@ However, this greatly increases the dynamic programming state and results in lon
 In order have reasonable decision times for the merchant, we use the presented approach, which is a heuristic for order delays different from the length of the time period and otherwise an exact solution.
 The following phases will only consider the variation with delayed orders.
 
-\subsection{Evaluation}
-
-\subsubsection{Numeric Example}
+\subsection{Numeric Example}
 \label{section:order_example}
 This section shows the explicit result of \cref{eq:optimal_order_instant,eq:optimal_order} for specific parameters.
 The maximum considered inventory level is $N_{max} = 40$
@@ -267,7 +265,7 @@ If variable order costs are too high, the stops ordering completely.
 At a higher selling price, the merchant orders more products and refills the inventory earlier.
 The loss of potential revenue becomes more important than the additional holding costs.
 
-\subsubsection{Effect of Start Value $u$ on $V_0(n)$}
+\subsection{Effect of Start Value on Convergence of Value Function}
 In \cref{section:ordering_solution}, we used an arbitrary start value $u := 0$ and claimed that the value function $V_0(n)$ converges to the optimal expected profit if $T$ is sufficiently large.
 In the following example we show that the value function converges to the same value independently from $u$.
 
@@ -372,7 +370,7 @@ coordinates {
 % show V_0 for different n, no big difference in result
 %todo{compare different n}
 
-\section{Joint Ordering and Pricing}
+\section{Joint Ordering and Pricing Problem}
 \label{section:joint_ordering_pricing}
 %What?
 In this section, the merchant is in the same situation as in \cref{section:ordering} but additionally gains control over the selling price.
@@ -390,7 +388,7 @@ The other way around, an ordering policy might require certain prices for a bett
 This mutual influence is the reason, why ordering and pricing should be decided jointly.
 However, this is a more complex problem compared to solving the ordering problem and pricing problem separately.
 
-\subsection{Model Description}
+\subsection{Model of Ordering and Pricing Process}
 \label{subs:joint_model}
 This model is an extension of the model from \cref{subs:ordering_model}.
 %pricing decision
@@ -411,7 +409,7 @@ $$
 
 The objective is to find a joint pricing and ordering policy that maximizes the expected total profit $E(G_0 | N_0)$.
 
-\subsection{Solution Approach}
+\subsection{Extending the Dynamic Programming Approach by Pricing Decisions}
 \label{section:joint_solution}
 As a basis, we use the dynamic programming approach shown in \cref{eq:dyn_prog}.
 The action space is extended by one dimension that contains all potential pricing decisions $A_t$.
@@ -453,9 +451,7 @@ a \cdot min(i, n) %sales
 
 %todo schreibe hier irgendwas hin, nicht mit gleichungen enden
 
-\subsection{Evaluation}
-
-\subsubsection{Numeric Example}
+\subsection{Numeric Example}
 This section shows the explicit result of \cref{eq:joint_best_price_order} for specific parameters.
 The maximum considered inventory level is $N_{max} = 10$
 Fixed order cost is $c_{fix} = 5$ and variable order cost is $c_{var} = 15$.
@@ -522,7 +518,7 @@ This is called demand learning.
 
 %model section removed, maybe mention somewhere that problem is same, only prob is not know
 
-\subsection{Solution Approach}
+\subsection{Estimating Sales Probabilities}
 In order to overcome the inventory and dynamic pricing problem with missing demand information, we split the whole problem into two parts.
 The first part is the training of a model from historical market situations and sales in order to predict sales probabilities.
 These probabilities are used in the second part to create optimized ordering and pricing policies.
@@ -596,9 +592,7 @@ Other variations like $\sqrt{p}$ or $p^2$ are possible to recognize non-linear r
 $\vec{x}$ will be extended by additional variables in the next phase.
 Additionally, the linear regression algorithm can be easily replaced by another regression approach like decision tree regression.
 
-\subsection{Evaluation}
-
-\subsubsection{Comparing predicted with actual sales probabilities}
+\subsection{Comparing predicted and actual sales probabilities}
 
 This is an experiment to evaluate how close predicted sales probabilities of our demand learning approach are to the actual underlying sales probabilities.
 For the first example, the probability function to sell $i$ items in one period at price $a$ is the following price-dependent Poisson distribution:
@@ -888,7 +882,7 @@ The Quality is measured as L2-norm of the difference from predicted to actual pr
 Predictions of sales probabilities with an underlying Poisson distribution become more accurate with increasing number of trainings examples.
 Binomial distributed sales probabilities are predicted worse because of our demand learning model's bias towards Poisson distributed sales probabilities.
 
-\section{Competition}
+\section{Pricing \& Ordering Optimization under Competition}
 \label{section:competition}
 Until now, the merchant offered items on the marketplace in a monopoly.
 This is usually not the case on real online marketplaces.
@@ -915,11 +909,9 @@ A merchant must be able to quickly and effectively react on new market situation
 Getting fast decisions is a challenge because the increasing complexity of the inventory and dynamic pricing problem over the last sections resulting in solutions with increasing computational effort.
 Nevertheless, there are ways to improve the speed of the dynamic programming approach which are described in \cref{section:faster_dyn_prog}.
 
-\subsection{Solution Approach}
-
+\subsection{Reacting to Competitors' Offers}
 
 %build on top of solution from previous section
-
 
 %describe two possible approaches
 %todo reread, and split paragraph
@@ -929,6 +921,7 @@ One possible approach is to add competitors' offers to the state in the dynamic 
 We decided against this solution because it drastically increases the state by multiple dimensions and therefore slows the computation down by multiple orders of magnitude due to the curse if dimensionality.
 Moreover, demand learning must predict transitions of competitors' offers from one time period to another.
 This means that competitors' strategies must be learned, which requires a substantial amount of trainings data and a complex demand model to make sensible predictions.
+
 Instead, we take the following approach.
 We create ordering and pricing policies whenever the market situation changes for that specific new market situation.
 The ordering and pricing decisions for this approach depend only on the merchant's inventory level.
@@ -936,7 +929,8 @@ This keeps the computation fast and efficient.
 Additionally, only sales probabilities are predicted but not the competitors' price reactions.
 This can be done by a relatively simple demand model, which can make good predictions even with few market and sales data.
 The disadvantage is that new policies must be computed for each new market situation.
-The next sections tackles the problem of how to quickly compute ordering and pricing policies for new market situations.
+
+\subsection{Predicting Sales Probabilities under Competition}
 
 %market situation more complex -> more features
 Market situations become more complex with the introduction of competition.
@@ -971,7 +965,7 @@ With these explanatory variables it is possible to describe the effect of the co
 The predicted sales probability are used in the dynamic programming approach to compute ordering and pricing policy.
 As explained above, the policies are computed for each new market situation.
 At this point, the computation takes around 10 seconds to complete.
-This is to long for the merchant to quickly and frequently react on the changing market.
+This is too long for the merchant to quickly and frequently react on the changing market.
 In the next section, we will reduce this time to allow shorter decision intervals for the merchant.
 
 %todo dyn progamming formula with p(i,x) in demand section
@@ -1021,10 +1015,7 @@ It is possible to further reduce the end time $T$, if approximations of the opti
 
 %show speed increase, maybe here maybe in eval
 
-\subsection{Evaluation}
-%todo need some intro text here
-
-\subsubsection{Efficient Dynamic Programming}
+\subsection{Evaluation of Efficient Dynamic Programming}
 %check: have i mentioned early stopping in text?
 
 The goal of our efficient dynamic programming approaches is to reduce the computation time in order to be able to react faster to new market situations.
@@ -1089,7 +1080,7 @@ In contrast, the adaption of the decision sets introduce an error of around 5\% 
 Despite the precision error, the computed policies usually are identically to the optimal policy.
 We are willing to accept the the loss in precision in order to increase the efficiency of the dynamic programming approach.
 
-\subsubsection{Duopoly Simulation}
+\subsection{Duopoly Simulation}
 We investigate the profitability of the proposed merchant in a duopoly scenario in this section and in an oligopoly scenario in the following section.
 
 %present rule-based merchants
@@ -1108,6 +1099,7 @@ They order whenever the inventory level falls below a threshold and order as man
 %%%%%%%%%%%%%%%%%%
 %data-driven vs. cheapest
 %%%%%%%%%%%%%%%%%%
+\subsubsection{Data-Driven Merchant vs. Cheapest Merchant}
 
 \begin{figure}[t]
 	\centering
@@ -1143,6 +1135,7 @@ The data-driven merchant has overall more costs but makes more profit because of
 %%%%%%%%%%%%%%%%%%%%%%%%%
 % data-driven vs. two bound
 %%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Data-Driven Merchant vs. Two Bound Merchant}
 
 \begin{figure}[t]
 	\centering
@@ -1224,6 +1217,7 @@ Both merchants made less profit compared to the previous simulation because of t
 %%%%%%%%%%%%%%%%%%%%%%%%%
 % data-driven vs. data-driven
 %%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Data-Driven Merchant vs. Data-Driven Merchant}
 
 \begin{figure}[t]
 	\centering
@@ -1257,7 +1251,7 @@ Different policies and (bad) luck on customer decisions are the reasons for diff
 	\label{tab:duopoly_data}
 \end{table}
 
-\subsubsection{Oligopoly Simulation}
+\subsection{Oligopoly Simulation}
 This section shows how our merchants performs in an oligopoly.
 The merchants sell products on the \pricewars platform.
 The objective is to maximize the expected discounted profit.
@@ -1309,7 +1303,7 @@ This results in higher holding costs but saves on fixed order cost.
 \todo{show reaction when changing demand or fixed ordering cost}
 %
 
-\section{Implementation}
+\section{Merchant Implementation}
 %todo ref python and libs
 %how is merchant implemented? (language choice)
 Merchants on the \pricewars platform can be written in any language as long as they comply with the platform's REST APIs.

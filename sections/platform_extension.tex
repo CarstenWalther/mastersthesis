@@ -19,7 +19,7 @@ Different merchant ordering and pricing strategies can be tested and evaluated u
 
 %new state + describe following structure
 We added new costs to the platform that will influence merchants' ordering decisions.
-Moreover, merchants must deal with shipping times for their orders.
+Moreover, merchants must deal with delivery times for their orders.
 These extensions are explained in the following sections.
 The last two \cref{section:inventory_graph,section:benchmark_tool} present helpful additions to evaluate merchant strategies.
 
@@ -143,22 +143,22 @@ The holding costs of the interval between two consecutive events is the inventor
 Note that changes in inventory level or holding cost rate can happen at any time and are not periodically.
 %motivate why this implementation; what is alternative (calc periodically)?
 
-\section{Shipping Time}
+\section{Delivery Time}
 \label{section:shipping_time}
 %what
 After a merchant orders items from the producer, some time should pass until the items arrive at the merchant.
-This is the shipping time from producer to merchant.
+This is the delivery time from producer to merchant.
 Previously on the \pricewars platform, merchants received ordered products instantly.
 %why
 Merchants must think ahead of time while ordering to receive the products at the right time.
 If merchants underestimate demand, they risk stock-outs before the ordered products arrive.
-The addition of shipping time will result in a more realistic competition between merchants on the online marketplace.
+The addition of delivery time will result in a more realistic competition between merchants on the online marketplace.
 
 %how
 Previously, merchants made a HTTP request to the producer for an order and the response contained the ordered items.
-To add a shipping time to this process, we considered three approaches: long-running HTTP requests, web sockets, and two separate HTTP requests. 
+To add a delivery time to this process, we considered three approaches: long-running HTTP requests, web sockets, and two separate HTTP requests. 
 
-Long-running HTTP requests are the simplest solution to implement shipping time.
+Long-running HTTP requests are the simplest solution to implement delivery time.
 The producer creates the ordered items and waits a certain time to respond.
 However, this approach is problematic due to timeouts and may block execution of the producer or merchant.
 We decided against long-running requests.
@@ -168,13 +168,13 @@ The merchant opens a web socket to the producer, then sends an order over the we
 The producer can send the ordered items at any time as a response.
 When the merchant received the items, the web socket can be closed or kept open for additional orders.
 The consensus on the usage of web sockets is that they should not be used to replicate request-response communication.
-Thus web sockets are not the optimal solution to implement shipping time and we used the third approach, two separate requests.
+Thus web sockets are not the optimal solution to implement delivery time and we used the third approach, two separate requests.
 
 The process of ordering and receiving products is split into two separate HTTP requests.
 The merchant creates a new order with an order request.
 The producer responds with an estimated time until the order is ready.
-If the shipping time is over, the merchant can make a request to receive the ordered items from the producer.
-The producer only returns the ordered items if the shipping time is over.
+If the delivery time is over, the merchant can make a request to receive the ordered items from the producer.
+The producer only returns the ordered items if the delivery time is over.
 An order can only be received once.
 
 This solution requires an additional HTTP request compared to instant orders.
@@ -183,7 +183,7 @@ but this is only a small overhead and uses common web technologies.
 The known duration until the order is ready is advantageous for this approach.
 The merchant does not need to poll the producer until the order is ready.
 
-\section{Inventory Chart}
+\section{Inventory Visualization}
 \label{section:inventory_graph}
 
 \begin{figure}[t]
