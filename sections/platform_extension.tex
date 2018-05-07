@@ -2,37 +2,41 @@
 \chapter{Extending the \pricewars Platform}
 \label{section:platform_extension}
 
+%short intro for platform
+The \pricewars platform\footnote{\pricewars on Github: \url{https://github.com/hpi-epic/pricewars}} is a framework to test and evaluate merchant strategies in online marketplace environments under competition.
 %problem + former state
-This thesis develops a merchant that runs on the \pricewars platform and is exposed to the inventory and dynamic pricing problem.
-The merchant competes against other merchants and makes automatic ordering and pricing decisions.
-The platform in its original form supported pricing decisions.
-However, the platform did not support ordering decisions.
-Merchants could order from the producer but only one item at a time.
-%motivation
-This is an unrealistic environment.
-Real merchants actually order multiple items at once to prevent high shipping costs.
-But this leads to the inventory control problem.
-Merchants have to decide at what point in time to order and how many items.
-They have to keep customer demand in mind to avoid stock-outs and excessive stocks.
-This thesis extends the \pricewars platform by the inventory control problem.
-This allows to simulate competitions of merchants, that make ordering and pricing decisions.
-Different merchant ordering and pricing strategies can be tested and evaluated using the extended platform.
+Merchants' main focus is on the dynamic pricing problem, i.e., on making good pricing decisions depending on the current market situation.
+Formerly, merchants could only order one item at a time from the producer.
+The simplest and best ordering strategy was to order a new item whenever an item was sold.
+This was okay, since ordering was not in focus.
 
+%why? motivation
+Ordering decisions become import for merchants in this thesis and we extended the \pricewars platform accordingly to create a more realistic ordering and inventory control process.
+Merchants in the real world order multiple items at once to prevent high costs.
+They have to decide at what point in time to order and how many items to order.
+This leads to the inventory control problem.
+Merchants have to keep customer demand in mind to avoid overstocking and understocking.
+
+%what
+We extended the \pricewars platform to allow simulations of merchants that compete against each other by making ordering and pricing decisions.
+%mention our merchant(s) runs on it?
 %new state + describe following structure
-We added new costs to the platform that will influence merchants' ordering decisions.
+We added new costs to the platform that might influence merchants' ordering decisions.
 Moreover, merchants must deal with delivery times for their orders.
-These extensions are explained in the following sections.
-The last two \cref{section:inventory_graph,section:benchmark_tool} present helpful additions to evaluate merchant strategies.
+
+The extensions are explained in detail in the following sections.
+The two \cref{section:inventory_graph,section:benchmark_tool} present helpful additions to evaluate merchant strategies.
 
 \section{Ordering Multiple Items}
 \label{section:multiple_items}
-First of all, merchants must be able to order multiple items in one order.
-Some parts of the platform already supported this use case.
+Merchants must be able to order multiple items per order to make proper order decisions.
+Some platform components already supported this use case.
 For example, expense and profit calculation for merchants already considered orders of multiple items.
 However, there was no option to order more than one item from the producer.
-By adding a parameter to the order request \texttt{POST /orders}, merchants can request their desired amount, e.g., \texttt{POST /orders?amount=14}.
+The original order request to get one random product was \texttt{POST /orders}.
+This request gets a new parameter that specifies the desired amount, e.g., \texttt{POST /orders?amount=14}.
 Accordingly, the producer returns an order with that many items.
-Ordering different product types in order is not supported.
+Ordering different product types with one order is not supported.
 
 The option to order multiple items will not affect merchants' strategies.
 They can still order a single item whenever they need one.
@@ -44,8 +48,9 @@ Fixed order cost is a fixed value that is added to the total costs of each order
 %maybe write formula again
 Fixed order costs are comparable to shipping costs.
 The total order costs from an order can be calculated with \cref{eq:order_cost}.
-Merchants can reduce their fixed order costs by making few big orders.
-They can learn about the current fixed order costs per order from the producer.
+Merchants can reduce their fixed order costs by making few large orders.
+They can learn about the current fixed order costs per order from the product information from producer with the request \texttt{GET /products}.
+Each product type can have different fixed order costs.
 
 Besides producer and merchants, the event aggregation service needs to know the total order cost to calculate merchants' profits and expenses.
 The event aggregation service used to calculate the total order cost from the amount of ordered items and the cost per item.
@@ -55,7 +60,7 @@ The event analysis service becomes simpler and changing the order cost formula r
 
 Variable order costs were already present before this extension, even though it was only possible to order single items.
 
-With orders of multiple items and fixed order cost in place, a good merchant strategy is to make one big order at the beginning.
+With orders of multiple items and fixed order cost in place, a good merchant strategy is to make one large order at the beginning.
 To make ordering decisions more interesting and natural, we introduce holding costs in the next section.
 
 \section{Holding Costs}
@@ -71,12 +76,13 @@ There is no inventory capacity limit but profit-oriented merchants have a practi
 A strategy to minimize holding costs is ordering often few items.
 This keeps the inventory level constantly low.
 Disadvantage of this strategy are high fixed order costs.
-In order to maximize profit, merchants must find a trade-off between low fixed order cost with few big orders and low holding costs with many small orders.
+In order to maximize profit, merchants must find a trade-off between low fixed order cost with few large orders and low holding costs with many small orders.
 
 %how, implementation
 Real-world merchants are responsible for their inventory management and the resulting holding costs.
-In the simulation on the \pricewars platform is no need to store physical items.
-Merchants could easily cheat by reporting lower holding costs.
+However, in a \pricewars simulation it is not necessary to store physical items.
+Holding costs are only simulated.
+If merchants were responsible for their holding costs, they could cheat easily by reporting a lower amount.
 We decided to not trust merchants in that regard and calculate holding costs on the platform's services.
 
 %holding cost rate on marketplace
@@ -102,7 +108,7 @@ xmin=0, xmax=3.5,
 ymin=0, ymax=8,
 xtick={0,0.85,2,3},
 xticklabels={$t_0$,$t_1$,$t_2$,$t_3$},
-ytick={2,5,6},
+ytick={2,4.5,6},
 yticklabels={$n_0$,$n_1$,$n_2$},
 legend pos=north west,
 grid style=dashed,
@@ -111,14 +117,14 @@ width=0.9\textwidth,
 ]
 
 \addplot[color=blue,mark=*,const plot mark left]
-coordinates {(0,6)(2,5)(3,2)};
+coordinates {(0,6)(2,4.5)(3,2)};
 \legend{Inventory Level}
 
 \addplot[color=brown!60!black,dashed]
 coordinates {(0.85,0)(0.85,6)};
 
 \addplot[color=brown!60!black,dashed]
-coordinates {(2,0)(2,5)};
+coordinates {(2,0)(2,4.5)};
 
 \addplot[color=brown!60!black,dashed]
 coordinates {(3,0)(3,2)};
@@ -130,10 +136,12 @@ coordinates {(3,0)(3,2)};
 \end{axis}
 \end{tikzpicture}
 %area under graph
-\caption[Holding costs calculation]{Whenever a merchant's inventory level or holding cost rate changes, the holding costs since the previous change are computed.
-	Holding costs depend on the holding cost rate, the inventory level, and time since the last change.
-	Holding costs are proportional to the area under the graph segment.
-	At $t_1$ the holding cost rate changes from $l_{old}$ to $l_{new}$.}
+\caption[Holding costs calculation]{
+Each segment under the graph corresponds to one holding cost computation.
+Whenever a merchant's inventory level or holding cost rate changes, the holding costs since the previous change are computed.
+Holding costs depend on the holding cost rate, the inventory level, and time since the last change.
+Holding costs are proportional to the area under the graph segment.
+At $t_1$ the holding cost rate changes from $l_{old}$ to $l_{new}$.}
 \label{fig:holding_cost}
 \end{figure}
 
@@ -181,10 +189,10 @@ The producer only returns the ordered items if the delivery time is over.
 An order can only be received once.
 
 This solution requires an additional HTTP request compared to instant orders.
-This is only a small additional overhead and it is easy to update existing merchants to the new ordering process.
-but this is only a small overhead and uses common web technologies.
+The additional overhead is small and, compared to web sockets, it is easier to update existing merchants to the new ordering process.
+In contrast to the long-running request, this method is non-blocking.
 The known duration until the order is ready is advantageous for this approach.
-The merchant does not need to poll the producer until the order is ready.
+The merchant does not need to poll the producer until the order is ready and can instead wait the mentioned duration before sending the second request.
 
 %todo use downloaded chart?
 \section{Inventory Visualization}
@@ -204,7 +212,7 @@ In order to analyze how merchants control their inventory levels, we added an in
 Users have access to the new chart that shows inventory levels over time from all merchants.
 \cref{fig:invnetory_graph} shows an example of the inventory chart.
 This chart is shown along other charts, which present metrics like prices, profit, and revenue. 
-We used the highcharts\footnote{Javascript chart library, Highcharts: \url{https://www.highcharts.com/}} library to have the same look and feel as the existing charts.
+We used the highcharts\footnote{JavaScript chart library, Highcharts: \url{https://www.highcharts.com/}} library to have the same look and feel as the existing charts.
 
 \section{Benchmarking Tool}
 \label{section:benchmark_tool}
@@ -215,20 +223,25 @@ It is not feasible to manually examine charts at an exact timing.
 A better way to compare simulation runs with each other is especially important in monopoly scenarios, when merchant with different configurations or strategies are compared.
 
 %solution
-%check: need to explain events?
 We developed a benchmarking tool that runs the \pricewars platform for a certain duration with specified merchants.
 This tool allows the user to run simulations the same duration and they do not have to read a chart at the right point in time.
-After a run, the benchmark tool saves all events from the event log.
+After a run, the benchmark tool saves all events that happened on the platform from the event log.
+The events contain orders, sales, inventory levels among others.
 Events are analyzed to determine each merchant's profit, revenue, and expenses as shown in \cref{tab:benchmark_tool}.
-Users can run additional analysis afterwards on the saved events, e.g. how many stock-outs had each merchant.
+Afterwards, users can run additional analysis on the saved events to answer new questions, like: how many stock-outs had each merchant?
 Another benefit from using the benchmark tool is the automated setup and teardown of the platform.
 This process would need some manual steps otherwise.
+
+The benchmark tool is a python script. The command to run it is \texttt{python3 helper\_scripts/benchmark.py}.
+
+%python3 helper_scripts/benchmark.py -o ../runs -d 15 --merchants "python3 /home/carsten/pricewars-merchant/merchant_scenario4.py --port 5001" "python3 /home/carsten/pricewars-merchant/merchant_scenario4.py --port 5002 --name \"Data-Driven Merchant 2\"" --holding_cost 3
+
 
 \begin{table}[t]
 \centering
 \begin{tabular}{ lrrrr }
 	\toprule
-	Merchant & Profit & Revenue & Holding Cost & Order Cost \\
+	\textbf{Merchant} & \textbf{Profit} & \textbf{Revenue} & \textbf{Holding Cost} & \textbf{Order Cost} \\
 	\midrule
 	Merchant A & 534.17 & 3\,547.00 & 212.83 & 2\,800.00 \\
 	Merchant B & 315.12 & 4\,063.80 & 363.80 & 3\,385.00 \\
