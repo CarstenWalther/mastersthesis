@@ -1249,8 +1249,7 @@ Both merchants made less profit compared to the previous simulation because of t
 \end{figure}
 
 The next simulation is about the competition between two identical copies of our data-driven merchant.
-%todo zig-zag? or better word
-The price chart in \cref{fig:duopoly_data_prices} shows again the zig-zag pattern of two merchants undercutting each other and periodically pushing the price up to increase profit margins.
+The price chart in \cref{fig:duopoly_data_prices} shows again the typical zig-zag pattern of two merchants undercutting each other and periodically pushing the price up to increase profit margins.
 The price war between two data-driven merchants happens at a higher price level (around 32-51) compared to the previous simulation (around 20-26).
 This results in an overall higher profit for both competing merchants.
 %preisabsprache gibt höchsten profit erwähnen?
@@ -1278,17 +1277,22 @@ This section shows how our merchants performs in an oligopoly.
 The merchants sell products on the \pricewars platform.
 The objective is to maximize the expected discounted profit.
 
-\begin{figure}[p]
+\begin{figure}[t]
 	\centering
 	\includegraphics[width=0.8\textwidth]{figures/competition_prices.pdf}
+	\caption[Price trajectories in oligopoly scenario]{Price trajectories in an oligopoly scenario on the \pricewars platform. Our data-driven merchant competes with two rule-based merchants. The merchants have a race for the cheapest price. The data-driven merchant sometimes raises the price to increase the price niveau.}
+	\label{fig:competition_prices}
+\end{figure}
+
+\begin{figure}[t]
+	\centering
 	\includegraphics[width=0.8\textwidth]{figures/competition_inventory.pdf}
-	\caption[Price trajectories and inventory levels in oligopoly scenario]{Price trajectories and inventory levels over time from an oligopoly scenario on the \pricewars platform. Our data-driven merchant competes with two rule-based merchants.}
-	%analyze bahavior in one sentence?
-	\label{fig:competition}
+	\caption[Inventory levels in oligopoly scenario]{Inventory levels over time in an oligopoly scenario on the \pricewars platform. Our data-driven merchant competes with two rule-based merchants.}
+	\label{fig:competition_inventory}
 \end{figure}
 
 We simulated the scenario with competition on the \pricewars platform.
-The \ui shows pricing and ordering decisions during the simulation (see \cref{fig:competition}).
+The \ui shows pricing and ordering decisions during the simulation (see \cref{fig:competition_prices,fig:competition_inventory}).
 The data-driven merchant learned the advantage of undercutting competitors' offers.
 However, this creates a price war and offer prices decrease.
 With shrinking profit margins, it becomes unprofitable to set the price below competitors' prices.
@@ -1326,15 +1330,13 @@ This results in higher holding costs but saves on fixed order cost.
 %
 
 \section{Merchant Implementation}
-%todo ref python and libs
 %how is merchant implemented? (language choice)
 Merchants on the \pricewars platform can be written in any language as long as they comply with the platform's REST APIs.
-%ref to pytho
-We decided to implement our merchant in the Python programming language for the following reasons.
+We decided to implement our merchant in the Python programming language~\cite{DBLP:conf/usenix/Rossum07} for the following reasons.
 Python has great library support for numerical computing.
 These libraries allow a concise and efficient implementation without reinventing the wheel.
-The \pricewars platform offers a library written in Python, that implements the APIs to communicate with the platform's services.
-Lastly, it is possible to quickly create prototypes in that language.
+The \pricewars platform offers a Python implementation of the RESTful API for the merchant to communicate with the platform's services.
+Lastly, it is possible to quickly create prototypes in Python.
 
 %architecture
 Our merchant consists of four components as it is shown in \cref{fig:merchant_architecture}.
@@ -1400,21 +1402,21 @@ An efficient implementation reduces the time needed for a pricing and ordering d
 We create a vector that has the dimensions inventory levels, ordering decisions, pricing decisions, and demand.
 The expected profit is calculated for each possible situation and decision that occur in this vector.
 The expected profits are used to find the most profitable decisions and to create the ordering and pricing policy.
-We use fast and vectorized array operations from the numpy library to compute the policies.
-Python is a high-level programming language and has a lot of computational overhead.
+We use fast and vectorized array operations from the numpy library~\cite{ascher2001numerical} to compute the policies.
+Python is a high-level programming language and has a lot of computational overhead~\cite{DBLP:journals/cse/BehnelBCDSS11}.
 Numpy provides data structures and functions implemented in the C programming language to overcome Python's overhead for numeric computations.
 
 %demand learning
 The merchant's demand learning component is responsible for estimating sales probabilities and for bringing market and sales data into a form that can be used for training.
 The module uses linear regression to learn and predict the demand.
-We use the scikit-learn library for a reliable linear regression implementation.
+We use the scikit-learn library~\cite{DBLP:journals/jmlr/PedregosaVGMTGBPWDVPCBPD11} for a reliable and fast linear regression implementation.
 As an additional benefit, it is easy to change between regression algorithms using scikit-learn.
 The demand learning is implemented in a way that make it easy to add new or change existing explanatory variables.
 Only only single function (named \texttt{extract\_features}) must be changed to add new explanatory variables.
 
 %server
 The merchant server receives sales events from the marketplace and triggers the appropriate action.
-Our merchant just logs sales events.
+In our case, the merchants prints a message to notify the user whenever an item was sold.
 Moreover, the server receives configuration updates from the \ui and applies them.  
 
 The merchant's code is open source and can be found on Github: \url{https://github.com/CarstenWalther/pricewars-merchant}.

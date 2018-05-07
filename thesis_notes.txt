@@ -50,6 +50,8 @@ pricewars platform motivation (siehe martin feedback)
 platform architecture graph: remove 'socket', remove lower row rect, management UI -> web UI, annotate?
 eval: show resulting expected profit over time; argument for use of start parameter
 eval efficiency: fix start value paragraph
+improve merchant architecture graph
+in section 6 auf merchant impl verweisen
 
 EVAL:
 Graph V_0(n) für verschiedene n -> zeige, dass erwarteter profit kaum von n abhängt
