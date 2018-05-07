@@ -2,9 +2,9 @@
 \chapter{Dynamic Pricing \& Ordering Optimization Models and Implementations}
 This thesis proposes a merchant software agent that uses demand learning and a dynamic optimization approach to compete with other merchants on online marketplaces.
 The merchant makes ordering and pricing decisions with the goal to maximize expected long-term profits.
-Demand learning estimates future customer demand from historical customer actions.
-The estimated demand is used in a dynamic programming approach to generate optimized ordering and pricing policies.
-%what is a policy?
+We use a demand learning approach to estimate future customer demand from historical customer actions, i.e., from merchant sales.
+The estimated demand is used in dynamic programming to generate optimized ordering and pricing policies.
+A pricing policy defines a pricing decision for every situation a merchant can be in. A ordering policy defines a ordering decision for every situation.
 
 We developed the merchant in four phases to overcome the complexity of this problem.
 The first phase in \cref{section:ordering} is constrained to the ordering problem with known customer demand in a monopoly.
@@ -992,20 +992,18 @@ In the next section, we will reduce this time to allow shorter decision interval
 
 \subsection{Efficient Dynamic Programming}
 \label{section:faster_dyn_prog}
-In this section, we present four approaches to increase the computational efficiency of dynamic programming.
-These approaches are applied to our merchant to reduce time spent on computing policies.
+Goal of this section is to reduce the time it takes to compute policies using dynamic programming.
 This allows the merchant to react faster on new market situations.
-The approaches are: using a better start value, adapt decision sets, and tweaking the number of iterations.
+We present three approaches to reduce computation time: using a better start value, adapt decision sets, tweaking the number of iterations, and early stopping.
+Some approaches trade off some of the value function's accuracy against time efficiency.
 
 %better start value
-%check: mache abschnitt verständlicher
-\cref{fig:convergence} shows that dynamic programming converges faster if the start value $u$ is near the final expected profit.
+\cref{fig:convergence} shows that dynamic programming converges faster if the start value $u$ is near the resulting expected profit.
 We assume that the expected profit from two successive market situations is similar because the market situations will not fundamentally change in that short time frame.
-Setting the $u$ to the expected profit from the previous computation will reduce the time until dynamic programming converges.
+Setting $V_T(n) = V_0^{old}(n), n=0, 1, \ldots, N_{max}$, where $V_0^{old}(n)$ is the expected discounted profit with a starting inventory of $n$ items from the previous computation, will reduce the time until dynamic programming converges.
 Even if the assumption does not hold true and there is a big change in expected profit, the computation converges most of the time faster than with our previous start value $u = 0$.
 
 %adapt decision sets
-%todo remove t from decision set A and B
 %very passiv part
 Another way to increase the efficiency of the dynamic programming approach is to change the set of pricing decisions $A$ and set of ordering decisions $B$ to only contain relevant decisions.
 E.g., a order quantity of 100 is an irrelevant decision if the final policy only uses order quantities around 10.
@@ -1025,17 +1023,19 @@ No prior knowledge of relevant prices and order quantities is necessary.
 %stop after x iterations or until policy converged
 %quantisation (not done here) (range vs stride)
 
-%change number of iteration
+%tweaking iterations
 The end time $T$ is a parameter that affects the number of iterations and therefore the computation time of the dynamic programming approach.
 The choice of this parameter is a trade-off between precision for large $T$ and efficiency for small $T$.
 One observation is that the policy converges faster than the calculated expected profit.
 This can be used to reduce $T$ without affecting the precision of the resulting policies.
 It is possible to further reduce the end time $T$, if approximations of the optimal pricing and ordering policies are sufficient.
 
-%show speed increase, maybe here maybe in eval
+%early stopping
+Early stopping ends the computation before reaching $T$ iterations.
+This is done if the calculated policies do not change over a number of iterations.
+It is likely that these policies already converged to the optimal policies.
 
 \subsection{Evaluation of Efficient Dynamic Programming}
-%check: have i mentioned early stopping in text?
 
 The goal of our efficient dynamic programming approaches is to reduce the computation time in order to be able to react faster to new market situations.
 We measured the runtime performance of the dynamic programming variations to show the impact of the optimizations.
@@ -1045,12 +1045,14 @@ The market situation contains one own offer and two competitor offers.
 
 %baseline
 The baseline for the measurements is the pure dynamic programming approach without any of the methods from \cref{section:faster_dyn_prog}.
-We set the end time $T = 500$, i.e., 500 iterations.
+We set the end time $T = 500$, i.e., iterate 500 times.
+
 %use last value (why faster -> less iterations)
 The first optimization method sets the start value $V_T$ to the expected profit from the last computation.
 This way $V_T$ is closer to the final expected profit compared to $V_T = 0$.
 The value function converges faster with an appropriate start value.
 We utilize this fact and reduce the number of iterations to 200 in order to decrease the computation time with only a minimal precision loss.
+
 %adapt decisions (also reuses space)
 The next optimization method is the adaption of the ordering and pricing decision sets.
 There are 5 successive dynamic programming calculations with 40 iterations each.
@@ -1059,6 +1061,7 @@ This reduces the size of the decision sets without omitting relevant decisions.
 Relevant decisions are decisions that occur in the optimal policy.
 Smaller decisions sets lead to a more efficient computation of pricing and ordering policies.
 Adapted ordering and pricing decision sets are reused from the previous computation similarly to the start value.
+
 %early stopping
 The last optimization method is early stopping.
 This stops the dynamic programming calculation if the ordering and pricing policies do not change after a number of iterations.

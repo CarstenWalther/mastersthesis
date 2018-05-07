@@ -37,7 +37,6 @@ sonntag/montag stand schreiben
 di 11 Uhr treffen
 finish Related Work (part: ivnentory opti, price opti joint opti, demand learning, platform), schaue martins notes an
 longer intro (more about what i do + platform, contributions, paper structure)
-platform -> deploy not architecture
 table of figures fix names
 describe consumer in first eval (or gradualy)
 use prob function for ordering numeric example instead of explicit values
@@ -49,6 +48,8 @@ check functions in dyn learning evaluation
 reproduzierbares duopoly oligopoly
 pricewars platform motivation (siehe martin feedback)
 platform architecture graph: remove 'socket', remove lower row rect, management UI -> web UI, annotate?
+eval: show resulting expected profit over time; argument for use of start parameter
+eval efficiency: fix start value paragraph
 
 EVAL:
 Graph V_0(n) für verschiedene n -> zeige, dass erwarteter profit kaum von n abhängt
