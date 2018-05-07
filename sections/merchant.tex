@@ -1285,7 +1285,7 @@ The objective is to maximize the expected discounted profit.
 \end{figure}
 
 We simulated the scenario with competition on the \pricewars platform.
-The management UI shows pricing and ordering decisions during the simulation (see \cref{fig:competition}).
+The \ui shows pricing and ordering decisions during the simulation (see \cref{fig:competition}).
 The data-driven merchant learned the advantage of undercutting competitors' offers.
 However, this creates a price war and offer prices decrease.
 With shrinking profit margins, it becomes unprofitable to set the price below competitors' prices.
@@ -1372,7 +1372,7 @@ After enough time passed, the merchant requests new market and sales data from t
 	pin={[pinstyle]right:
 		\begin{tabular}{@{}cc@{}}
 		Marketplace \\
-		Management UI \\
+		\UI \\
 		\end{tabular}
 	}] (server) {Server};
 
@@ -1412,7 +1412,7 @@ Only only single function (named \texttt{extract\_features}) must be changed to 
 %server
 The merchant server receives sales events from the marketplace and triggers the appropriate action.
 Our merchant just logs sales events.
-Moreover, the server receives configuration updates from the management UI and applies them.  
+Moreover, the server receives configuration updates from the \ui and applies them.  
 
 The merchant's code is open source and can be found on Github: \url{https://github.com/CarstenWalther/pricewars-merchant}.
 

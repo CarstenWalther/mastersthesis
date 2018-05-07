@@ -10,29 +10,38 @@
 
 %motivation! -> warum diese architecture?
 %what's docker? what's microservice?
-%mehr roter faden
 
 The \pricewars platform is an open-source framework to simulate dynamic pricing competition on online marketplaces~\cite{DBLP:conf/recsys/0001SPSBLLSU17, edoc2017pricewars}.
 Users can register their merchant on the platform to participate on the marketplace.
-The platform is a sandbox environment, which can be used to test and evaluate pricing strategies. %...in different settings?
+The platform is a sandbox environment, which can be used to test and evaluate pricing strategies under different conditions.
 Developing and testing own pricing strategies can be time-consuming and possibly costly on a real online marketplace.
-The platform provides an HTML-based management user interface (UI) that allows users to configure and interact with the simulation.
+The platform provides an HTML-based web user interface (UI) that allows users to configure and interact with the simulation.
 For example, they can explore how merchants react to a sudden increase in demand during the simulation.
-The management UI includes a dashboard that visualizes price trajectories and several metrics, e.g., revenue and profit over time.
-The dashboard allows to observe evolution of the market and compare status and actions of competing merchant strategies.
 
-%title: servies and actors?
-\section{Architecture}
-The \pricewars platform consists of microservices.
-The services communicate over RESTful APIs.
+The \ui includes a dashboard that visualizes price trajectories and several metrics, e.g., revenue and profit over time.
+The dashboard allows to observe evolution of the market and compare status and actions of competing merchants.
+
+Merchants focused on the dynamic pricing problem on the original \pricewars platform.
+We added features to the platform that also cause the inventory control problem for the merchants.
+The additions are explained in \cref{section:platform_extension}. 
+
+\section{Motivation}
+\todo{}
+
+\section{Services and Agents}
+The \pricewars platform consists of multiple services and agents.
+Services provide the platform's functionality and agents interact with the platform.
+Services and agents communicate over RESTful APIs with each other.
+Agents are merchants and consumers.
+Merchants and consumers can be added and removed while the platform is running.
 An overview of the architecture is presented in \cref{fig:platform_architecture}.
-Each service is explained in detail below:
+Each service and agent is explained in detail below:
 
-\begin{figure}
+\begin{figure}[t]
 	\centering
 	\includegraphics[width=\textwidth]{figures/pricewars-architecture}
 	\caption[\pricewars Architecture]
-	{FMC diagram of the architecture of the \pricewars platform.}
+	{Architecture of the \pricewars platform in FMC notation~\cite{knopfel2005fundamental}.}
 	\label{fig:platform_architecture}
 \end{figure}
 
@@ -57,39 +66,42 @@ Each service is explained in detail below:
 		Of course, also complex rule-based strategies or a hybrid of both approaches are possible.
 		The \pricewars platform supports data-driven merchants by providing historical market and sales data.
 		A merchant can be written in any programming language as long as the implementation complies with the platform's RESTful API.
-		Documentation and an example merchant implementation is available on Github\footnote{\pricewars Merchant documentation and source code of its Python implementation on Github: \url{https://github.com/hpi-epic/pricewars-merchant}} to help people building merchants with custom strategies.
+		Documentation and an example merchant implementation is available on Github\footnote{\pricewars Merchant documentation and source code of its Python implementation on Github: \url{https://github.com/hpi-epic/pricewars-merchant}} to help users building merchants with custom strategies.
 	\item [Consumer]
-		The consumer service creates a stream of consumers who visit the marketplace, inspect available offers, and buys a product.
-		In case the consumer does not find any acceptable offers, he leaves the marketplace without buying a product.
-		The consumer service implements different buying behaviors, which can be enabled, disabled, or mixed together.
+		The consumer agent creates a stream of consumers who visit the marketplace, inspect available offers, and buy products.
+		A consumer, that does not find any acceptable offers, leaves the marketplace without buying a product.
+		The consumer agent implements different buying behaviors, which can be enabled, disabled, or mixed together in the \ui.
 	\item [Producer]
 		A merchant can restock his inventory with new products from the producer.
 		Products can be of varying quality.
 		Merchants pay a certain amount of money per product.
 		This amount is specified by the producer.
-	\item [Management UI]
-		The management UI is a web interface that allows the user to control and observe the simulation.
-		Marketplace, merchants, consumer, and producer can be configured with the management UI.
-		With this level of control, it is possible to test how merchants react to a changing market. E.g. how fast adapts a merchant its behavior if the number of consumers doubles.
+	\item [\UI]
+		The \ui is a web interface that allows the user to control and observe the simulation.
+		Marketplace, merchants, consumer, and producer can be configured using the \ui.
+		With this level of control, it is possible to test how merchants react to changing market conditions.
+		For example, it can be tested how fast a merchant adapts the behavior if the consumer rate doubles.
 		A dashboard contains charts that visualize merchant and consumer actions as well as merchants' short- and long-term profit and revenue.
-		\cref{fig:dashboard} shows a section of the dashboard.
+		\cref{fig:dashboard} is a screenshot of the dashboard.
 	\item [Kafka Reverse Proxy]
 	%todo market situation = snapshot of offers
 		This services provides merchants with data about past market situations and sales.
 		The data is filtered --- a merchant gets only information about his own sales --- and transformed into the CSV format.
-		Additionally, the management UI gets continuous updates for its charts from the Kafka Reverse Proxy.
+		Additionally, the \ui gets continuous updates for its charts from the Kafka Reverse Proxy.
 		
 \end{description}
 
-%link to kafka, zookeeper and co?
-Furthermore, the \pricewars platform additional services that are used for storing and processing data.
-Apache Kafka is a stream database, which is used to store event that happen on the platform. Such event are, e.g., orders from the producer, sales, and new offers on the marketplace.
-Building onto Kafka, Apache Flink is used to process and aggregate events to metrics like revenue and profit over time.
+Furthermore, the \pricewars platform contains additional services that are used for storing and processing data.
+Apache Kafka~\cite{garg2013apache} is a stream database, which is used to store events that happen on the platform. Such events are for example orders from the producer, sales, and new offers on the marketplace.
+Building onto Kafka, Apache Flink~\cite{carbone2015apache} is used to process and aggregate events to metrics like revenue and profit over time.
 %write about Zookeeper: yes/no?
-Kafka requires the coordination server Apache Zookeeper.
-Additionally, the marketplace uses the databases Postgres and Redis to manage registered accounts, product offers, and the rate limiting.
+%Kafka requires the coordination server Apache Zookeeper.
+Additionally, the marketplace uses the databases Postgres~\cite{postgres} and Redis~\cite{carlson2013redis} to manage registered accounts, product offers, and the rate limiting.
 
-The platform's source code and documentation is available on \url{https://github.com/hpi-epic/pricewars}.
-The \pricewars platform can optionally be deployed as docker containers.
-This allows an easy setup on a single machine.
-%architecture != deployment
+\section{Deployment}
+Documentation and source code of the \pricewars platform is available on Github: \url{https://github.com/hpi-epic/pricewars}.
+The service-specific repositories provide instructions on how to set the services up.
+Each service can be deployed on a dedicated machine this way.
+Alternatively, the \pricewars platform can be deployed using docker~\cite{Merkel:2014:DLL:2600239.2600241}.
+This allows an easy setup on a single machine, which is useful to try the platform out and to develop on it.
+One command \texttt{docker-compose up} is enough to set up and run the whole \pricewars platform.

@@ -12,6 +12,7 @@ descripte effect of discount factor delta: 0 -> myopic, 1 -> long-term
 lessons learned
 write about refactored example merchants (+inventory)?
 more eval for joint pricing/ordering?
+platform architecture write about microservices?
 
 CHECK:
 consistent use of item/product
@@ -28,7 +29,6 @@ ban2017big citation?
 chapters start at odd page
 
 TODO:
-rainer feedback einarbeiten
 abstract überarbeiten
 Conclusion
 martin feedback einarbeiten
@@ -46,7 +46,8 @@ math notation table
 introduce start value u later in convergence section
 check functions in dyn learning evaluation
 reproduzierbares duopoly oligopoly
-change name 'management UI'
+pricewars platform motivation (siehe martin feedback)
+platform architecture graph: remove 'socket', remove lower row rect, management UI -> web UI, annotate?
 
 EVAL:
 Graph V_0(n) für verschiedene n -> zeige, dass erwarteter profit kaum von n abhängt

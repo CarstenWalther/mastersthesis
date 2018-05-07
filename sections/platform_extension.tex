@@ -1,5 +1,6 @@
 
 \chapter{Extending the \pricewars Platform}
+\label{section:platform_extension}
 
 %problem + former state
 This thesis develops a merchant that runs on the \pricewars platform and is exposed to the inventory and dynamic pricing problem.
@@ -192,14 +193,14 @@ The merchant does not need to poll the producer until the order is ready.
 \begin{figure}[t]
 	\centering
 	\includegraphics[width=0.8\textwidth]{figures/inventory_graph}
-	\caption[Inventory chart on management UI]{Screenshot from the management UI showing the inventory levels over time of two competing merchants.}
+	\caption[Inventory chart on \ui]{Screenshot of the \ui showing the inventory levels over time of two competing merchants.}
 	\label{fig:invnetory_graph}
 \end{figure}
 
 %more motivation?
 The platform extensions create the inventory control problem for merchants.
 Merchants' inventory levels are more important than ever before because of this problem.
-In order to analyze how merchants control their inventory levels, we added an inventory chart to the management UI.
+In order to analyze how merchants control their inventory levels, we added an inventory chart to the \ui.
 Users have access to the new chart that shows inventory levels over time from all merchants.
 \cref{fig:invnetory_graph} shows an example of the inventory chart.
 This chart is shown along other charts, which present metrics like prices, profit, and revenue. 
@@ -209,7 +210,7 @@ We used the highcharts\footnote{Javascript chart library, Highcharts: \url{https
 \label{section:benchmark_tool}
 %problem
 Getting comparable results over multiple simulations on the \pricewars platform was problematic while developing our merchant.
-The charts on the management UI are great to evaluate a single simulation run but it is not precise enough to compare multiple runs.
+The charts on the \ui are great to evaluate a single simulation run but it is not precise enough to compare multiple runs.
 It is not feasible to manually examine charts at an exact timing.
 A better way to compare simulation runs with each other is especially important in monopoly scenarios, when merchant with different configurations or strategies are compared.
 
