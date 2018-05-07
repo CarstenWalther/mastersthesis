@@ -25,6 +25,7 @@ title too long for header
 order delay == delivery time
 gleichzeitige Verkäufe im Graph?
 ban2017big citation?
+chapters start at odd page
 
 TODO:
 rainer feedback einarbeiten
@@ -33,9 +34,8 @@ Conclusion
 martin feedback einarbeiten
 sonntag/montag stand schreiben
 di 11 Uhr treffen
-finish Related Work
-longer intro (contributions, paper structure)
-longer problem description
+finish Related Work (part: ivnentory opti, price opti joint opti, demand learning, platform), schaue martins notes an
+longer intro (more about what i do + platform, contributions, paper structure)
 platform -> deploy not architecture
 table of figures fix names
 describe consumer in first eval (or gradualy)
@@ -46,6 +46,7 @@ math notation table
 introduce start value u later in convergence section
 check functions in dyn learning evaluation
 reproduzierbares duopoly oligopoly
+change name 'management UI'
 
 EVAL:
 Graph V_0(n) für verschiedene n -> zeige, dass erwarteter profit kaum von n abhängt
