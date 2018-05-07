@@ -13,6 +13,7 @@ lessons learned
 write about refactored example merchants (+inventory)?
 more eval for joint pricing/ordering?
 platform architecture write about microservices?
+mention: profit goal, alternative revenue, min cost etc
 
 CHECK:
 consistent use of item/product
