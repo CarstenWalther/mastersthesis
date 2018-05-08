@@ -52,7 +52,9 @@ eval efficiency: fix start value paragraph
 improve merchant architecture graph
 in section 6 auf merchant impl verweisen
 platformerweiterung: misc: neues consumer behavior, vereinheitlichung merchants + order decision, bug fixes
-mo 14.5. drucken und abgecken
+dauer der simulation hinschreiben für Reproduzierbarkeit
+mention in twobound vs data-driven: mention max price bound is too low for this situation
+mo 14.5. drucken und abgeben
 di 15.5. Notfalltag
 
 EVAL:
