@@ -14,6 +14,8 @@
 \input{glossary}
 
 \begin{document}
+	% set (invisble) page numbering to 'Alph' to avoid hyperref problem with non-unique page numbering
+	\pagenumbering{Alph}
 	\input{title}
 	\pagestyle{empty}
 	\cleardoublepage
@@ -53,11 +55,11 @@
 	\input{sections/platform_extension}
 	\input{sections/conclusion}
 	%\input{sections/acknowledgment}
-	\clearpage
+	%\clearpage
 %	\printglossary[type=\acronymtype,style=modsuper]
 	\bibliography{sources.bib}
-%	\begin{appendices}
-%	\input{sections/appendix}
-%	\end{appendices}
+	\begin{appendices}
+	\input{sections/appendix}
+	\end{appendices}
 	\input{self}
 \end{document}

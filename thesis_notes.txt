@@ -1,9 +1,6 @@
 Seitenanzahl: min 50 nur Inhalt (~70 insgesamt)
 Referenzen: 30 (~2 Seiten)
 
-question:
-	feature formeln richtig?
-
 motivation!!!
 
 IDEAS:
@@ -22,9 +19,7 @@ merchant: mention run training in background
 equations resf in text
 refs for used libraries
 mention cpu for performance test
-eigenständigkeitserklärung auf englisch?
 features is function on market situation
-title too long for header
 order delay == delivery time
 gleichzeitige Verkäufe im Graph?
 ban2017big citation?
@@ -54,6 +49,7 @@ in section 6 auf merchant impl verweisen
 platformerweiterung: misc: neues consumer behavior, vereinheitlichung merchants + order decision, bug fixes
 dauer der simulation hinschreiben für Reproduzierbarkeit
 mention in twobound vs data-driven: mention max price bound is too low for this situation
+mention implementation section when describing merchant sections
 mo 14.5. drucken und abgeben
 di 15.5. Notfalltag
 
