@@ -230,26 +230,27 @@ The events contain orders, sales, inventory levels among others.
 Events are analyzed to determine each merchant's profit, revenue, and expenses as shown in \cref{tab:benchmark_tool}.
 Afterwards, users can run additional analysis on the saved events to answer new questions, like: how many stock-outs had each merchant?
 Another benefit from using the benchmark tool is the automated setup and teardown of the platform.
-This process would need some manual steps otherwise.
-
-The benchmark tool is a python script. The command to run it is \texttt{python3 helper\_scripts/benchmark.py}.
-
-%python3 helper_scripts/benchmark.py -o ../runs -d 15 --merchants "python3 /home/carsten/pricewars-merchant/merchant_scenario4.py --port 5001" "python3 /home/carsten/pricewars-merchant/merchant_scenario4.py --port 5002 --name \"Data-Driven Merchant 2\"" --holding_cost 3
-
+This process would need some manual steps otherwise like clearing the state from the previous simulation and starting the consumer.
 
 \begin{table}[t]
-\centering
-\begin{tabular}{ lrrrr }
-	\toprule
-	\textbf{Merchant} & \textbf{Profit} & \textbf{Revenue} & \textbf{Holding Cost} & \textbf{Order Cost} \\
-	\midrule
-	Merchant A & 534.17 & 3\,547.00 & 212.83 & 2\,800.00 \\
-	Merchant B & 315.12 & 4\,063.80 & 363.80 & 3\,385.00 \\
-	Merchant C & 492.50 & 3\,844.80 & 152.30 & 3\,200.00 \\
-	\bottomrule
-\end{tabular}
-\caption{The benchmark tool generates a breakdown of expenses and revenues. These are results from a five minute simulation.}
-\label{tab:benchmark_tool}
+	\centering
+	\begin{tabular}{ lrrrr }
+		\toprule
+		\textbf{Merchant} & \textbf{Profit} & \textbf{Revenue} & \textbf{Holding Cost} & \textbf{Order Cost} \\
+		\midrule
+		Merchant A & 534.17 & 3\,547.00 & 212.83 & 2\,800.00 \\
+		Merchant B & 315.12 & 4\,063.80 & 363.80 & 3\,385.00 \\
+		Merchant C & 492.50 & 3\,844.80 & 152.30 & 3\,200.00 \\
+		\bottomrule
+	\end{tabular}
+	\caption{The benchmark tool generates a breakdown of expenses and revenues. These are results from a five minute simulation.}
+	\label{tab:benchmark_tool}
 \end{table}
 
-%todo implemenation? calls docker-compose, start merchants directly
+The benchmark tool is a Python script.
+The command to run the tool is \texttt{python3 helper\_scripts/benchmark.py}.
+The parameter \texttt{-{}-duration} controls the length of the simulation in minutes.
+The user provides a list of merchant start commands to \texttt{-{}-merchants}.
+The start commands are the same commands that would be used to start merchants manually.
+The parameter \texttt{-{}-holding\_cost} sets the same holding cost rate for all merchants. 
+Results are written to directory given to the \texttt{-{}-output} parameter.

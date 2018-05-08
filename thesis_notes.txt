@@ -14,6 +14,7 @@ write about refactored example merchants (+inventory)?
 more eval for joint pricing/ordering?
 platform architecture write about microservices?
 mention: profit goal, alternative revenue, min cost etc
+write about benchmark tool implementation? (e.g. calls docker-compose)
 
 CHECK:
 consistent use of item/product
@@ -33,8 +34,6 @@ TODO:
 abstract überarbeiten
 Conclusion
 martin feedback einarbeiten
-sonntag/montag stand schreiben
-di 11 Uhr treffen
 finish Related Work (part: ivnentory opti, price opti joint opti, demand learning, platform), schaue martins notes an
 longer intro (more about what i do + platform, contributions, paper structure)
 table of figures fix names
@@ -52,6 +51,9 @@ eval: show resulting expected profit over time; argument for use of start parame
 eval efficiency: fix start value paragraph
 improve merchant architecture graph
 in section 6 auf merchant impl verweisen
+platformerweiterung: misc: neues consumer behavior, vereinheitlichung merchants + order decision, bug fixes
+mo 14.5. drucken und abgecken
+di 15.5. Notfalltag
 
 EVAL:
 Graph V_0(n) für verschiedene n -> zeige, dass erwarteter profit kaum von n abhängt
