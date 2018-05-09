@@ -3,6 +3,9 @@ Referenzen: 30 (~2 Seiten)
 
 motivation!!!
 
+Frage:
+	soll range nochmal in notation table?
+
 IDEAS:
 descripte effect of discount factor delta: 0 -> myopic, 1 -> long-term
 überblick über scenarien in tabelle
@@ -25,6 +28,7 @@ order delay == delivery time
 gleichzeitige Verkäufe im Graph?
 chapters start at odd page
 use 'order delivery delay'
+t = 0, ..., T-1
 
 TODO:
 Conclusion
@@ -32,12 +36,10 @@ rainers feedback einarbeiten
 fr 11 Uhr Treffen
 finish Related Work (part: ivnentory opti, price opti joint opti, demand learning, platform), schaue martins notes an
 longer intro (more about what i do + platform, contributions, paper structure)
-table of figures fix names
 describe consumer in first eval (or gradualy)
 use prob function for ordering numeric example instead of explicit values
 show better start value = faster convergence (but start value independent from n does nothing) (wie viele iterationen für optimale Politik nötig?)
 compare different parameters in numeric example joint
-math notation table
 introduce start value u later in convergence section
 check functions in dyn learning evaluation
 reproduzierbares duopoly oligopoly
@@ -51,6 +53,7 @@ platformerweiterung: misc: neues consumer behavior, vereinheitlichung merchants 
 dauer der simulation hinschreiben für Reproduzierbarkeit
 mention in twobound vs data-driven: mention max price bound is too low for this situation
 mention implementation section when describing merchant sections
+consistent: period t, period (t,t+1)
 mo 14.5. drucken und abgeben
 di 15.5. Notfalltag
 
