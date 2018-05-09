@@ -8,8 +8,8 @@ They have to estimate demand to prevent understocking and overstocking.
 Finding optimal pricing and ordering strategies is challenging because demand is uncertain, sales are affected by competitors' prices, and pricing and ordering decisions are mutually dependent.
 Merchants' pricing and ordering decisions determine their profitability and economic viability.
 %solution
-We derived an optimization approach that utilizes dynamic programming to create optimal joint pricing and ordering policies.
-Demand is estimated from historical market data using demand learning with linear regression.
+We derived an optimization approach that utilizes dynamic programming to create profit maximizing pricing and ordering policies.
+Demand is estimated based on historical market data using demand learning with linear regression.
 We implemented the optimization approach in a merchant and tested it on the \pricewars platform in different scenarios against other merchants.
 %result:
 Our merchant outperforms rule-based merchants if enough trainings data is available.
@@ -21,6 +21,3 @@ The \pricewars platform is an open-source simulation framework that gives resear
 We extended the platform by inventory holding costs, fixed order costs, and order delivery delay to make ordering decisions more crucial for profit maximization.
 %why we done
 This extensions allows testing merchant strategies under more realistic conditions.
-
-
-%goal: maximize profit

@@ -12,6 +12,8 @@ more eval for joint pricing/ordering?
 platform architecture write about microservices?
 mention: profit goal, alternative revenue, min cost etc
 write about benchmark tool implementation? (e.g. calls docker-compose)
+mention: features only on price, but can be used on quality, rating etc.
+abstract: mention joint pricing + ordering
 
 CHECK:
 consistent use of item/product
@@ -22,10 +24,11 @@ features is function on market situation
 order delay == delivery time
 gleichzeitige Verkäufe im Graph?
 chapters start at odd page
+use 'order delivery delay'
 
 TODO:
-abstract überarbeiten
 Conclusion
+rainers feedback einarbeiten
 fr 11 Uhr Treffen
 finish Related Work (part: ivnentory opti, price opti joint opti, demand learning, platform), schaue martins notes an
 longer intro (more about what i do + platform, contributions, paper structure)
