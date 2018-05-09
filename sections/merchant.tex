@@ -252,7 +252,7 @@ This behavior reduces the risks of an stock-out until the ordered items arrive.
 		other & 0 & 0 & 0 & 0 &  0\\
 		\bottomrule
 	\end{tabular}
-	\caption{Effect of control parameters on ordering policy $b^*(n).$}
+	\caption[Effect of Parameter Changes on Optimal Ordering Policy]{Effect of parameter changes on optimal ordering policy $b^*(n)$.}
 	\label{table:order_policy_parameter}
 \end{table}
 
@@ -359,7 +359,7 @@ In the following example, we show that the value function converges to the same 
 	%\addplot[mark=*] coordinates {(8,63.202560126)};
 	\end{axis}
 	\end{tikzpicture}
-	\caption[Influence of start value on the value function]{This chart shows how the start value $u$ influences the final expected discounted profit $V_0$. The function converges with any start value to the same expected profit, given a sufficiently large $T$. However, $V_0$ converges faster if $u$ is near the resulting expected discounted profit.}
+	\caption[Effect of Start Value on Convergence of Value Function]{This chart shows how the start value $u$ influences the final expected discounted profit $V_0$. The function converges with any start value to the same expected profit, given a sufficiently large $T$. However, $V_0$ converges faster if $u$ is near the resulting expected discounted profit.}
 	\label{fig:convergence}
 \end{figure}
 
@@ -609,7 +609,7 @@ Other variations like $\sqrt{p}$ or $p^2$ are possible to recognize non-linear r
 $\vec{x}$ will be extended by additional variables in the next phase.
 Additionally, the linear regression algorithm can be easily replaced by another regression approach like decision tree regression.
 
-\subsection{Comparing predicted and actual sales probabilities}
+\subsection{Comparing Predicted and Actual Sales Probabilities}
 
 This is an experiment to evaluate how close predicted sales probabilities of our demand learning approach are to the actual underlying sales probabilities.
 For the first example, the probability function to sell $i$ items in one period at price $a$ is the following price-dependent Poisson distribution:
@@ -669,7 +669,7 @@ We took a random sample using $P^*(i, a)$ for each market situation to determine
 	
 	\end{axis}
 	\end{tikzpicture}
-	\caption[Comparison of predicted probabilites with underlying Poisson probabilities]{Comparison of predicted sales probabilities $P$ with the actual underlying Poisson probabilities $P^*$ for a price of 30. The predictions are close to the actual probabilities despite using only ten trainings examples over the price range 20 to 40.}
+	\caption[Comparison of Predicted Probabilites with Underlying Poisson Probabilities]{Comparison of predicted sales probabilities $P$ with the actual underlying Poisson probabilities $P^*$ for a price of 30. The predictions are close to the actual probabilities despite using only ten trainings examples over the price range 20 to 40.}
 	\label{fig:probs_poisson}
 \end{figure}
 
@@ -737,7 +737,7 @@ We chose parameters for $\gamma(a)$ to have a buy probabilities between 0.5 and 
 	
 	\end{axis}
 	\end{tikzpicture}
-	\caption[Comparison of predicted probabilites with underlying binomial probabilities]{Comparison of predicted sales probabilities $P$ with the actual underlying binomial probabilities $P^*$ for a price of 30. The predictions are not as close as with the Poisson distribution but still a good approximation.}
+	\caption[Comparison of Predicted Probabilites with Underlying Binomial Probabilities]{Comparison of predicted sales probabilities $P$ with the actual underlying binomial probabilities $P^*$ for a price of 30. The predictions are not as close as with the Poisson distribution but still a good approximation.}
 	\label{fig:probs_binom}
 \end{figure}
 
@@ -890,7 +890,7 @@ That is the reason why we use a Poisson distribution in the demand learning mode
 	
 	\end{axis}
 	\end{tikzpicture}
-	\caption[Quality of predictions over the number of trainings examples]{Quality of sales probability predictions with an underlying Poisson and binomial distribution for different amounts of trainings examples. The Quality is measured as L2-norm of the difference from predicted to actual probabilities. Lower is better. Our demand learning model predicts Poisson distributed sales probabilities better with increasing numbers of trainings examples.}
+	\caption[Quality of Predictions over the Number of Trainings Examples]{Quality of sales probability predictions with an underlying Poisson and binomial distribution for different amounts of trainings examples. The Quality is measured as L2-norm of the difference from predicted to actual probabilities. Lower is better. Our demand learning model predicts Poisson distributed sales probabilities better with increasing numbers of trainings examples.}
 	\label{fig:prediction_quality}
 \end{figure}
 
@@ -1082,8 +1082,9 @@ Note that each row in the table also contains the optimizations from the rows ab
 		Early stopping & 747 & 5.71\\
 		\bottomrule
 	\end{tabular}
-	\caption{These are the results of the computation time optimizations applied to the dynamic programming approach.
-	Each row contains a new optimization method and the methods from the rows above. The last column is the percent error between calculated profit $V_0(0)$ and actual expected profit $V^*_0(0) = 18.68$.}
+	\caption[Dynamic Programming: Computation Time Improvements]{
+	Computation time improvements of the dynamic programming approach with the proposed optimization methods.
+	Each row contains the optimizations from the rows above. The last column (Error [\%]) is the percent error between calculated profit $V_0(0)$ and actual expected profit $V^*_0(0)$.}
 	\label{tab:speedup}
 %calculated expected profits
 %18.5891472589,
@@ -1126,7 +1127,7 @@ They order whenever the inventory level falls below a threshold and order as man
 \begin{figure}[t]
 	\centering
 	\includegraphics[width=0.8\textwidth]{figures/duopoly_cheapest_prices}
-	\caption[Price trajectories: data-driven merchant versus cheapest merchant]{Price trajectories in a duopoly of data-driven merchant and cheapest merchant.}
+	\caption[Price Trajectories: Data-Driven Merchant versus Cheapest Merchant]{Price trajectories in a duopoly of data-driven merchant and cheapest merchant.}
 	\label{fig:duopoly_cheapest}
 \end{figure}
 
@@ -1150,7 +1151,7 @@ The data-driven merchant has overall more costs but makes more profit because of
 		Cheapest & 5\,796.11 & 17\,165.10 & 418.99 & 10\,950.00 \\
 		\bottomrule
 	\end{tabular}
-	\caption{Simulation results of a duopoly with the data-driven and cheapest merchant.}
+	\caption[Simulation Results: Data-Driven Merchant versus Cheapest Merchant]{Simulation results of a duopoly with the data-driven and cheapest merchant.}
 	\label{tab:duopoly_cheapest}
 \end{table}
 
@@ -1162,7 +1163,7 @@ The data-driven merchant has overall more costs but makes more profit because of
 \begin{figure}[t]
 	\centering
 	\includegraphics[width=0.8\textwidth]{figures/duopoly_bound_prices}
-	\caption[Price trajectories: data-driven merchant versus two bound merchant]{Price trajectories in a duopoly of data-driven merchant and two bound merchant.}
+	\caption[Price Trajectories: Data-Driven Merchant versus Two Bound Merchant]{Price trajectories in a duopoly of data-driven merchant and two bound merchant.}
 	\label{fig:duopoly_bound_prices}
 \end{figure}
 
@@ -1180,7 +1181,7 @@ The results are in \cref{tab:duopoly_bound}.
 \begin{figure}[t]
 	\centering
 	\includegraphics[width=0.8\textwidth]{figures/duopoly_bound_inventory}
-	\caption[Inventory levels: data-driven merchant versus two bound merchant]{Inventory levels over time in a duopoly of data-driven merchant and two bound merchant.}
+	\caption[Inventory Levels: Data-Driven Merchant versus Two Bound Merchant]{Inventory levels over time in a duopoly of data-driven merchant and two bound merchant.}
 	\label{fig:duopoly_bound_inventory}
 \end{figure}
 
@@ -1194,7 +1195,7 @@ The results are in \cref{tab:duopoly_bound}.
 		Two Bound & 13\,379.67 & 29\,138.90 & 229.22 & 15\,530.0 \\
 		\bottomrule
 	\end{tabular}
-	\caption{Simulation results of a duopoly with the data-driven and two bound merchant.}
+	\caption[Simulation Results: Data-Driven Merchant versus Two Bound Merchant]{Simulation results of a duopoly with the data-driven and two bound merchant.}
 	\label{tab:duopoly_bound}
 \end{table}
 
@@ -1205,7 +1206,7 @@ The results are in \cref{tab:duopoly_bound}.
 \begin{figure}[t]
 	\centering
 	\includegraphics[width=0.8\textwidth]{figures/duopoly_bound_prices_2}
-	\caption[Price trajectories: data-driven merchant versus two bound merchant with larger inventory]{Price trajectories in a duopoly of data-driven merchant and two bound merchant. The two bound merchant holds more items in the inventory to reduce the number of stock-outs.}
+	\caption[Price Trajectories: Data-Driven Merchant versus Two Bound Merchant with Larger Inventory]{Price trajectories in a duopoly of data-driven merchant and two bound merchant. The two bound merchant holds more items in the inventory to reduce the number of stock-outs.}
 	\label{fig:duopoly_bound_prices_2}
 \end{figure}
 
@@ -1232,7 +1233,7 @@ Both merchants made less profit compared to the previous simulation because of t
 		Two Bound & 5\,230.10 & 16\,952.70 & 527.60 & 11\,195.0 \\
 		\bottomrule
 	\end{tabular}
-	\caption{Simulation results of a duopoly with the data-driven and two bound merchant. The two bound merchant hold more items in the inventory to reduce the number of stock-outs.}
+	\caption[Simulation Results: Data-Driven Merchant versus Two Bound Merchant with Larger Inventory]{Simulation results of a duopoly with the data-driven and two bound merchant. The two bound merchant holds more items in the inventory to reduce the number of stock-outs.}
 	\label{tab:duopoly_bound_2}
 \end{table}
 
@@ -1244,7 +1245,7 @@ Both merchants made less profit compared to the previous simulation because of t
 \begin{figure}[t]
 	\centering
 	\includegraphics[width=0.8\textwidth]{figures/duopoly_data_prices}
-	\caption[Price trajectories: data-driven merchant versus data-driven merchant]{Price trajectories in a duopoly of two data-driven merchants with the same configuration.}
+	\caption[Price Trajectories: Data-Driven Merchant versus Data-Driven Merchant]{Price trajectories in a duopoly of two data-driven merchants with the same configuration.}
 	\label{fig:duopoly_data_prices}
 \end{figure}
 
@@ -1268,7 +1269,7 @@ Different policies and (bad) luck on customer decisions are the reasons for diff
 		Data-Driven 2 & 15\,650.58 & 27\,282.0 & 721.41 & 10\,910.0 \\
 		\bottomrule
 	\end{tabular}
-	\caption{Simulation results of a duopoly with two data-driven merchants with the same configuration.}
+	\caption[Simulation Results: Data-Driven Merchant versus Data-Driven Merchant]{Simulation results of a duopoly with two data-driven merchants with the same configuration.}
 	\label{tab:duopoly_data}
 \end{table}
 
@@ -1280,14 +1281,14 @@ The objective is to maximize the expected discounted profit.
 \begin{figure}[t]
 	\centering
 	\includegraphics[width=0.8\textwidth]{figures/competition_prices.pdf}
-	\caption[Price trajectories in oligopoly scenario]{Price trajectories in an oligopoly scenario on the \pricewars platform. Our data-driven merchant competes with two rule-based merchants. The merchants have a race for the cheapest price. The data-driven merchant sometimes raises the price to increase the price niveau.}
+	\caption[Price Trajectories in Oligopoly Scenario]{Price trajectories in an oligopoly scenario on the \pricewars platform. Our data-driven merchant competes with two rule-based merchants. The merchants have a race for the cheapest price. The data-driven merchant sometimes raises the price to increase the price niveau.}
 	\label{fig:competition_prices}
 \end{figure}
 
 \begin{figure}[t]
 	\centering
 	\includegraphics[width=0.8\textwidth]{figures/competition_inventory.pdf}
-	\caption[Inventory levels in oligopoly scenario]{Inventory levels over time in an oligopoly scenario on the \pricewars platform. Our data-driven merchant competes with two rule-based merchants.}
+	\caption[Inventory Levels in Oligopoly Scenario]{Inventory levels over time in an oligopoly scenario on the \pricewars platform. Our data-driven merchant competes with two rule-based merchants.}
 	\label{fig:competition_inventory}
 \end{figure}
 
@@ -1310,7 +1311,7 @@ This action is especially successful if the competitors also increase their offe
 		Two Bound & 5\,038.63 & 20\,148.30 & 644.67 & 14\,465.00 \\
 		\bottomrule
 	\end{tabular}
-	\caption{Simulation results of the oligopoly scenario with the data-driven, cheapest, and two bound merchant. The data-driven merchant made the most profit. The cheapest merchant made the most revenue.}
+	\caption[Simulation Results of Oligopoly Scenario]{Simulation results of the oligopoly scenario with the data-driven, cheapest, and two bound merchant. The data-driven merchant made the most profit. The cheapest merchant made the most revenue.}
 	\label{tab:competition}
 \end{table}
 
@@ -1387,7 +1388,7 @@ After enough time passed, the merchant requests new market and sales data from t
 \draw [->] (demand) -- node {predictions} (policy);
 
 \end{tikzpicture}
-\caption{Architecture of the proposed merchant}
+\caption[Architecture of the Data-Driven Merchant]{Architecture of the Data-Driven Merchant.}
 \label{fig:merchant_architecture}
 \end{figure}
 \egroup

@@ -54,6 +54,11 @@ dauer der simulation hinschreiben für Reproduzierbarkeit
 mention in twobound vs data-driven: mention max price bound is too low for this situation
 mention implementation section when describing merchant sections
 consistent: period t, period (t,t+1)
+merchant architecture: describe more in caption
+platform extension: replace screenshot of inventory chart with download
+table speed up dyn progamming: better name for "optimization method" name is ambigeous with profit optimization
+dyn programming speedup make results reproducible
+ref notation table in text
 mo 14.5. drucken und abgeben
 di 15.5. Notfalltag
 
