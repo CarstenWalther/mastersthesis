@@ -17,18 +17,16 @@ CHECK:
 consistent use of item/product
 merchant: mention run training in background
 equations resf in text
-refs for used libraries
 mention cpu for performance test
 features is function on market situation
 order delay == delivery time
 gleichzeitige Verkäufe im Graph?
-ban2017big citation?
 chapters start at odd page
 
 TODO:
 abstract überarbeiten
 Conclusion
-martin feedback einarbeiten
+fr 11 Uhr Treffen
 finish Related Work (part: ivnentory opti, price opti joint opti, demand learning, platform), schaue martins notes an
 longer intro (more about what i do + platform, contributions, paper structure)
 table of figures fix names
