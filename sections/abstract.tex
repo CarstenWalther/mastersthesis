@@ -1,34 +1,26 @@
 %!TEX root = ../thesis.tex
 \chapter*{Abstract}
 %situation
-%check: what is oredring strategy?
-Merchants use pricing and ordering strategies to compete against each other on online marketplaces.
-%problem statement
+Online marketplaces become increasingly competitive.
+Merchants dynamically adjust offer prices to get an advantage over the competition.
+They have to estimate demand to prevent understocking and overstocking.
+%problem
 Finding optimal pricing and ordering strategies is challenging because demand is uncertain, sales are affected by competitors' prices, and pricing and ordering decisions are mutually dependent.
-%why is problem important (motivation)
-%todo repetition of ordering and pricing
-A merchant's pricing and ordering decisions determine profitability and therefore the economic viability.
-%startling sentence
-%why did we built it?
-We built a data-driven merchant that uses dynamic optimization methods to outperform traditional rule-based merchants.
-%'this merchant runs on' or 'we tested and evaluated on...'?
-% merchant makes joint decisions
-This merchant runs on the \pricewars platform, an interactive simulation platform to test and evaluate merchant strategies in competitive e-commerce environments.
-%todo make platform extension mmore important
-Furthermore, we extended the platform by an ordering process to provide merchants the possibility to make ordering decisions and control their inventory level.
-%implication of solution
-%my merchant is advanced baseline for comparison of new advanced merchants beside simple rule-based merchants
+Merchants' pricing and ordering decisions determine their profitability and economic viability.
+%solution
+We derived an optimization approach that utilizes dynamic programming to create optimal joint pricing and ordering policies.
+Demand is estimated from historical market data using demand learning with linear regression.
+We implemented the optimization approach in a merchant and tested it on the \pricewars platform in different scenarios against other merchants.
+%result:
+Our merchant outperforms rule-based merchants if enough trainings data is available.
+
+%platform motivation
+Testing merchant strategies in production is time-consuming and potentially costly.
+The \pricewars platform is an open-source simulation framework that gives researcher and practitioners the opportunity to test and evaluate merchant strategies in competitive marketplace environments.
+%what we done
+We extended the platform by inventory holding costs, fixed order costs, and order delivery delay to make ordering decisions more crucial for profit maximization.
+%why we done
+This extensions allows testing merchant strategies under more realistic conditions.
 
 
-%problem: price (and order) optimization is hard (competition, unknown customer behavior/limited demand info)
-%decisions mutually dependend
-%why is problem important: profitability
-%what we done?:
-%	optimized joint pricing + ordering strategies
-%	demand learning to estimate sales probs
-%	implemented, evaluated on platform (different scenarios with competition)
-%result: outperforms rule-based merchants
-%
-%platform
-%problem: retailers lack possibility to test new strategies
-%price wars 
+%goal: maximize profit
