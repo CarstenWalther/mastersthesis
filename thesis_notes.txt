@@ -5,6 +5,7 @@ motivation!!!
 
 Frage:
 	soll range nochmal in notation table?
+	4 problem scenario in den Vordergrund oder letzte phase (competition undso) (Ziel oder Weg zum Ziel?)
 
 IDEAS:
 descripte effect of discount factor delta: 0 -> myopic, 1 -> long-term
@@ -19,6 +20,7 @@ mention: features only on price, but can be used on quality, rating etc.
 abstract: mention joint pricing + ordering
 pdf metadata
 abstract: add info about phases
+abstract: write about speed improvement
 
 CHECK:
 consistent use of item/product
@@ -33,11 +35,11 @@ use 'order delivery delay'
 t = 0, ..., T-1
 
 TODO:
-Conclusion
 rainers feedback einarbeiten
 fr 11 Uhr Treffen
 finish Related Work (part: ivnentory opti, price opti joint opti, demand learning, platform), schaue martins notes an
-longer intro (more about what i do + platform, contributions, paper structure)
+intro: zu harter einstieg
+intro: paper strucutre
 describe consumer in first eval (or gradualy)
 use prob function for ordering numeric example instead of explicit values
 show better start value = faster convergence (but start value independent from n does nothing) (wie viele iterationen für optimale Politik nötig?)
@@ -62,6 +64,7 @@ table speed up dyn progamming: better name for "optimization method" name is amb
 dyn programming speedup make results reproducible
 write a*, b* with input vec(x)
 ref notation table in text
+conclusion refinement
 mo 14.5. drucken und abgeben
 di 15.5. Notfalltag
 
