@@ -17,6 +17,8 @@ mention: profit goal, alternative revenue, min cost etc
 write about benchmark tool implementation? (e.g. calls docker-compose)
 mention: features only on price, but can be used on quality, rating etc.
 abstract: mention joint pricing + ordering
+pdf metadata
+abstract: add info about phases
 
 CHECK:
 consistent use of item/product
@@ -58,6 +60,7 @@ merchant architecture: describe more in caption
 platform extension: replace screenshot of inventory chart with download
 table speed up dyn progamming: better name for "optimization method" name is ambigeous with profit optimization
 dyn programming speedup make results reproducible
+write a*, b* with input vec(x)
 ref notation table in text
 mo 14.5. drucken und abgeben
 di 15.5. Notfalltag

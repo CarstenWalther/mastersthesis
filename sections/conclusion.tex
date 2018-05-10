@@ -1,26 +1,46 @@
 
 \chapter{Conclusion \& Future Work}
 
-\begin{itemize}
-	\item problem: optimal joint pricing/ordering under competition on online marketplaces
-	\item solution: optimization with dynamic programming with estimated sales probabilities from demand learning
-	\item finding: policies optimal as long as sales prob prediction is good (-> reduces problem to find good predictions)
-	\item finding: update interval (i.e. calculation speed) is key (needs eval)
-	\item finding: data-driven > rule-based (if enough data)
-	\item application: apply solution on real marketplace e.g. amazon
-	\item application: our merchant = baseline/comparison for new/modified pricing+ordering merchants on price wars (we lack comparison to other advanced pricing/ordering merchant)
-	\item
-	\item future work
-	\item extend problem by perishable products or multi-product with dependent demand
-	\item consider competition reactions/strategies for optimal policies %anticipate
-	\item iterate on demand learning -> able to predict more complex relations
-\end{itemize}
-%restate main argument
-%key findings
-%importance if findings -> impact and significance
+%%%%policy optimization
+%restate problem, why important:
+%what decisions?
+Making good decisions on competitive online marketplaces is crucial for the success of a merchant.
+%solution
+We presented different dynamic optimization models for four problem scenarios, which become increasingly realistic but also more complex.
+Pricing and ordering policies are created with a dynamic programming approach.
+The uncertain demand is estimated based on historical market data using demand learning with linear regression.
+%key findings / main points
+We implemented a merchant using these optimization approaches.
+Computation time efficiency of the dynamic programming approach was improved until the merchant reacted fast enough  to new market situations.
+The merchant was tested on the \pricewars platform against rule-based merchants in different scenarios.
+Our merchant is able to outperform the rule-based merchants if enough trainings data is available.
+%significance of findings / application
+The presented optimization approaches can be applied to real online marketplaces -- such as Amazon -- to potentially increase profits.
+%DISCLAIMER: Trading is on your own risk. Please do not sue us if making losses with the presented approaches.
 
-%()market more dynamic -> be dynamic to compete -> better strat decides)
+%%%%%platform extension
+%problem
+Formerly, it was not possible to simulate our problem scenarios on the \pricewars platform.
+%solution
+We extended the platform by orders of multiple items, fixed order costs, holding costs, and order delivery delay.
+%impact of solution
+These extensions allow testing and evaluating merchant strategies under more realistic conditions.
+Moreover, our merchant implementation can be used as a baseline to compare new ordering and pricing strategies.
 
+%%%%%future work
+There are three lines of work arising from this thesis.
+The dynamic pricing and inventory control problem can be extended to consider perishable products or multiple products with interdependent demand.
+%make this sentence better
+Both problems require changes to the dynamic programming approach and the problem with multiple products with interdependent demand requires changes to the demand learning component.
+The price and order optimization could anticipate competitors' reactions.
+This can result in different policies compared to optimizations that do not consider competitors' reactions.
+Lastly, customer demand could depend on more dimensions than the price, like product quality or merchant rating.
+This requires new explanatory variables for market situations and maybe a more complex demand learning model.
+
+%market more dynamic -> be dynamic to compete -> better strat decides)
 
 %so what?
 %why should anyone care?
+
+%finding: update interval (i.e. calculation speed) is key (needs eval)
+%finding: policies optimal as long as sales prob prediction is good (-> reduces problem to find good predictions)
