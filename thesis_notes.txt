@@ -5,7 +5,6 @@ motivation!!!
 
 Frage:
 	soll range nochmal in notation table?
-	4 problem scenario in den Vordergrund oder letzte phase (competition undso) (Ziel oder Weg zum Ziel?)
 
 IDEAS:
 descripte effect of discount factor delta: 0 -> myopic, 1 -> long-term
@@ -35,16 +34,24 @@ gleichzeitige Verkäufe im Graph?
 chapters start at odd page
 use 'order delivery delay'
 t = 0, ..., T-1
+martins table
 
 TODO:
+update contributions
+finish Related Work (part: ivnentory opti, price opti joint opti, demand learning, platform), schaue martins notes an, >34 refs
+examples 5.1 - 5.4 (\newtheorem)
+table caption
+abstract: platform raus, eval rein
+conclusion: lessons learned
+conclusion: chack/update contributions
+
 rainers feedback einarbeiten
-fr 11 Uhr Treffen
-finish Related Work (part: ivnentory opti, price opti joint opti, demand learning, platform), schaue martins notes an
+don't write price war -> starke competition
+good decision -> suitable decision
 intro: zu harter einstieg
 intro: paper strucutre
 describe consumer in first eval (or gradualy)
 use prob function for ordering numeric example instead of explicit values
-show better start value = faster convergence (but start value independent from n does nothing) (wie viele iterationen für optimale Politik nötig?)
 compare different parameters in numeric example joint
 introduce start value u later in convergence section
 check functions in dyn learning evaluation
@@ -67,21 +74,21 @@ define "market situation"
 write a*, b* with input vec(x)
 platform architecture: do not use bullet point "Kafka Reverse Proxy"?
 ref notation table in text
-conclusion refinement
 mo 14.5. drucken und abgeben
-di 15.5. Notfalltag
 
 EVAL:
 Graph V_0(n) für verschiedene n -> zeige, dass erwarteter profit kaum von n abhängt
 konvergenz zeigen für verschiedene n in V_0(n) ?
 show profit after changing pricing/ordering policy -> wie entscheident ist pricing/ordering?
+show better start value = faster convergence (but start value independent from n does nothing) (wie viele iterationen für optimale Politik nötig?)
 
 glossary:
 item, product, market situation, model vs demand model, decision interval, UI, REST, API, http
 
 
 
-
+3 Kopien
+Kuss Babelsberg
 
 
 

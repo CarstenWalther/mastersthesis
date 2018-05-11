@@ -274,6 +274,7 @@ At a higher selling price, the merchant orders more products and refills the inv
 The loss of potential revenue becomes more important than the additional holding costs.
 
 \subsection{Effect of Start Value on Convergence of Value Function}
+\label{section:convergence}
 In \cref{section:ordering_solution}, we used an arbitrary start value $u := 0$ and claimed that the value function $V_0(n)$, $n=0,1,\ldots,N_{max}$, converges to the optimal expected profit if $T$ is sufficiently large.
 In the following example, we show that the value function converges to the same value independently from $u$.
 
@@ -462,6 +463,7 @@ a \cdot min(i, n) %sales
 %todo schreibe hier irgendwas hin, nicht mit gleichungen enden
 
 \subsection{Numeric Example}
+\label{section:joint_example}
 This section shows the explicit results of \cref{eq:joint_best_price_order} for specific parameters.
 The maximum considered inventory level is $N_{max} = 10$
 Fixed order cost is $c_{fix} = 5$ and variable order cost is $c_{var} = 15$.
@@ -615,6 +617,7 @@ $\vec{x}$ will be extended by additional variables in the next phase.
 Additionally, the linear regression algorithm can be easily replaced by another regression approach like decision tree regression.
 
 \subsection{Comparing Predicted and Actual Sales Probabilities}
+\label{section:prediction_quality}
 
 This is an experiment to evaluate how close predicted sales probabilities of our demand learning approach are to the actual underlying sales probabilities.
 For the first example, the probability function to sell $i$ items in one period at price $a$ is the following price-dependent Poisson distribution:
@@ -1109,6 +1112,7 @@ Despite the precision error, the computed policies usually are identically to th
 We are willing to accept the the loss in precision in order to increase the efficiency of the dynamic programming approach.
 
 \subsection{Duopoly Simulation}
+\label{section:duopoly}
 We investigate the profitability of the proposed merchant in a duopoly scenario in this section and in an oligopoly scenario in the following section.
 
 %present rule-based merchants
@@ -1279,6 +1283,7 @@ Different policies and (bad) luck on customer decisions are the reasons for diff
 \end{table}
 
 \subsection{Oligopoly Simulation}
+\label{section:oligopoly}
 This section shows how our merchants performs in an oligopoly.
 The merchants sell products on the \pricewars platform.
 The objective is to maximize the expected discounted profit.

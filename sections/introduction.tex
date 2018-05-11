@@ -25,19 +25,24 @@ Because of this mutual influence, ordering and pricing should be decided jointly
 
 %contributions
 Throughout this thesis, we make the following contributions:
-\begin{enumerate}
-	\item We derived an optimization model for the joint pricing and ordering problem under competition. Optimal pricing and ordering policies are calculated with dynamic programming.
-	\item We improved computation time efficiency of the dynamic programming approach to allow quick merchant reactions to new market situations.
-	\item We estimate customer demand based on historical market data using demand learning with linear regression.
-	\item We implement a merchant that utilizes our optimization model and runs on the  \pricewars platform.
-	\item We implemented a more realistic ordering and inventory control concept on the \pricewars platform. This was done by extending the platform by orders of multiple items, fixed order costs, inventory holding costs, and order delivery delay.
-\end{enumerate}
+\begin{itemize}
+	\item We derived an optimization model for joint pricing and ordering problems (\cref{section:joint_ordering_pricing}). Optimal pricing and ordering policies are calculated with dynamic programming.
+	\item We estimate customer demand based on historical market data using demand learning with linear regression (\cref{section:demand_learning}).
+	\item We extended our model to cope with competing merchants (\cref{section:competition}).
+	\item We improved computation time efficiency of our dynamic programming approach to allow quick merchant reactions to new market situations (\cref{section:faster_dyn_prog}).
+	\item We implemented a merchant that utilizes our optimization models and runs on the  \pricewars platform (\cref{section:merchant_implementation}).
+	\item We made numerical studies to show the applicability of our solution (\cref{section:order_example,section:convergence,section:joint_example,section:prediction_quality}).
+	\item We benchmarked merchant strategies in duopoly (\cref{section:duopoly}) and oligopoly scenarios (\cref{section:oligopoly}). Our merchant consistently outperforms traditional rule-based merchants.
+	\item Further, simulations showed that undercutting competitors is advantageous but only with sporadic price raises to increase the price niveau (\cref{section:duopoly,section:oligopoly}).
+\end{itemize}
 
 %price wars platform
 The \pricewars platform is an open framework to simulate dynamic pricing competition on online marketplaces.
-We used the platform to test and evaluate the performance of our merchant strategy under competition.
-An extension of the platform was necessary to be able to simulate the joint pricing and ordering problem scenario on it.
-Since the platform is open-source software, researchers and practitioners can test merchant strategies in the same or similar problem scenarios.
+We used the platform to test and evaluate the performance of our merchant strategy.
+An extension of the platform was necessary to be able to simulate joint pricing and ordering problem scenarios on it.
+We implemented a more realistic ordering and inventory control concept on the \pricewars platform.
+This was done by extending the platform by orders of multiple items, fixed order costs, inventory holding costs, and order delivery delay.
+Tests on the platform are comparable and reproducible and since the platform is open-source software, researchers and practitioners can test their merchant strategies in the same or similar problem scenarios.
 
 %paper structure
 
@@ -52,9 +57,6 @@ Since the platform is open-source software, researchers and practitioners can te
 %	(no solution known with current ML techniques)
 %why ML?
 %	vielversprechende Ergebnisse in ähnlichen Gebieten
-%why on Pricewars?
-%	reproducable
-%	comparable (to other merchants)
 
 % motivation
 %mention applications for my solution
