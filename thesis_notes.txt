@@ -5,6 +5,7 @@ motivation!!!
 
 Frage:
 	soll range nochmal in notation table?
+	wasn text in example reinschreiben?
 
 IDEAS:
 descripte effect of discount factor delta: 0 -> myopic, 1 -> long-term

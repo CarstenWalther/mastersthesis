@@ -56,7 +56,7 @@ An order of size $b_t = 0$ means that no order is made.
 %todo order delay
 The set of admissible orders quantities is denoted by $B$, $B \subseteq  \mathbb{N}$.
 % order cost
-Each order causes order costs, which consists of fixed order costs $c_{fix}$, $c_{fix} \geq 0$, and variable order costs $c_{var}$, $c_{var} > 0$.
+Each order causes order costs, which consists of fixed order costs $c_{fix}$, $c_{fix} \geq 0$, and variable order costs $c_{var}$, $c_{var} \geq 0$.
 Order decisions influence the merchant's profit based on ordering costs, holding costs, and future potential sales.
 %order costs paid upfront
 Order costs are defined by, $b \in B$,
@@ -379,12 +379,12 @@ In the following example, we show that the value function converges to the same 
 	%\addplot[mark=*] coordinates {(8,63.202560126)};
 	\end{axis}
 	\end{tikzpicture}
-	\caption[Effect of Start Value on Convergence of Value Function]{This chart shows how the start value $u$ influences the final expected discounted profit $V_0$. The function converges with any start value to the same expected profit, given a sufficiently large $T$. However, $V_0$ converges faster if $u$ is near the resulting expected discounted profit.}
+	\caption[Effect of Start Value on Convergence of Value Function]{Influence of start value $u$ on the final expected discounted profit $V_0$. The function converges with any start value to the same expected profit, given a sufficiently large $T$. However, $V_0$ converges faster if $u$ is near the resulting expected discounted profit. Parameters as in \cref{example:order}, $\delta=0.95$. $T=100$.}
 	\label{fig:convergence}
 \end{figure}
 
 \cref{fig:convergence} shows results of $V_0(0)$ with varying $T$ and start values $u$.
-The parameters are the same as in \cref{section:order_example}.
+The parameters are as in \cref{example:order}.
 The only differences are $\delta = 0.95$ and $T = 100$.
 The value function converges to the same result for any $u$.
 It does not matter if the start value is bigger or smaller than the resulting expected profit.
@@ -413,32 +413,32 @@ The other way around, an ordering policy might require certain prices for a bett
 This mutual influence is the reason, why ordering and pricing should be decided jointly.
 However, this is a more complex problem compared to solving the ordering problem and pricing problem separately.
 
-\subsection{Model of Ordering and Pricing Process}
+\subsection{Model of Ordering and Pricing Problem}
 \label{subs:joint_model}
 This model is an extension of the model from \cref{subs:ordering_model}.
 %pricing decision
 Instead of a fixed selling price $a_{fix}$, the merchant sets a price $a_t$ in each period $t$, with $a_t \geq 0$, $t=0,1,\ldots,T$.
-The set of admissible pricing decisions is denoted $A$.
+The set of admissible pricing decisions is denoted by $A$, $A \subseteq  \mathbb{N}$.
 %revenue
 Each sold item in period $t$ generates a revenue of $a_t$.
 
 %demand
-The probability to sell $i$ items, $i=0,1,\ldots$, depends now on price $a$.
+The probability to sell $i$ items, $i=0,1,\ldots$, given enough items are available, depends now on price $a$.
 The merchant knows the price-dependent probability distribution in this scenario.
 
-Depending on a given pricing and ordering policy $(a_t, b_t)_t$, which can depend on the current inventory level, the random accumulated discounted profit from time period $t$, $t=0,1,\ldots$, is:
+Depending on a given pricing and ordering policy $(a_t, b_t)_t$, which can depend on the current inventory level, the random accumulated discounted profit from time period $t$ is, $t=0,1,\ldots$
 
 $$
 G_t := \sum_{s=t+1}^{\infty} \delta^{s-t} \cdot (a_{s-1}(N_{s-1}) \cdot X_s - l \cdot N_{s-1} - C(b_{s-1}(N_{s-1})))
 $$
 
-The objective is to find a joint pricing and ordering policy that maximizes the expected total profit $E(G_0 | N_0)$.
+The objective is to find a joint pricing and ordering policy that maximizes the expected discounted total profit $E(G_0 | N_0)$.
 
 \subsection{Extending the Dynamic Programming Approach by Pricing Decisions}
 \label{section:joint_solution}
 As a basis, we use the dynamic programming approach shown in \cref{eq:dyn_prog}.
 The action space is extended by one dimension that contains all potential pricing decisions $A$.
-This results in equation \cref{eq:dyn_prog_joint}, $t=0, 1, \ldots,T$, $n = 0,1,\ldots,N_{max}$.
+This resulting equation is, $t=0, 1, \ldots,T$, $n = 0,1,\ldots,N_{max}$
 
 \begin{equation}
 \begin{split}
@@ -456,8 +456,8 @@ a \cdot min(i, n) %sales
 \end{equation}
 
 There are three changes to the value function.
-The probability is price-dependent ($P(i, a)$), the revenue in one period depends on the chosen price ($a \cdot min(i, n)$), and the action space is extended by the set of pricing decisions $A_t$.
-The optimal ordering policy $b^*_t(n)$ and pricing policy $a^*_t(n)$ are given by \cref{eq:joint_best_price_order}, $n=0,1,\ldots,N_{max}$.
+The probability $P(i, a)$ is price-dependent, the revenue in one period depends on the chosen price ($a \cdot min(i, n)$), and the action space is extended by the set of pricing decisions $A$.
+The optimal ordering policy $b^*_t(n)$ and pricing policy $a^*_t(n)$ are given by, $n=0,1,\ldots,N_{max}$
 
 \begin{equation}
 \begin{split}
@@ -478,27 +478,30 @@ a \cdot min(i, n) %sales
 
 \subsection{Numeric Example}
 \label{section:joint_example}
-This section shows the explicit results of \cref{eq:joint_best_price_order} for specific parameters.
-The maximum considered inventory level is $N_{max} = 10$
-Fixed order cost is $c_{fix} = 5$ and variable order cost is $c_{var} = 15$.
-The holding cost rate is $l = 0.5$.
+This section shows the explicit results of \cref{eq:joint_best_price_order} for parameters specified in the following example.
+
+\begin{example}
+Let the parameters be $N_{max} = 10$, $c_{fix} = 5$, $c_{var} = 15$, $l = 0.5$,
+$T = 500$, $\delta = 1$, $A = \{0, 1, \ldots, 60\}$, $B = \{0, 1, \ldots, 10\}$.
+$P(i, a)$ is given by \cref{eq:example_joint_prob}.
 Time periods have a length of one second.
-The number of iterations is $T = 500$.
-The discount factor is $\delta = 1$.
-The set of potential pricing decisions is $A = \{20, 21, \ldots, 39, 40\}$ and the set of potential ordering decisions is $B = \{1, 2, \ldots, 10\}$.
-We use a Poisson distribution that depends on the price for the sales probability function for this example, $0 \leq i \leq N_{max}, a \in A$.
+\label{example:joint}
+\end{example}
+
+For this example, we model sales probabilities with a Poisson distribution.
+The mean of potential sales per period $\lambda(a)$ is chosen to be highest if $a = 0$ and zero for $a \geq 40$.
+The probability function is, $0 \leq i \leq N_{max}, a \in A$,
 %say more about this function? why this function? efect of price on function result?
 
-$$
-\lambda(a) = \max(2 - 0.05*a, 0)
-$$
-$$
-P(i, a) = \frac{\lambda(a)^ie^{-\lambda(a)}}{i!}
-$$
+\begin{equation}
+\lambda(a) = \max(2 - 0.05 \cdot a, 0)
+\end{equation}
+\begin{equation}
+P(i, a) = \frac{\lambda(a)^i \cdot e^{-\lambda(a)}}{i!}
+\label{eq:example_joint_prob}
+\end{equation}
 
-Using \cref{eq:joint_best_price_order} results in the following policies:
-
-\begin{table}
+\begin{table}[t]
 	\centering
 	\begin{tabular}{rrr}
 		\toprule
@@ -517,10 +520,15 @@ Using \cref{eq:joint_best_price_order} results in the following policies:
 		10 & 26 & 0\\
 		\bottomrule
 	\end{tabular}
+\caption[Numerical Example: Joint Pricing and Ordering Policy]{
+Optimal joint pricing and ordering policies for \cref{example:joint}.
+The price decreases with increasing inventory level.
+$a^*(0)$ has no meaningful result because the merchant cannot offer items to any price if the inventory is empty.
+}
+\label{tab:example_joint}
 \end{table}
 
-$a^*(0)$ has no meaningful result because the merchant cannot offer items to any price if the inventory is empty.
-
+Using \cref{eq:joint_best_price_order} results in policies shown in \cref{tab:example_joint}.
 The pricing policy sets decreasing prices with increasing inventory levels.
 This strategy reduces holding costs for inventories with many items by offering a lower price and selling items faster.
 If only few items remain in inventory, the policy uses higher prices to increase the profit per sold product and increase the time until a new order is necessary.
