@@ -574,7 +574,8 @@ The size of a period corresponds the period in which the merchant makes a order 
 We use regression analysis for the demand learning.
 Regression analysis models and analyzes the relationship between a dependent variable and explanatory variables.
 In this case, the dependent variable is the sales per period metric.
-Independent variables are extracted from the market situation.
+Explanatory variables are extracted from a market situation $\vec{s}$.
+A market situation $\vec{s}$ is a vector of all open offers at one point in time.
 In this scenario, the demand depends only on the merchant's price.
 %motivation: why use linear regression and not something else? is relationship linear?
 We use linear regression to find a relationship between the explanatory variables $\vec{x}(\vec{s})$ of a market situation $\vec{s}$ and the sales per period for this situation.
@@ -585,14 +586,14 @@ The following equation shows how to predict mean sales per period for a market s
 \lambda(\vec{s}; \vec{\beta}) = \max(\vec{x}(\vec{s})^\intercal \cdot \vec{\beta}, 0)
 \end{equation}
 
-$\vec{\beta}$ are the weights of the regression model.
-$\lambda(\vec{s}; \vec{\beta})$ has a lower limit of 0 to prevent negative mean sales.
+$\vec{\beta}$ is a vector of weights for the regression model.
 The number of explanatory variables is denoted by $M$.
-Then is $\vec{x}(\vec{s}) \in \mathbb{R}^M$ and $\vec{\beta} \in \mathbb{R}^M$.
-Given observed sales per period $y_1, y_2, \ldots, y_J$ from $J$ historical market situations $\vec{s}_1, \vec{s}_2, \ldots, \vec{s}_J$, the optimal weights $\vec{\beta}^*$ are given by the linear least squares objective \cref{eq:least_squares_objective}, $j=1, 2, \ldots, J$.
+Then is $\vec{\beta} := (\beta_0, \ldots, \beta_{M-1})$, $\beta_i \in \mathbb{R}$, $i=0, 1, \ldots, M-1$ and $\vec{x}(\vec{s}) \in \mathbb{R}^M$.
+$\lambda(\vec{s}; \vec{\beta})$ has a lower limit of 0 to prevent negative mean sales.
+Given observed sales per period $y_1, y_2, \ldots, y_J$ from $J$ historical market situations $\vec{s}_1, \vec{s}_2, \ldots, \vec{s}_J$, the optimal weights $\vec{\beta}^*$ are given by the linear least squares objective, $j=1, 2, \ldots, J$,
 
 \begin{equation}
-\vec{\beta}^* := \max_{\vec{\beta} \in \mathbb{R}^M}{\sum_{j=1}^J
+ \min_{\vec{\beta} \in \mathbb{R}^M}{\sum_{j=1}^J
 	{(y_j - \lambda(\vec{s}_j; \vec{\beta}))^2}
 }
 \label{eq:least_squares_objective}
@@ -616,7 +617,7 @@ Equation \cref{eq:probability} shows the calibration of the Poisson distribution
 
 \begin{equation}
 \label{eq:probability}
-P(i, \vec{x}; \vec{\beta}^*) :=
+P(i, \vec{s}; \vec{\beta}^*) :=
 	e^{-\lambda(\vec{s}; \vec{\beta}^*)}
 	\frac{\lambda(\vec{s}; \vec{\beta}^*)^{i}}{i!}
 \end{equation}
@@ -633,8 +634,8 @@ The exploration pricing strategy sets random prices.
 This allows the merchant to encounter many different market situations and obtain sales data for these situations.
 
 %features + algo
-Our explanatory variables $\vec{x}$ consists of the price $p$ and the constant 1.
-Other variations like $\sqrt{p}$ or $p^2$ are possible to recognize non-linear relations to the price.
+Our explanatory variables $\vec{x}$ consist of the price $a$ and the constant intercept 1.
+Other variations like $\sqrt{a}$ or $a^2$ are possible to recognize non-linear relations between demand and price.
 $\vec{x}$ will be extended by additional variables in the next phase.
 Additionally, the linear regression algorithm can be easily replaced by another regression approach like decision tree regression.
 
@@ -642,23 +643,24 @@ Additionally, the linear regression algorithm can be easily replaced by another 
 \label{section:prediction_quality}
 
 This is an experiment to evaluate how close predicted sales probabilities of our demand learning approach are to the actual underlying sales probabilities.
-For the first example, the probability function to sell $i$ items in one period at price $a$ is the following price-dependent Poisson distribution:
+For the first example, the probability function to sell $i$ items in one period at price $a$ is the following price-dependent Poisson distribution, $a \geq 0$, $i \geq 0$
 
-$$
-\lambda(a) = \max(2 - 0.05*a, 0)
-$$
-$$
-P^*(i, a) = \frac{\lambda(a)^ie^{-\lambda(a)}}{i!}
-$$
+\begin{equation}
+\lambda(a) = \max(2 - 0.05 \cdot a, 0)
+\end{equation}
+\begin{equation}
+P^*(i, a) = \frac{\lambda(a)^i \cdot e^{-\lambda(a)}}{i!}
+\end{equation}
 
-We created ten examples of market situations with random uniform prices between 20 and 40.
-We took a random sample using $P^*(i, a)$ for each market situation to determine the sales per period during that market situation.
+We generated ten market situations as trainings data.
+Prices for those situations is chosen uniform randomly between 20 and 40.
+The sales per period for a market situation is a random sample from the distribution given by $P^*(i, a)$ and the price of that situation.
 
 \begin{figure}[t]
 	\begin{tikzpicture}
 	\begin{axis}[
-	xlabel={$i$},
-	%ylabel={$P(i, 30)$},
+	xlabel={\# Potential Sales $i$},
+	ylabel={Probability},
 	legend pos=north east,
 	grid style=dashed,
 	axis lines = left,
@@ -699,17 +701,18 @@ We took a random sample using $P^*(i, a)$ for each market situation to determine
 	
 	\end{axis}
 	\end{tikzpicture}
-	\caption[Comparison of Predicted Probabilites with Underlying Poisson Probabilities]{Comparison of predicted sales probabilities $P$ with the actual underlying Poisson probabilities $P^*$ for a price of 30. The predictions are close to the actual probabilities despite using only ten trainings examples over the price range 20 to 40.}
+	\caption[Comparison of Predicted Probabilites with Underlying Poisson Probabilities]{Comparison of predicted sales probabilities $P$ with actual underlying Poisson probabilities $P^*$ for a price of 30. The predictions are close to the actual probabilities despite using only ten trainings examples scattered over a large price range.}
 	\label{fig:probs_poisson}
 \end{figure}
 
 The generated trainings examples are used to train the demand learning model.
 \cref{fig:probs_poisson} shows sales probability predicted with \cref{eq:probability} compared to actual probabilities.
 The predictions are close to the actual probabilities.
-This was possible despite only using only ten trainings examples scattered over the price range 20 to 40.
+This was possible despite only using only ten trainings examples scattered over a large price range.
 
 This is an ideal example because the underlying probability distribution as well as the distribution used in the demand learning model are both Poisson distributions.
-In order compare a less than ideal situation, we use a binomial distribution in the second example, $a > 0, 0 \leq i \leq 10$
+In a second example, we want to evaluate the quality of predictions in a less ideal situation.
+We use a binomial distribution as the true underlying probability distribution, $a \geq 0, 0 \leq i \leq 10$
 
 $$
 \gamma(a) = \max(-0.025 a + 1, 0)
@@ -767,14 +770,14 @@ We chose parameters for $\gamma(a)$ to have a buy probabilities between 0.5 and 
 	
 	\end{axis}
 	\end{tikzpicture}
-	\caption[Comparison of Predicted Probabilites with Underlying Binomial Probabilities]{Comparison of predicted sales probabilities $P$ with the actual underlying binomial probabilities $P^*$ for a price of 30. The predictions are not as close as with the Poisson distribution but still a good approximation.}
+	\caption[Comparison of Predicted Probabilites with Underlying Binomial Probabilities]{Comparison of predicted sales probabilities $P$ with the actual underlying binomial probabilities $P^*$ for a price of 30 based on ten trainings examples. The predictions are not as close as with the Poisson distribution but still a good approximation.}
 	\label{fig:probs_binom}
 \end{figure}
 
 Our demand learning model assumes a Poisson distribution and is not able to perfectly fit the underlying binomial distribution.
 However, the model is able to approximate that demand distribution, see \cref{fig:probs_binom}.
 Observations of customer arrival processes show that the arrivals are close to a Poisson distribution~\cite{DBLP:journals/ior/Wolff82}.
-That is the reason why we use a Poisson distribution in the demand learning model.
+That is the reason why we use a Poisson distribution in our demand learning model.
 
 \begin{figure}[t]
 	\begin{tikzpicture}

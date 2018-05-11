@@ -5,7 +5,6 @@ motivation!!!
 
 Frage:
 	soll range nochmal in notation table?
-	wasn text in example reinschreiben?
 
 IDEAS:
 descripte effect of discount factor delta: 0 -> myopic, 1 -> long-term
@@ -71,8 +70,9 @@ platform extension: replace screenshot of inventory chart with download
 table speed up dyn progamming: better name for "optimization method" name is ambigeous with profit optimization
 inventory transition als formel (see rainers feedback)
 dyn programming speedup make results reproducible
-define "market situation"
-write a*, b* with input vec(x)
+joint policies: discuss rechenzeit in numeric example
+write V, a*, b* with input vec(x)
+write P(i, a, s, ß) and x(s, a) -> fix P(i, 30)
 platform architecture: do not use bullet point "Kafka Reverse Proxy"?
 ref notation table in text
 mo 14.5. drucken und abgeben
