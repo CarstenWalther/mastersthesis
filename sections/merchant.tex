@@ -19,7 +19,7 @@ In the third phase (\cref{section:demand_learning}), demand is no longer known a
 The fourth and last phase (\cref{section:competition}) represents the final problem: The joint ordering and dynamic pricing problem with uncertain customer behavior under competition.
 \cref{section:merchant_implementation} describes our merchant implementation for the \pricewars platform.
 
-\section{Isolated Ordering Problem}
+\section{Ordering Problem in Monopoly}
 \label{section:ordering}
 The merchant focuses on the ordering problem in this scenario and makes ordering decisions that promise the most expected long-term profit.
 The merchant cannot make pricing decisions, instead all products are sold at a fixed price.
@@ -29,7 +29,7 @@ There are no backlogs.
 If a customer arrives while the merchant is out of stock, the merchant will miss the sale.
 The merchant operates in a monopoly and does not have to care about competitors.
 
-\subsection{Model of Ordering Process}
+\subsection{Model of Ordering Problem}
 \label{subs:ordering_model}
 %situation
 The merchant sell items over the marketplace.
@@ -54,13 +54,12 @@ The merchant can reorder items to increase the inventory level.
 The number of items ordered at time $t$ are denoted by $b_t$, $b_t \geq 0$.
 An order of size $b_t = 0$ means that no order is made.
 %todo order delay
-%set depends on time, yes? no?
-The set of admissible orders quantities is denoted $B$.
+The set of admissible orders quantities is denoted by $B$, $B \subseteq  \mathbb{N}$.
 % order cost
 Each order causes order costs, which consists of fixed order costs $c_{fix}$, $c_{fix} \geq 0$, and variable order costs $c_{var}$, $c_{var} > 0$.
 Order decisions influence the merchant's profit based on ordering costs, holding costs, and future potential sales.
 %order costs paid upfront
-Order costs are defined by \cref{eq:order_cost}, $b \in B$.
+Order costs are defined by, $b \in B$,
 
 \begin{equation}
 \label{eq:order_cost}
@@ -71,7 +70,7 @@ C(b) := \begin{cases}
 \end{equation}
 
 %sales
-The probability to sell $i$ items within one period of time is denoted by $P(i)$, $i = 0, 1, \ldots$ .
+The probability to sell $i$ items within one period of time, given enough items are available, is denoted by $P(i)$, $i = 0, 1, \ldots$ .
 A changing customer behavior over time is out of scope of this work, thus the sales probability $P(i)$ does not depend on the time period $t$.
 The sales probability in the first phase does not directly depend on the price or market situation because the merchant sells at a fixed price in a monopoly.
 The random number of sold items within the period $(t-1, t)$ is denoted by $X_t$.
@@ -79,15 +78,14 @@ The merchant cannot sell more items than the inventory holds, i.e. $N_t \geq X_{
 
 %whats ordering strategy?
 %how to write the policy?
-Depending on a given ordering policy $(b_t)_t$, the random accumulated discounted profit from time period $t$, $t = 0, 1, \ldots$, is:
+Depending on a given ordering policy $(b_t)_t$, the random accumulated discounted profit from time period $t$ is, $t = 0, 1, \ldots$
 
 $$
 G_t := \sum_{s=t+1}^{\infty} \delta^{s-t} \cdot (a_{fix} \cdot X_s - l \cdot N_{s-1} - C(b_{s-1}(N_{s-1})))
 $$
 
 The objective is to find an ordering policy that maximizes the expected total profit $E(G_0 | N_0)$.
-
-%todo mention notation table here, put it in appendix
+A list of all variables and parameters with description is given in \cref{tab:notations}.
 
 % end of model descripiton, maybe write what comes next
 %Sales decrease the inventory level over time and orders increase it.
@@ -99,7 +97,7 @@ The objective is to find an ordering policy that maximizes the expected total pr
 %what? -> dyn programming
 Goal of this section is to derive optimal ordering policies for the ordering problem.
 We use a dynamic programming approach to find the ordering policy promises the best expected profit for the stochastic control problem.
-The value function $V_t(n)$, $t, n = 0, 1, \ldots$, describes the best expected profit $E_t(G_t | N_t)$.
+The value function $V_t(n)$, $t, n = 0, 1, \ldots$, describes the best expected discounted future profit $E_t(G_t | N_t=n)$.
 $N_{max}$ denotes an upper limit of the inventory level $n$ and the order decision $b$, $0 \leq n, b \leq N_{max}$. This does not affect the optimal solution as long as $N_{max}$ is greater than the biggest inventory level that can occur in the optimal policy.
 
 %why do we limit time horizon?
@@ -115,7 +113,7 @@ The following time period starts with an inventory of items that were not sold i
 With delayed orders, only items that are available from the start of the time period can be sold within that period.
 The following time period starts with an inventory of items that were not sold in the previous period plus the number of items ordered in the previous period.
 
-The value function with an \textit{instantaneous arrival} of orders is \cref{eq:dyn_prog_no_delay}, $t=0,1,\ldots,T$, $n=0,1,\ldots,N_{max}$.
+The value function with an \textit{instantaneous arrival} of orders is, $t=0,1,\ldots,T$, $n=0,1,\ldots,N_{max}$,
 %todo special case P(n_max) -> rest probability
 \begin{equation}
 \begin{split}
@@ -133,7 +131,7 @@ a_{fix} \cdot min(i, n + b) %sales
 \end{equation}
 
 %todo: order delay mentioned in model description?
-The value function with \textit{order delay} is shown in the following equation:
+The value function with \textit{order delivery delay} is shown in the following equation, $t=0,1,\ldots,T$, $n=0,1,\ldots,N_{max}$,
 
 \begin{equation}
 \begin{split}
@@ -157,7 +155,7 @@ That is for instantaneous orders, $n=0,1,\ldots,N_{max}$,
 
 \begin{equation}
 \begin{split}
-b^*_{instant} = \argmax_{b \in B} \Bigg\{
+b^*_{instant}(n) = \argmax_{b \in B} \Bigg\{
 \sum_{i = 0}^{N_{max}}
 P(i) \cdot \Big(
 a_{fix} \cdot min(i, n + b) %sales
@@ -170,7 +168,7 @@ a_{fix} \cdot min(i, n + b) %sales
 \label{eq:optimal_order_instant}
 \end{equation}
 
-and for delayed orders
+and for delayed orders, $n=0,1,\ldots,N_{max}$,
 
 \begin{equation}
 \begin{split}
@@ -187,6 +185,10 @@ a_{fix} \cdot min(i, n) %sales
 \label{eq:optimal_order}
 \end{equation}
 
+Equations \cref{eq:optimal_order_instant,eq:optimal_order} are comparable to $V_0(n)$ but use $\argmax$ instead of $\max$. The $\argmax$ is only used on the outermost term.
+Nested functions are normal value functions using $\max$.
+Since \cref{eq:optimal_order_instant,eq:optimal_order} correspond to $V_0(n)$, the next nested value function is $V_1(n)$.
+
 Equations \cref{eq:optimal_order_instant,eq:optimal_order} yield optimal policies to the ordering problem without and with order delay, respectively.
 The duration of the order delay in \cref{eq:optimal_order} is exactly the length of one period.
 It is possible to find optimal ordering policies for arbitrary order delays using this dynamic programming approach.
@@ -196,18 +198,16 @@ The following phases will only consider the variation with delayed orders.
 
 \subsection{Numeric Example}
 \label{section:order_example}
-This section shows the explicit result of \cref{eq:optimal_order_instant,eq:optimal_order} for specific parameters.
-The maximum considered inventory level is $N_{max} = 40$
-Items are sold at price $a_{fix} = 35$.
-Fixed order cost is $c_{fix} = 30$ and variable order cost is $c_{var} = 20$.
-The holding cost rate is $l = 0.4$.
-Time periods have a length of one second.
-The number of iterations is $T = 500$.
-The discount factor is $\delta = 1$.
-The set of potential ordering decisions is $B_t = \{1, 2, \ldots, 40\}$, $t = 1, 2, \ldots, T$.
+This section shows explicit results of \cref{eq:optimal_order_instant,eq:optimal_order} for parameters given by the following example.
 
-The time between customers is exponential distributed with a mean time of one second.
-We sampled this process to get the following sales probabilities.
+\begin{example}
+	\label{example:order}
+	Let the parameters be $N_{max} = 40$, $a_{fix} = 35$, $c_{fix} = 30$, $c_{var} = 20$,
+	$l = 0.4$, $T = 500$, $\delta = 1$, $B = \{0, 1, \ldots, 40\}$, $t = 0, 1, \ldots, T-1$, $u=0$. The length of a period is one second. Sale probabilities $P(i)$ are taken from \cref{tab:sale_probs}
+\end{example}
+
+The time between arriving customers is exponential distributed with a mean time of one second.
+We simulated this process to get the following sales probabilities.
 
 \begin{table}
 \centering
@@ -218,11 +218,11 @@ We sampled this process to get the following sales probabilities.
 	$P(i)$ & 0.189 & 0.316 & 0.261 & 0.146 & 0.061 & 0.020 & 0.006 & 0.001 & 0.0\\
 	\bottomrule
 \end{tabular}
+\caption[Sale Probabilities for \cref{example:order}]{Probabilities to sell $i$ items in one period, given enough items are available. The probabilities are based on a simulation of customer arrivals with exponential distributed waiting time between customers.}
+\label{tab:sale_probs}
 \end{table}
 
-Using \cref{eq:optimal_order_instant,eq:optimal_order} results in these ordering policies:
-
-\begin{table}
+\begin{table}[t]
 	\centering
 	\begin{tabular}{rrr}
 		\toprule
@@ -235,18 +235,30 @@ Using \cref{eq:optimal_order_instant,eq:optimal_order} results in these ordering
 		other & 0 & 0 \\
 		\bottomrule
 	\end{tabular}
+\caption[Numeric Example: Ordering Policies]{Ordering policies without and with order delivery delay for \cref{example:order}.}
+\label{tab:order_results}
 \end{table}
 
+Using \cref{eq:optimal_order_instant,eq:optimal_order} results in ordering policies shown in \cref{tab:order_results}.
 The merchant begins to order new items at a higher inventory level if orders are delayed.
 Additionally, the merchant restocks more items.
 This behavior reduces the risks of an stock-out until the ordered items arrive.
-%todo analyze policies? meintion ss policy?
+
+%ss-policy
+The optimal policy for the ordering problem with instantaneous order delivery falls into the class of ($s$, $S$) policies.
+Policies of this class are identified by two parameters.
+Parameter $s$ is a threshold on the inventory level.
+If the inventory level falls below or to $s$, the merchant orders new items.
+The merchant orders as many items as needed to increase the inventory level to $S$.
+In our example, the resulting policy is a (1, 17) policy.
+The merchant orders if the inventory level is one or fewer and refills the inventory to 17 items.
+With delayed order delivery, the optimal policy is not a ($s$, $S$) policy because the inventory is refilled to different levels.
 
 \begin{table}
 	\centering
 	\begin{tabular}{rrrrrr}
 		\toprule
-		& & $l= 0.1$ & $c_{fix} = 15$ & $c_{var} = 27$ & $a_{fix} = 55$ \\
+		& no change & $l= 0.1$ & $c_{fix} = 15$ & $c_{var} = 27$ & $a_{fix} = 55$ \\
 		$n$ & $b^*(n)$ & $b^*(n)$ & $b^*(n)$ & $b^*(n)$ & $b^*(n)$ \\
 		\midrule
 		0 & 18 & 35 & 14 & 17 & 19\\
@@ -257,7 +269,9 @@ This behavior reduces the risks of an stock-out until the ordered items arrive.
 		other & 0 & 0 & 0 & 0 &  0\\
 		\bottomrule
 	\end{tabular}
-	\caption[Effect of Parameter Changes on Optimal Ordering Policy]{Effect of parameter changes on optimal ordering policy $b^*(n)$.}
+	\caption[Effect of Parameter Changes on Optimal Ordering Policy]{Effect of parameter changes on optimal ordering policy $b^*(n)$.
+	Each column shows the results of $b^*(n)$ when changing one parameter.
+	If not chosen differently, parameters are as in \cref{example:order} with $l=0.4$, $c_{fix}=30$, $c_{var}=20$, $a_{fix}=35$.}
 	\label{table:order_policy_parameter}
 \end{table}
 

@@ -21,7 +21,7 @@ pdf metadata
 abstract: add info about phases
 abstract: write about speed improvement
 annotate platform architecture diagram
-maybe write more in merchant chapter intro
+martins table
 
 CHECK:
 consistent use of item/product
@@ -29,23 +29,22 @@ merchant: mention run training in background
 equations resf in text
 mention cpu for performance test
 features is function on market situation
-order delay == delivery time
+order delay == delivery time 'order delivery delay'
 gleichzeitige Verkäufe im Graph?
 chapters start at odd page
-use 'order delivery delay'
-t = 0, ..., T-1
-martins table
 
 TODO:
 update contributions
-finish Related Work (part: ivnentory opti, price opti joint opti, demand learning, platform), schaue martins notes an, >34 refs
 examples 5.1 - 5.4 (\newtheorem)
+finish Related Work (part: ivnentory opti, price opti joint opti, demand learning, platform), schaue martins notes an, >34 refs
 table caption
 abstract: platform raus, eval rein
 conclusion: lessons learned
 conclusion: chack/update contributions
+conclusion: undercutting + raising
 
 rainers feedback einarbeiten
+t = 0, ..., T-1
 don't write price war -> starke competition
 good decision -> suitable decision
 intro: zu harter einstieg
@@ -69,6 +68,7 @@ consistent: period t, period (t,t+1)
 merchant architecture: describe more in caption
 platform extension: replace screenshot of inventory chart with download
 table speed up dyn progamming: better name for "optimization method" name is ambigeous with profit optimization
+inventory transition als formel (see rainers feedback)
 dyn programming speedup make results reproducible
 define "market situation"
 write a*, b* with input vec(x)
