@@ -9,7 +9,6 @@
 \end{figure}
 
 %motivation! -> warum diese architecture?
-%what's docker? what's microservice?
 
 The \pricewars platform is an open-source framework to simulate dynamic pricing competition on online marketplaces~\cite{DBLP:conf/recsys/0001SPSBLLSU17, edoc2017pricewars}.
 Users can register their merchant on the platform to participate on the marketplace.
@@ -76,17 +75,16 @@ Each service and agent is explained in detail below:
 		Products can be of varying quality.
 		Merchants pay a certain amount of money per product.
 		This amount is specified by the producer.
-	\item [\UI]
-		The \ui is a web interface that allows the user to control and observe the simulation.
+	\item [Web User Interface]
+		The \ui allows the user to control and observe the marketplace simulation.
 		Marketplace, merchants, consumer, and producer can be configured using the \ui.
 		With this level of control, it is possible to test how merchants react to changing market conditions.
 		For example, it can be tested how fast a merchant adapts the behavior if the consumer rate doubles.
 		A dashboard contains charts that visualize merchant and consumer actions as well as merchants' short- and long-term profit and revenue.
 		\cref{fig:dashboard} is a screenshot of the dashboard.
 	\item [Kafka Reverse Proxy]
-	%todo market situation = snapshot of offers
 		This services provides merchants with data about past market situations and sales.
-		The data is filtered --- a merchant gets only information about his own sales --- and transformed into the CSV format.
+		The data is filtered -- a merchant gets only information about his own sales -- and transformed into the CSV format.
 		Additionally, the \ui gets continuous updates for its charts from the Kafka Reverse Proxy.
 		
 \end{description}

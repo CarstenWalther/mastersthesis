@@ -1,18 +1,23 @@
 
 \chapter{Dynamic Pricing \& Ordering Optimization Models}
-This thesis proposes a merchant software agent that uses demand learning and a dynamic optimization approach to compete with other merchants on online marketplaces.
-The merchant makes ordering and pricing decisions with the goal to maximize expected long-term profits.
-We use a demand learning approach to estimate future customer demand from historical customer actions, i.e., from merchant sales.
-The estimated demand is used in dynamic programming to generate optimized ordering and pricing policies.
-A pricing policy defines a pricing decision for every situation a merchant can be in. A ordering policy defines a ordering decision for every situation.
+This chapter presents dynamic optimization models for dynamic pricing and ordering problems.
+The goal is to find merchant strategies that maximize expected long-term profits.
+The setting is an online marketplace in which our merchant competes with other merchants in an oligopoly.
 
-We developed the merchant in four phases to overcome the complexity of this problem.
+We estimate demand based on historical market data using demand learning with linear regression.
+The estimated demand is used in dynamic programming to generate optimized pricing and ordering policies.
+
+A pricing policy defines a pricing decision for every situation a merchant can be in. Similar, an ordering policy defines an ordering decision for every such situation.
+In our case, pricing and ordering decisions depend on the current inventory level and on the current market situation.
+
+We developed the optimization model in four phases to overcome the complexity of joint pricing and ordering problem under competition.
 The first phase in \cref{section:ordering} is constrained to the ordering problem with known customer demand in a monopoly.
-Each following phase adds a new difficulty that the merchant must manage.
+Each following phase adds a new difficulty the merchant must manage.
 \cref{section:joint_ordering_pricing} describes the second phase, which adds free choice over the offer price.
 The merchant's chosen price will affect sales.
 In the third phase (\cref{section:demand_learning}), demand is no longer known and the merchant has to find ways to estimate future demand.
-The fourth and last phase (\cref{section:competition}) represents the final problem: The joint ordering and dynamic pricing problem with unknown customer behavior under competition.
+The fourth and last phase (\cref{section:competition}) represents the final problem: The joint ordering and dynamic pricing problem with uncertain customer behavior under competition.
+\cref{section:merchant_implementation} describes our merchant implementation for the \pricewars platform.
 
 \section{Isolated Ordering Problem}
 \label{section:ordering}
@@ -1331,6 +1336,7 @@ This results in higher holding costs but saves on fixed order cost.
 %
 
 \section{Merchant Implementation}
+\label{section:merchant_implementation}
 %how is merchant implemented? (language choice)
 Merchants on the \pricewars platform can be written in any language as long as they comply with the platform's REST APIs.
 We decided to implement our merchant in the Python programming language~\cite{DBLP:conf/usenix/Rossum07} for the following reasons.
