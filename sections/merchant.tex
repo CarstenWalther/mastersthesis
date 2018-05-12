@@ -1167,7 +1167,8 @@ The decision spaces are adapted up to 5 times after $T$ iterations each.
 %cheapest merchant
 Our merchant, called data-driven merchant, competes with two rule-based merchants.
 The cheapest merchant always undercuts the cheapest competitor by 0.30.
-If no competitor offer is available, the cheapest merchant sets a default price of 30.
+Only if the cheapest competitor price is higher than the upper price bound of 30, the cheapest merchant sets a price of 30 instead.
+If no competitor offer is available, the cheapest merchant sets the price to the upper price bound.
 The merchant makes a new order, if the inventory level falls below 6 items.
 In that case, the merchant orders as many items as needed to refill the inventory to 20 items.
 The period length is 4 seconds.

@@ -22,6 +22,7 @@ abstract: add info about phases
 abstract: write about speed improvement
 annotate platform architecture diagram
 martins table
+after explanatory variables: discuss its easy to add more variables
 
 CHECK:
 consistent use of item/product
@@ -75,6 +76,7 @@ fix L2 norm
 write V, a*, b* with input vec(x)
 write P(i, a, s, ß) and x(s, a) -> fix P(i, 30)
 platform architecture: do not use bullet point "Kafka Reverse Proxy"?
+graph erklärung: balken, punkte
 mo 14.5. drucken und abgeben
 
 EVAL:
