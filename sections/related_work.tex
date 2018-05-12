@@ -2,18 +2,6 @@
 \chapter{Related Work}
 
 The merchant's task can be separated into the inventory problem and dynamic pricing problem.
-%inventory problem
-%dyn prog first used in Clark and Scarf (1960)
-The inventory problem is solved for some restricted environments.
-The economic order quantity model~\cite{harris1913many} and the dynamic lot size model~\cite{wagner1958dynamic} provide an optimal strategy when the demand is perfectly known and product costs and order costs are fixed.
-Other optimal solutions are known for variations of the inventory problem~\cite{scarf1963survey, arrow1958studies}.
-An optimal policy is not available if the underlying demand distribution is unknown.
-Researchers develop data-driven heuristics to tackle these problem cases instead.
-Huh et al. propose a data-driven inventory policy using the Kaplan-Meier estimator~\cite{huh2011adaptive}.
-Ban and Rudin propose an single-step algorithm based on empirical risk minimization~\cite{ban2017big}.
-%other paper:
-% On Implications of Demand Censoring in the Newsvendor Problem 
-% survey: Dynamic pricing and learning: Historical origins, current research, and new directions
 
 %pricing problem
 Dynamic pricing is the continuous adjusting of prices.
@@ -24,21 +12,56 @@ Araman and Caldentey propose methods for the dynamic pricing problem with comple
 %~\cite{DBLP:journals/ijecommerce/KannanK01} importance of dynamic pricing by comparing virtual to physical
 % Pricing and Revenue Optimization; profit-based pricing for loans
 
-%many pricing paper have inventory but without reorder
-
 %joint ordering and pricing
 The inventory problem and dynamic pricing problem cannot be solved independently from each other because pricing and order decisions influence each other.
 %influence not each other; influence expected result
 Elmaghraby and Keskinocak review papers that offer solutions for the dynamic pricing problem under inventory considerations~\cite{elmaghraby2003dynamic}.
 They separate solutions into three categories:
 (Non-)Replenishment of inventory, (non-)dependent demand over time, and myopic versus strategic customers.
-%Extensive reviews of the literatureon simultaneous optimization of price and inventory decisions can be found inEliashberg andSteinberg(1993),Federgruen and Heching(1999),Elmaghraby and Keskinocak(2003, Section4.1),Yano and Gilbert(2005),Chan et al.(2004), andChen and Simchi-Levi(2012).
 
 %with competition, demand learning?
 
 %%%Implementation:
-Serth et al. built an interactive simulation platform, called \pricewars, to test and evaluate merchant strategies on online marketplaces~\cite{DBLP:conf/recsys/0001SPSBLLSU17, edoc2017pricewars}.
-We developed our merchant with the help of this platform.
+
+
+%todo some text here
+\subsubsection*{Ordering Problem}
+%known demand
+The ordering problem, also called inventory control problem, has been studied for a long time.
+An overview about this problem for deterministic and stochastic demand is given by Scarf~\cite{scarf1963survey}.
+Harris~\cite{harris1913many} proposed a solution for the ordering problem with constant deterministic demand and Wagner and Within~\cite{wagner1958dynamic} proposed a solution under deterministic, but varying demand.
+
+%unknown demand
+If demand is uncertain, future demand must be estimated from past sales.
+Some publications investigate specific classes of parameterized demand distributions and propose methods to find parameters, so that the demand distribution fits the experienced sales best~\cite{azoury1985bayes}.
+Others propose methods to find ordering policies without assumptions about the underlying demand distribution~\cite{DBLP:journals/mor/LeviRS07,huh2011adaptive,ban2017big}
+
+Besbes and Muharremoglu~\cite{DBLP:journals/mansci/BesbesM13} studied the effect of access to information about missed sales on the necessity to explore inventory decisions.
+
+\subsubsection*{Pricing Problem}
+%known demand
+%unknown demand
+
+\subsubsection*{Joint Ordering and Pricing Problem}
+%known demand
+
+
+%unknown demand
+
+\subsubsection*{Pricing and Ordering under Competition}
+%only pricing
+Chen and Chen~\cite{chen2015recent} provide an overview about the dynamic pricing problem under competition for single-product and multi-product scenarios.
+Schlosser and Boissier~\cite{Schlosser_2017} proposed a method to find optimal pricing policies if competitor strategies are known.
+The dynamic pricing problem under competition with a finite time horizon is studied by~\cite{DBLP:journals/mansci/Martinez-de-AlbenizT11,Schlosser_2018}
+
+%joint pricing & inventory 
+Adida and Perakis~\cite{DBLP:journals/ior/AdidaP10} consider joint pricing and inventory control in a duopoly.
+%todo hier mehr
+
+\subsubsection*{Platform}
+%todo better title
+%Serth et al. built an interactive simulation platform, called \pricewars, to test and evaluate merchant strategies on online marketplaces~\cite{DBLP:conf/recsys/0001SPSBLLSU17, edoc2017pricewars}.
+%We developed our merchant with the help of this platform.
 %cite architecture (REST, microservice), or flink?
 
 
