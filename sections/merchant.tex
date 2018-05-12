@@ -626,7 +626,7 @@ This sales probability function is used in \cref{eq:joint_best_price_order} to c
 
 %retraining
 The merchant has access to a steadily growing collection of market situations and sales data over time.
-The quality of predictions is increased by periodic trainings that utilize the new data.
+The quality of predictions is increased by periodic training that utilize the new data.
 There is no sales data available at the start of a merchant's career on the online marketplace.
 In that case, we use a rule-based ordering and pricing strategy until enough training data is available.
 The rule-based pricing strategy sets random prices to explore the customer behavior in different market situations.
@@ -652,7 +652,7 @@ For the first example, the probability function to sell $i$ items in one period 
 P^*(i, a) = \frac{\lambda(a)^i \cdot e^{-\lambda(a)}}{i!}
 \end{equation}
 
-We generated ten market situations as trainings data.
+We generated ten market situations as training data.
 Prices for those situations is chosen uniform randomly between 20 and 40.
 The sales per period for a market situation is a random sample from the distribution given by $P^*(i, a)$ and the price of that situation.
 
@@ -701,14 +701,14 @@ The sales per period for a market situation is a random sample from the distribu
 	
 	\end{axis}
 	\end{tikzpicture}
-	\caption[Comparison of Predicted Probabilites with Underlying Poisson Probabilities]{Comparison of predicted sales probabilities $P$ with actual underlying Poisson probabilities $P^*$ for a price of 30. The predictions are close to the actual probabilities despite using only ten trainings examples scattered over a large price range.}
+	\caption[Comparison of Predicted Probabilites with Underlying Poisson Probabilities]{Comparison of predicted sales probabilities $P$ with actual underlying Poisson probabilities $P^*$ for a price of 30. The predictions are close to the actual probabilities despite using only ten training examples scattered over a large price range.}
 	\label{fig:probs_poisson}
 \end{figure}
 
-The generated trainings examples are used to train the demand learning model.
+The generated training examples are used to train the demand learning model.
 \cref{fig:probs_poisson} shows sales probability predicted with \cref{eq:probability} compared to actual probabilities.
 The predictions are close to the actual probabilities.
-This was possible despite only using only ten trainings examples scattered over a large price range.
+This was possible despite only using only ten training examples scattered over a large price range.
 
 This is an ideal example because the underlying probability distribution as well as the distribution used in the demand learning model are both Poisson distributions.
 In a second example, we want to evaluate the quality of predictions in a less ideal situation.
@@ -770,7 +770,7 @@ We chose parameters for $\gamma(a)$ to have a buy probabilities between 0.5 and 
 	
 	\end{axis}
 	\end{tikzpicture}
-	\caption[Comparison of Predicted Probabilites with Underlying Binomial Probabilities]{Comparison of predicted sales probabilities $P$ with the actual underlying binomial probabilities $P^*$ for a price of 30 based on ten trainings examples. The predictions are not as close as with the Poisson distribution but still a good approximation.}
+	\caption[Comparison of Predicted Probabilites with Underlying Binomial Probabilities]{Comparison of predicted sales probabilities $P$ with the actual underlying binomial probabilities $P^*$ for a price of 30 based on ten training examples. The predictions are not as close as with the Poisson distribution but still a good approximation.}
 	\label{fig:probs_binom}
 \end{figure}
 
@@ -782,7 +782,7 @@ That is the reason why we use a Poisson distribution in our demand learning mode
 \begin{figure}[t]
 	\begin{tikzpicture}
 	\begin{axis}[
-	xlabel={\# Trainings Examples},
+	xlabel={\# Training Examples},
 	ylabel={L2-norm of $P^* - P$},
 	ymin = 0,
 	legend style={at={(0.6,0.5)},anchor=west},
@@ -923,13 +923,13 @@ That is the reason why we use a Poisson distribution in our demand learning mode
 	
 	\end{axis}
 	\end{tikzpicture}
-	\caption[Quality of Predictions over the Number of Trainings Examples]{Quality of sales probability predictions with a true Poisson distribution and a true binomial distribution for different amounts of trainings examples. The Quality is measured as L2-norm of the difference from predicted to actual probabilities. Lower is better. Our demand learning model predicts Poisson distributed sales probabilities better with increasing numbers of trainings examples.}
+	\caption[Quality of Predictions over the Number of Training Examples]{Quality of sales probability predictions with a true Poisson distribution and a true binomial distribution for different amounts of training examples. The Quality is measured as L2-norm of the difference from predicted to actual probabilities. Lower is better. Our demand learning model predicts Poisson distributed sales probabilities better with increasing numbers of training examples.}
 	\label{fig:prediction_quality}
 \end{figure}
 
-\cref{fig:prediction_quality} shows the quality of predictions depending on how many trainings examples are available.
+\cref{fig:prediction_quality} shows the quality of predictions depending on how many training examples are available.
 The Quality is measured as L2-norm of the difference from predicted to actual probabilities over the parameters $i = 0, 1, \ldots, 10$ and $a = 20, 21, \ldots, 40$.
-Predictions of sales probabilities with an underlying Poisson distribution become more accurate with increasing number of trainings examples.
+Predictions of sales probabilities with an underlying Poisson distribution become more accurate with increasing number of training examples.
 Binomial distributed sales probabilities are predicted worse because of our demand learning model's bias towards Poisson distributed sales probabilities.
 
 \section{Pricing \& Ordering Optimization under Competition}
@@ -970,7 +970,7 @@ With competitors on the marketplace, the merchant must also consider their offer
 One possible approach is to add competitors' offers to the state in the dynamic programming calculation.
 We decided against this solution because it drastically increases the state by multiple dimensions and therefore slows the computation down by multiple orders of magnitude due to the curse if dimensionality.
 Moreover, demand learning must predict transitions of competitors' offers from one time period to another.
-This means that competitors' strategies must be learned, which requires a substantial amount of trainings data and a complex demand model to make sensible predictions.
+This means that competitors' strategies must be learned, which requires a substantial amount of training data and a complex demand model to make sensible predictions.
 
 Instead, we take the following approach.
 We create ordering and pricing policies whenever the market situation changes for that specific new market situation.
@@ -1159,7 +1159,7 @@ We are willing to accept the the loss in precision in order to increase the effi
 \label{section:setup}
 %data-driven merchants
 Our merchant implementation with the proposed optimization model is called data-driven merchant.
-A new training on all trainings data every minute.
+A new training on all training data every minute.
 The period length is 4 seconds.
 $N_{max} = 40$ and $T = 40$, $d=5$.
 The decision spaces are adapted up to 5 times after $T$ iterations each.
