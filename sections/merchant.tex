@@ -727,8 +727,8 @@ We chose parameters for $\gamma(a)$ to have a buy probabilities between 0.5 and 
 \begin{figure}[t]
 	\begin{tikzpicture}
 	\begin{axis}[
-	xlabel={$i$},
-	%ylabel={Probability to sell $i$ items in a period},
+	xlabel={\# Potential Sales $i$},
+	ylabel={Probability},
 	yticklabel style={/pgf/number format/fixed},
 	legend pos=north east,
 	grid style=dashed,
@@ -782,7 +782,7 @@ That is the reason why we use a Poisson distribution in our demand learning mode
 \begin{figure}[t]
 	\begin{tikzpicture}
 	\begin{axis}[
-	xlabel={\#Trainings Examples},
+	xlabel={\# Trainings Examples},
 	ylabel={L2-norm of $P^* - P$},
 	ymin = 0,
 	legend style={at={(0.6,0.5)},anchor=west},
@@ -923,7 +923,7 @@ That is the reason why we use a Poisson distribution in our demand learning mode
 	
 	\end{axis}
 	\end{tikzpicture}
-	\caption[Quality of Predictions over the Number of Trainings Examples]{Quality of sales probability predictions with an underlying Poisson and binomial distribution for different amounts of trainings examples. The Quality is measured as L2-norm of the difference from predicted to actual probabilities. Lower is better. Our demand learning model predicts Poisson distributed sales probabilities better with increasing numbers of trainings examples.}
+	\caption[Quality of Predictions over the Number of Trainings Examples]{Quality of sales probability predictions with a true Poisson distribution and a true binomial distribution for different amounts of trainings examples. The Quality is measured as L2-norm of the difference from predicted to actual probabilities. Lower is better. Our demand learning model predicts Poisson distributed sales probabilities better with increasing numbers of trainings examples.}
 	\label{fig:prediction_quality}
 \end{figure}
 
@@ -991,25 +991,29 @@ In \cref{section:demand_learning}, the merchant's offer price was sufficient to 
 With competition, the sales probability of an offer depends not only on its price but also on the price of the other offers.
 New explanatory variables are necessary for demand learning to describe the more complex market situations.
 We created two new explanatory variables besides the offer price in order to describe market situations with competition.
-The own price of market situation $\vec{s}$ is denoted by $a$ and the set of competitor prices by $P$.
-The explanatory variables $\vec{x} = (x_1, x_2, x_3, 1)$ are:
+A pricing decision is denoted by $a$ and competitor prices of market situation $\vec{s}$ are denoted by $\vec{p}(\vec{s})$, $\vec{p}(\vec{s}) = (p_1, \ldots, p_K)$ where $K$ is the number of competitor offers in that market situation, $K \in \mathbb{N}^0$.
+Our explanatory variables $\vec{x}(a, \vec{s}) = (x_0, x_1, x_2, x_3)$, with intercept $x_0=1$, are:
 
 \begin{description}
 	\item [Own price] \hfill \\
-		$x_1 := a$ \\
+		$x_1(a, \vec{s}) := a$ \\
 		This explanatory variable holds the value of the merchant's current offer price.
 		It helps to explain effects on the sales probability that are based on the total price.
 		For example, a higher price generally results in less demand.
 	\item [Price rank] \hfill \\
-		$x_2 := |\{p \mid p \in P \land p \leq a\}|$ \\
+		$x_2(a, \vec{s}) := card(\{k=1,\ldots, K \mid \vec{p}(\vec{s})_k \leq a\})$ \\
 		This variable describes the merchant's relative position in the price ranking.
 		Even if a price change is small, it can have a huge impact on the sales probabilities if an offer is the cheapest or second cheapest offer.
 	\item [Price difference to cheapest offer] \hfill \\
-		$x_3 := a - \min( P \cup \{a\})$ \\
+		$x_3(a, \vec{s}) := a - \min( \bigcup_{k=1}^K\{\vec{p}(\vec{s})_k\} \cup \{a\})$ \\
 		This is the difference in price from the merchant's offer to the overall cheapest offer.
 		If the merchant has the cheapest offer, the variable value will be €0.
 		It is a relative variation of the 'own price' metric.
 		This variable could explain effects like: a customer is willing to pay €5 more than the cheapest product but not €10 more.
+		
+		An alternative explanatory variable is the price difference to the cheapest competitor offer. This metric uses the minimum of all prices without the merchants own price $a$.
+		This metric contains the information about an price advantage over the cheapest competitor offer.
+		However, the edge case must be considered if there are no competitor offers.
 \end{description}
 
 With these explanatory variables it is possible to describe the effect of the competition and the merchant's offer price on the sales probabilities.
@@ -1021,7 +1025,6 @@ This is too long for the merchant to quickly and frequently react on the changin
 In the next section, we will reduce this time to allow shorter decision intervals for the merchant.
 
 %todo dyn progamming formula with p(i,x) in demand section
-%todo make x depend on price somehow
 
 \subsection{Efficient Dynamic Programming}
 \label{section:faster_dyn_prog}

@@ -71,10 +71,10 @@ table speed up dyn progamming: better name for "optimization method" name is amb
 inventory transition als formel (see rainers feedback)
 dyn programming speedup make results reproducible
 joint policies: discuss rechenzeit in numeric example
+fix L2 norm
 write V, a*, b* with input vec(x)
 write P(i, a, s, ß) and x(s, a) -> fix P(i, 30)
 platform architecture: do not use bullet point "Kafka Reverse Proxy"?
-ref notation table in text
 mo 14.5. drucken und abgeben
 
 EVAL:
