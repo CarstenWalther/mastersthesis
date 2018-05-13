@@ -26,6 +26,8 @@ after explanatory variables: discuss its easy to add more variables
 intro: zu harter einstieg
 dyn programming speedup: make results reproducible
 mention: gleichzeitige Verkäufe im Graph?
+merchant architecture: describe more in caption
+introduce start value u later in convergence section
 
 CHECK:
 merchant: mention run training in background
@@ -35,24 +37,16 @@ chapters start at odd page
 TODO:
 conclusion: lessons learned
 intro: paper strucutre
-
-t = 0, ..., T-1
-introduce start value u later in convergence section
 check functions in dyn learning evaluation
-eval: show resulting expected profit over time; argument for use of start parameter
-eval efficiency: fix start value paragraph
+fix high diff in data-driven vs. data-driven
 improve merchant architecture graph
 platformerweiterung: misc: neues consumer behavior, vereinheitlichung merchants + order decision, bug fixes
-dauer der simulation hinschreiben für Reproduzierbarkeit
 mention in twobound vs data-driven: mention max price bound is too low for this situation
-mention implementation section when describing merchant sections
-merchant architecture: describe more in caption
-platform extension: replace screenshot of inventory chart with download
 table speed up dyn progamming: better name for "optimization method" name is ambigeous with profit optimization
 fix L2 norm
 write V, a*, b* with input vec(x) ==> place at: "%todo add function here"
-write P(i, a, s, ß) and x(s, a) -> fix P(i, 30)
-notation table gruppieren
+write P(i, a, s, ß) and x(s, a)
+notation table gruppieren / sortieren
 cite upcomming paper
 markovian feedback?
 mention cpu for performance test
@@ -64,6 +58,7 @@ konvergenz zeigen für verschiedene n in V_0(n) ?
 show profit after changing pricing/ordering policy -> wie entscheident ist pricing/ordering?
 show better start value = faster convergence (but start value independent from n does nothing) (wie viele iterationen für optimale Politik nötig?)
 compare different parameters in numeric example joint
+eval: show resulting expected profit over time; argument for use of start parameter
 
 glossary:
 item, product, market situation, model vs demand model, decision interval, UI, REST, API, http

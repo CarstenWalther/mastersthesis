@@ -125,7 +125,7 @@ With the inventory level $n_t$, order quantity $b_t$, and demand $i_t$ at period
 n_t \rightarrow \max(n_t - i_t, 0) + b_t
 \end{equation}
 
-The value function with an \textit{instantaneous arrival} of orders is, $t=0,1,\ldots,T$, $n=0,1,\ldots,N_{max}$,
+The value function with an \textit{instantaneous arrival} of orders is, $t=0,1,\ldots,T-1$, $n=0,1,\ldots,N_{max}$,
 %todo special case P(n_max) -> rest probability
 \begin{equation}
 \begin{split}
@@ -143,7 +143,7 @@ a_{fix} \cdot min(i, n + b) %sales
 \end{equation}
 
 %todo: order delay mentioned in model description?
-The value function with \textit{order delivery delay} is shown in the following equation, $t=0,1,\ldots,T$, $n=0,1,\ldots,N_{max}$,
+The value function with \textit{order delivery delay} is shown in the following equation, $t=0,1,\ldots,T-1$, $n=0,1,\ldots,N_{max}$,
 
 \begin{equation}
 \begin{split}
@@ -391,7 +391,7 @@ In the following example, we show that the value function converges to the same 
 	%\addplot[mark=*] coordinates {(8,63.202560126)};
 	\end{axis}
 	\end{tikzpicture}
-	\caption[Effect of Start Value on Convergence of Value Function]{Influence of start value $u$ on the final expected discounted profit $V_0$. The function converges with any start value to the same expected profit, given a sufficiently large $T$. However, $V_0$ converges faster if $u$ is near the resulting expected discounted profit. Parameters as in \cref{example:order}, $\delta=0.95$. $T=100$.}
+	\caption[Effect of Start Value on Convergence of Value Function]{Influence of start value $u$ on the final expected discounted profit $V_0$. The function converges with any start value to the same expected profit, given a sufficiently large $T$. However, $V_0$ converges faster if $u$ is near the resulting expected discounted profit. $\delta=0.95$. $T=100$, other parameters as in \cref{example:order}.}
 	\label{fig:convergence}
 \end{figure}
 
@@ -429,8 +429,8 @@ However, this is a more complex problem compared to solving the ordering problem
 \label{subs:joint_model}
 This model is an extension of the model from \cref{subs:ordering_model}.
 %pricing decision
-Instead of a fixed selling price $a_{fix}$, the merchant sets a price $a_t$ in each period $t$, with $a_t \geq 0$, $t=0,1,\ldots,T$.
-The set of admissible pricing decisions is denoted by $A$, $A \subseteq  \mathbb{N}$.
+Instead of a fixed selling price $a_{fix}$, the merchant sets a price $a_t$ in each period $t$, with $a_t \geq 0$, $t=0,1,\ldots,T-1$.
+The set of admissible pricing decisions is denoted by $A$, $A \subseteq  \mathbb{R}^+_0$.
 %revenue
 Each sold item in period $t$ generates a revenue of $a_t$.
 The pricing decisions $a_t$ may depend on the current inventory level $n_t$.
@@ -451,7 +451,7 @@ The objective is to find a joint pricing and ordering policy that maximizes the 
 \label{section:joint_solution}
 As a basis, we use the dynamic programming approach shown in \cref{eq:dyn_prog}.
 The action space is extended by one dimension that contains all potential pricing decisions $A$.
-The resulting equation is, $t=0, 1, \ldots,T$, $n = 0,1,\ldots,N_{max}$
+The resulting equation is, $t=0, 1, \ldots,T-1$, $n = 0,1,\ldots,N_{max}$
 
 \begin{equation}
 \begin{split}
@@ -1119,8 +1119,8 @@ The baseline for the measurements is the pure dynamic programming approach witho
 We set the end time $T = 500$, i.e., we iterate 500 times.
 
 %use last value (why faster -> less iterations)
-The first optimization method sets the start value $V_T$ to the expected profit from the last computation.
-This way $V_T$ is closer to the final expected profit compared to $V_T = 0$.
+The first optimization method sets the start value to the expected profit from the last computation, $V_T(n) = V^{old}_0(n)$ for all $n$, $n=0, 1, \ldots, N_{max}$.
+This way the start values are closer to the final expected profit compared to a start value of 0.
 The value function converges faster with an appropriate start value.
 We utilize this fact and reduce the number of iterations to 200 in order to decrease the computation time with only a minimal precision loss.
 
@@ -1180,7 +1180,7 @@ We are willing to accept the the loss in precision in order to increase the effi
 Our merchant implementation with the proposed optimization model is called data-driven merchant.
 A new training on all training data every minute.
 The period length is 4 seconds.
-$N_{max} = 40$ and $T = 40$, $d=5$.
+$N_{max} = 40$, $T = 40$, $d=5$, and $\delta=1$.
 The decision spaces are adapted up to 5 times after $T$ iterations each.
 
 %cheapest merchant
@@ -1217,6 +1217,9 @@ P(\text{Buy from } o_j) = \frac{p_{max} + 1 - p_j}{J \cdot (p_{max} + 1) - p_{su
 If there are no offers with prices below 80, the consumer leaves the marketplace without buying anything.
 
 Simulations have a duration of 15 minutes.
+$c_{fix} = 10$, $c_{var} = 15$.
+Holding costs are 3 per minutes for all merchants.
+That is $l = 0.2$ for the data-driven merchant.
 If not mentioned otherwise, the following simulations are run with the configuration listed here.
 
 \subsection{Duopoly Simulation}
