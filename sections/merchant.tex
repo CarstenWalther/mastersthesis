@@ -1037,14 +1037,14 @@ Our explanatory variables $\vec{x}(a, \vec{s}) = (x_0, x_1, x_2, x_3)$, with int
 \end{description}
 
 With these explanatory variables it is possible to describe the effect of the competition and the merchant's offer price on the sales probabilities.
+More explanatory variables can be easily defined.
+This way, it is possible to estimate demand that depends by new offer attributes like quality or rating.
 
 The predicted sales probability are used in the dynamic programming approach to compute ordering and pricing policy.
 As explained above, the policies are computed for each new market situation.
 At this point, the computation takes around 10 seconds to complete.
 This is too long for the merchant to quickly and frequently react on the changing market.
 In the next section, we will reduce this time to allow shorter decision intervals for the merchant.
-
-%todo dyn progamming formula with p(i,x) in demand section
 
 \subsection{Efficient Dynamic Programming}
 \label{section:faster_dyn_prog}
@@ -1114,10 +1114,9 @@ We measured the runtime performance of the dynamic programming variations to sho
 All variations calculate pricing and ordering policies for the same market situation for a comparison.
 The market situation contains one own offer and two competitor offers.
 
-
 %baseline
 The baseline for the measurements is the pure dynamic programming approach without any of the methods from \cref{section:faster_dyn_prog}.
-We set the end time $T = 500$, i.e., iterate 500 times.
+We set the end time $T = 500$, i.e., we iterate 500 times.
 
 %use last value (why faster -> less iterations)
 The first optimization method sets the start value $V_T$ to the expected profit from the last computation.
@@ -1234,7 +1233,7 @@ In the last duopoly scenario, two data-driven merchants with the same strategy c
 \begin{figure}[t]
 	\centering
 	\includegraphics[width=0.8\textwidth]{figures/duopoly_cheapest_prices}
-	\caption[Price Trajectories: Data-Driven Merchant versus Cheapest Merchant]{Price trajectories in a duopoly of data-driven merchant and cheapest merchant. Parameters as in \cref{section:setup}.}
+	\caption[Price Trajectories: Data-Driven Merchant versus Cheapest Merchant]{Price trajectories in a duopoly of data-driven merchant and cheapest merchant. Dots in the chart are price updates and bars are sales events. Parameters as in \cref{section:setup}.}
 	\label{fig:duopoly_cheapest}
 \end{figure}
 
@@ -1356,7 +1355,7 @@ Both merchants made less profit compared to the previous simulation because they
 \begin{figure}[t]
 	\centering
 	\includegraphics[width=0.8\textwidth]{figures/duopoly_data_prices}
-	\caption[Price Trajectories: Data-Driven Merchant versus Data-Driven Merchant]{Price trajectories in a duopoly of two data-driven merchants with the same configuration. Parameters as in \cref{section:setup}.}
+	\caption[Price Trajectories: Data-Driven Merchant versus Data-Driven Merchant]{Price trajectories in a duopoly of two identically configured data-driven merchants. Parameters as in \cref{section:setup}.}
 	\label{fig:duopoly_data_prices}
 \end{figure}
 
@@ -1369,7 +1368,7 @@ The data-driven merchants order new items whenever the inventory level falls bel
 
 Results of this simulation are shown in \cref{tab:duopoly_data}.
 Merchants do not collect the same sales experiences which may result in different pricing and ordering policies.
-Different policies and (bad) luck on customer decisions are the reasons for differences in revenue and costs between both merchants.
+Different policies and (bad) luck on customer decisions are the reasons for differences in revenue, profit, and costs between both merchants.
 
 \begin{table}[t]
 	\centering

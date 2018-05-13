@@ -24,19 +24,15 @@ annotate platform architecture diagram
 martins table
 after explanatory variables: discuss its easy to add more variables
 intro: zu harter einstieg
+dyn programming speedup: make results reproducible
+mention: gleichzeitige Verkäufe im Graph?
 
 CHECK:
-consistent use of item/product
 merchant: mention run training in background
-equations resf in text
-mention cpu for performance test
-features is function on market situation
 order delay == delivery time 'order delivery delay'
-gleichzeitige Verkäufe im Graph?
 chapters start at odd page
 
 TODO:
-table caption
 conclusion: lessons learned
 intro: paper strucutre
 
@@ -53,15 +49,13 @@ mention implementation section when describing merchant sections
 merchant architecture: describe more in caption
 platform extension: replace screenshot of inventory chart with download
 table speed up dyn progamming: better name for "optimization method" name is ambigeous with profit optimization
-inventory transition als formel (see rainers feedback)
-dyn programming speedup: make results reproducible
-joint policies: discuss rechenzeit in numeric example
 fix L2 norm
-write V, a*, b* with input vec(x)
+write V, a*, b* with input vec(x) ==> place at: "%todo add function here"
 write P(i, a, s, ß) and x(s, a) -> fix P(i, 30)
-graph erklärung: balken, punkte
 notation table gruppieren
 cite upcomming paper
+markovian feedback?
+mention cpu for performance test
 mo 14.5. drucken und abgeben
 
 EVAL:
