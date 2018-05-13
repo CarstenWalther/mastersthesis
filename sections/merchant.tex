@@ -197,7 +197,7 @@ a_{fix} \cdot min(i, n) %sales
 \label{eq:optimal_order}
 \end{equation}
 
-Equations \cref{eq:optimal_order_instant,eq:optimal_order} are comparable to $V_0(n)$ but use $\argmax$ instead of $\max$. The $\argmax$ is only used on the outermost term.
+Equations \cref{eq:optimal_order_instant,eq:optimal_order} are similar to $V_0(n)$ but use $\argmax$ instead of $\max$. The $\argmax$ is only used on the outermost term.
 Nested functions are normal value functions using $\max$.
 Since \cref{eq:optimal_order_instant,eq:optimal_order} correspond to $V_0(n)$, the next nested value function is $V_1(n)$.
 
@@ -307,8 +307,8 @@ In the following example, we show that the value function converges to the same 
 \begin{figure}[t]
 	\begin{tikzpicture}
 	\begin{axis}[
-	title={Convergence of $V_0(0)$ for different start values $u$},
-	xlabel={$T$},
+	title={Convergence of value function for different start values $u$},
+	xlabel={\# Iterations $T$},
 	ylabel={$V_0(0)$},
 	legend pos=north east,
 	grid style=dashed,
@@ -433,10 +433,11 @@ Instead of a fixed selling price $a_{fix}$, the merchant sets a price $a_t$ in e
 The set of admissible pricing decisions is denoted by $A$, $A \subseteq  \mathbb{N}$.
 %revenue
 Each sold item in period $t$ generates a revenue of $a_t$.
+The pricing decisions $a_t$ may depend on the current inventory level $n_t$.
 
 %demand
-The probability to sell $i$ items, $i=0,1,\ldots$, given enough items are available, depends now on price $a$.
-The merchant knows the price-dependent probability distribution in this scenario.
+The probability $P(i, a)$ to sell $i$ items, $i=0,1,\ldots$, given enough items are available, depends now on price $a$.
+We assume that the merchant knows the price-dependent probability distribution in this scenario.
 
 Depending on a given pricing and ordering policy $(a_t, b_t)_t$, which can depend on the current inventory level, the random accumulated discounted profit from time period $t$ is, $t=0,1,\ldots$
 
@@ -450,7 +451,7 @@ The objective is to find a joint pricing and ordering policy that maximizes the 
 \label{section:joint_solution}
 As a basis, we use the dynamic programming approach shown in \cref{eq:dyn_prog}.
 The action space is extended by one dimension that contains all potential pricing decisions $A$.
-This resulting equation is, $t=0, 1, \ldots,T$, $n = 0,1,\ldots,N_{max}$
+The resulting equation is, $t=0, 1, \ldots,T$, $n = 0,1,\ldots,N_{max}$
 
 \begin{equation}
 \begin{split}
@@ -469,7 +470,7 @@ a \cdot min(i, n) %sales
 
 There are three changes to the value function.
 The probability $P(i, a)$ is price-dependent, the revenue in one period depends on the chosen price ($a \cdot min(i, n)$), and the action space is extended by the set of pricing decisions $A$.
-The optimal ordering policy $b^*_t(n)$ and pricing policy $a^*_t(n)$ are given by, $n=0,1,\ldots,N_{max}$
+The optimal ordering policy $b^*_t(n)$ and pricing policy $a^*_t(n)$ are given by using the $\argmax$ in \cref{eq:dyn_prog_joint}, $n=0,1,\ldots,N_{max}$
 
 \begin{equation}
 \begin{split}
@@ -486,7 +487,9 @@ a \cdot min(i, n) %sales
 \label{eq:joint_best_price_order}
 \end{equation}
 
-%todo schreibe hier irgendwas hin, nicht mit gleichungen enden
+Equation \cref{eq:joint_best_price_order} is similar to $V_0(n)$ but uses $\argmax$ instead of $\max$ in the outermost term.
+Nested functions are normal value functions using $\max$.
+Since \cref{eq:joint_best_price_order} corresponds to $V_0(n)$, the next nested value function is $V_1(n)$.
 
 \subsection{Numeric Example}
 \label{section:joint_example}
@@ -535,15 +538,19 @@ P(i, a) = \frac{\lambda(a)^i \cdot e^{-\lambda(a)}}{i!}
 \caption[Numerical Example: Joint Pricing and Ordering Policy]{
 Optimal joint pricing and ordering policies for \cref{example:joint}.
 The price decreases with increasing inventory level.
-$a^*(0)$ has no meaningful result because the merchant cannot offer items to any price if the inventory is empty.
+$a^*(0)$ has no meaningful result because the merchant cannot offer items at any price if the inventory is empty.
 }
 \label{tab:example_joint}
 \end{table}
 
-Using \cref{eq:joint_best_price_order} results in policies shown in \cref{tab:example_joint}.
+Using \cref{eq:dyn_prog_joint,eq:joint_best_price_order} results in policies shown in \cref{tab:example_joint}.
 The pricing policy sets decreasing prices with increasing inventory levels.
 This strategy reduces holding costs for inventories with many items by offering a lower price and selling items faster.
 If only few items remain in inventory, the policy uses higher prices to increase the profit per sold product and increase the time until a new order is necessary.
+
+The additional dimension of pricing decisions drastically increases the computation time for this problem compared to the previous model which considers only ordering decisions.
+The computation time increases by a factor of the number of pricing decisions.
+We present methods to reduce computation times of our dynamic programming approach in \cref{section:faster_dyn_prog}.
 
 %todo compare different parameters, effect on price or on order
 
@@ -576,21 +583,21 @@ In other cases, the quality of policies will depend on the accuracy of predictio
 The separation of demand prediction and policy creation lets us focus on the prediction of the demand probabilities, while having a working solution for the policy creation.
 
 %bring data into right form
-In order to use market and sales data for demand learning, it must be transformed into a usable form.
+In order to use market and sales data for demand learning, it must be transformed into a suitable form.
 From the market data we know, at what times the market situation changed and what the market situation was.
 The sales data contains information about all of a merchant's sales, including when the sales happened.
 These two data sources can be combined and aggregated to a form that contains the number of sales per time period for each market situation.
 The size of a period corresponds the period in which the merchant makes a order and pricing decision.
 
 %bring data into right form, part 2 feature extraction
-We use regression analysis for the demand learning.
-Regression analysis models and analyzes the relationship between a dependent variable and explanatory variables.
-In this case, the dependent variable is the sales per period metric.
+We use regression analysis for demand learning.
+The relationship between a dependent variable (sales per period) and explanatory variables (market conditions) in modeled and analyzed.
 Explanatory variables are extracted from a market situation $\vec{s}$.
 A market situation $\vec{s}$ is a vector of all open offers at one point in time.
 In this scenario, the demand depends only on the merchant's price.
 %motivation: why use linear regression and not something else? is relationship linear?
 We use linear regression to find a relationship between the explanatory variables $\vec{x}(\vec{s})$ of a market situation $\vec{s}$ and the sales per period for this situation.
+Linear regression is used to illustrate this approach and can be interchanged with other regression methods.
 The following equation shows how to predict mean sales per period for a market situation $\vec{s}$.
 
 \begin{equation}
@@ -599,9 +606,8 @@ The following equation shows how to predict mean sales per period for a market s
 \end{equation}
 
 $\vec{\beta}$ is a vector of weights for the regression model.
-The number of explanatory variables is denoted by $M$.
-Then is $\vec{\beta} := (\beta_0, \ldots, \beta_{M-1})$, $\beta_i \in \mathbb{R}$, $i=0, 1, \ldots, M-1$ and $\vec{x}(\vec{s}) \in \mathbb{R}^M$.
-$\lambda(\vec{s}; \vec{\beta})$ has a lower limit of 0 to prevent negative mean sales.
+$\vec{\beta} := (\beta_0, \ldots, \beta_{M-1})$, $\beta_i \in \mathbb{R}$, $i=0, 1, \ldots, M-1$ and $\vec{x}(\vec{s}) \in \mathbb{R}^M$ and $M$ is the number of explanatory variables.
+$\lambda(\vec{s}; \vec{\beta})$ has a lower bound of 0 to prevent negative mean sales.
 Given observed sales per period $y_1, y_2, \ldots, y_J$ from $J$ historical market situations $\vec{s}_1, \vec{s}_2, \ldots, \vec{s}_J$, the optimal weights $\vec{\beta}^*$ are given by the linear least squares objective, $j=1, 2, \ldots, J$,
 
 \begin{equation}
@@ -611,11 +617,12 @@ Given observed sales per period $y_1, y_2, \ldots, y_J$ from $J$ historical mark
 \label{eq:least_squares_objective}
 \end{equation}
 
-The optimal weight can be calculated with the following equation:
+The optimal weights $\vec{\beta}^*$ can be calculated with the following equation:
 
 \begin{equation}
 \vec{\beta}^* = \bigg(\sum_{j=1}^J{\vec{x}(\vec{s}_j) \vec{x}(\vec{s}_j)^\intercal} \bigg)^{-1}
 			  \bigg(\sum_{j=1}^J{y_j \vec{x}(\vec{s}_j)} \bigg)
+\label{eq:least_squares_solution}
 \end{equation}
 
 %predicted mean demand -> distribution
@@ -634,7 +641,9 @@ P(i, \vec{s}; \vec{\beta}^*) :=
 	\frac{\lambda(\vec{s}; \vec{\beta}^*)^{i}}{i!}
 \end{equation}
 
-This sales probability function is used in \cref{eq:joint_best_price_order} to calculate optimal ordering and pricing policies.
+This sales probability function is used in \cref{eq:dyn_prog_joint,eq:joint_best_price_order} to calculate optimal ordering and pricing policies.
+
+%todo add function here
 
 %retraining
 The merchant has access to a steadily growing collection of market situations and sales data over time.
@@ -648,20 +657,21 @@ This allows the merchant to encounter many different market situations and obtai
 %features + algo
 Our explanatory variables $\vec{x}$ consist of the price $a$ and the constant intercept 1.
 Other variations like $\sqrt{a}$ or $a^2$ are possible to recognize non-linear relations between demand and price.
-$\vec{x}$ will be extended by additional variables in the next phase.
-Additionally, the linear regression algorithm can be easily replaced by another regression approach like decision tree regression.
+$\vec{x}$ will be extended by additional variables in \cref{section:competition}.
+Additionally, the linear regression algorithm can be easily replaced by other regression approaches like decision tree regression or neural network regression.
 
 \subsection{Comparing Predicted and Actual Sales Probabilities}
 \label{section:prediction_quality}
 
-This is an experiment to evaluate how close predicted sales probabilities of our demand learning approach are to the actual underlying sales probabilities.
-For the first example, the probability function to sell $i$ items in one period at price $a$ is the following price-dependent Poisson distribution, $a \geq 0$, $i \geq 0$
+This is an experiment to evaluate how close predicted sales probabilities of our demand learning approach are to the true underlying sales probabilities.
+For the first example, the true demand function to sell $i$, $i \geq 0$, items in one period at price $a$, $a \geq 0$, is the following price-dependent Poisson distribution,
 
 \begin{equation}
 \lambda(a) = \max(2 - 0.05 \cdot a, 0)
 \end{equation}
 \begin{equation}
 P^*(i, a) = \frac{\lambda(a)^i \cdot e^{-\lambda(a)}}{i!}
+\label{eq:true_poisson}
 \end{equation}
 
 We generated ten market situations as training data.
@@ -713,25 +723,26 @@ The sales per period for a market situation is a random sample from the distribu
 	
 	\end{axis}
 	\end{tikzpicture}
-	\caption[Comparison of Predicted Probabilites with Underlying Poisson Probabilities]{Comparison of predicted sales probabilities $P$ with actual underlying Poisson probabilities $P^*$ for a price of 30. The predictions are close to the actual probabilities despite using only ten training examples scattered over a large price range.}
+	\caption[Comparison of Predicted Probabilites with Underlying Poisson Probabilities]{Comparison of predicted sales probabilities $P$ with true underlying Poisson probabilities \cref{eq:true_poisson} for a price of 30. The predictions are close to the true probabilities despite using only ten training examples scattered over a large price range.}
 	\label{fig:probs_poisson}
 \end{figure}
 
-The generated training examples are used to train the demand learning model.
-\cref{fig:probs_poisson} shows sales probability predicted with \cref{eq:probability} compared to actual probabilities.
-The predictions are close to the actual probabilities.
+The generated training examples are used to train the demand learning model, cf. \cref{eq:least_squares_objective,eq:least_squares_solution}.
+\cref{fig:probs_poisson} shows sales probability predicted with \cref{eq:probability} compared to true probabilities.
+The predictions are close to the true probabilities.
 This was possible despite only using only ten training examples scattered over a large price range.
 
 This is an ideal example because the underlying probability distribution as well as the distribution used in the demand learning model are both Poisson distributions.
 In a second example, we want to evaluate the quality of predictions in a less ideal situation.
 We use a binomial distribution as the true underlying probability distribution, $a \geq 0, 0 \leq i \leq 10$
 
-$$
+\begin{equation}
 \gamma(a) = \max(-0.025 a + 1, 0)
-$$
-$$
+\end{equation}
+\begin{equation}
 P^*(i, a) = \binom{10}{i} \gamma(a)^i (1 - \gamma(a))^{10-i}
-$$
+\label{eq:true_bin}
+\end{equation}
 
 Ten customers arrive every period and each customer has the price-dependent probability $\gamma(a)$ to buy a product.
 We chose parameters for $\gamma(a)$ to have a buy probabilities between 0.5 and 0.0 in the price range of 20 to 40.
@@ -782,7 +793,7 @@ We chose parameters for $\gamma(a)$ to have a buy probabilities between 0.5 and 
 	
 	\end{axis}
 	\end{tikzpicture}
-	\caption[Comparison of Predicted Probabilites with Underlying Binomial Probabilities]{Comparison of predicted sales probabilities $P$ with the actual underlying binomial probabilities $P^*$ for a price of 30 based on ten training examples. The predictions are not as close as with the Poisson distribution but still a good approximation.}
+	\caption[Comparison of Predicted Probabilites with Underlying Binomial Probabilities]{Comparison of predicted sales probabilities $P$ with the true underlying binomial probabilities \cref{eq:true_bin} for a price of 30 based on ten training examples. The predictions are not as close as with the Poisson distribution but still a good approximation.}
 	\label{fig:probs_binom}
 \end{figure}
 
@@ -935,12 +946,12 @@ That is the reason why we use a Poisson distribution in our demand learning mode
 	
 	\end{axis}
 	\end{tikzpicture}
-	\caption[Quality of Predictions over the Number of Training Examples]{Quality of sales probability predictions with a true Poisson distribution and a true binomial distribution for different amounts of training examples. The Quality is measured as L2-norm of the difference from predicted to actual probabilities. Lower is better. Our demand learning model predicts Poisson distributed sales probabilities better with increasing numbers of training examples.}
+	\caption[Quality of Predictions over the Number of Training Examples]{Quality of sales probability predictions with a true Poisson distribution and a true binomial distribution for different amounts of training examples. The Quality is measured as L2-norm of the difference from predicted to true probabilities. Lower is better. Our demand learning model predicts Poisson distributed sales probabilities better with increasing numbers of training examples.}
 	\label{fig:prediction_quality}
 \end{figure}
 
 \cref{fig:prediction_quality} shows the quality of predictions depending on how many training examples are available.
-The Quality is measured as L2-norm of the difference from predicted to actual probabilities over the parameters $i = 0, 1, \ldots, 10$ and $a = 20, 21, \ldots, 40$.
+The Quality is measured as L2-norm of the difference from predicted to true probabilities over the parameters $i = 0, 1, \ldots, 10$ and $a = 20, 21, \ldots, 40$.
 Predictions of sales probabilities with an underlying Poisson distribution become more accurate with increasing number of training examples.
 Binomial distributed sales probabilities are predicted worse because of our demand learning model's bias towards Poisson distributed sales probabilities.
 
