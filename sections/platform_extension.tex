@@ -12,7 +12,7 @@ This was okay, since ordering was not in focus.
 
 %why? motivation
 Ordering decisions become import for merchants in this thesis and we extended the \pricewars platform accordingly to create a more realistic ordering and inventory control process.
-Merchants in the real world order multiple items at once to prevent high costs.
+Merchants in the real world order multiple items at once to reduce fixed order costs.
 They have to decide at what point in time to order and how many items to order.
 This leads to the inventory control problem.
 Merchants have to keep customer demand in mind to avoid overstocking and understocking.
@@ -113,7 +113,7 @@ yticklabels={$n_0$,$n_1$,$n_2$},
 legend pos=north west,
 grid style=dashed,
 axis lines = left,
-width=0.9\textwidth,
+width=0.95\textwidth,
 ]
 
 \addplot[color=blue,mark=*,const plot mark left]
@@ -129,18 +129,17 @@ coordinates {(2,0)(2,4.5)};
 \addplot[color=brown!60!black,dashed]
 coordinates {(3,0)(3,2)};
 
-\node[] at (axis cs: 0.43,3) {$l_{old} n_2 (t_1 - t_0) $};
-\node[] at (axis cs: 1.43,3) {$l_{new} n_2 (t_2 - t_1) $};
-\node[] at (axis cs: 2.5,3) {$l_{new} n_1 (t_3 - t_2) $};
+\node[] at (axis cs: 0.43,3) {\small$l_{old} \cdot n_2 (t_1 - t_0) $};
+\node[] at (axis cs: 1.43,3) {\small$l_{new} \cdot n_2 (t_2 - t_1) $};
+\node[] at (axis cs: 2.5,3) {\small$l_{new} \cdot n_1 (t_3 - t_2) $};
 
 \end{axis}
 \end{tikzpicture}
 \caption[Visualized Calculation of Holding Costs]{
 Each segment under the graph corresponds to one holding cost computation.
+At $t_1$ the holding cost rate changes from $l_{old}$ to $l_{new}$.
 Whenever a merchant's inventory level or holding cost rate changes, the holding costs since the previous change are computed.
-Holding costs depend on the holding cost rate, the inventory level, and time since the last change.
-Holding costs are proportional to the area under the graph segment.
-At $t_1$ the holding cost rate changes from $l_{old}$ to $l_{new}$.}
+Holding costs depend on the holding cost rate, the inventory level, and time since the last change.}
 \label{fig:holding_cost}
 \end{figure}
 
@@ -216,17 +215,21 @@ We used the highcharts\footnote{JavaScript chart library, Highcharts: \url{https
 \label{section:benchmark_tool}
 %problem
 Getting comparable results over multiple simulations on the \pricewars platform was problematic while developing our merchant.
-The charts on the \ui are great to evaluate a single simulation run but it is not precise enough to compare multiple runs.
+The charts on the \ui are helpful in evaluating a single simulation run but it is not precise enough to compare multiple runs.
 It is not feasible to manually examine charts at an exact timing.
 A better way to compare simulation runs with each other is especially important in monopoly scenarios, when merchant with different configurations or strategies are compared.
 
 %solution
-We developed a benchmarking tool that runs the \pricewars platform for a certain duration with specified merchants.
-This tool allows the user to run simulations the same duration and they do not have to read a chart at the right point in time.
+We developed a benchmarking tool that runs simulations on the \pricewars platform with specified merchants for a certain duration.
+This tool allows the user to run multiple simulations for the same duration.
+With this tools, it is no longer necessary to read a chart at the right point in time.
+
 After a run, the benchmark tool saves all events that happened on the platform from the event log.
-The events contain orders, sales, inventory levels among others.
+The events contain orders, sales, and inventory levels among others and are saved in JSON format.
 Events are analyzed to determine each merchant's profit, revenue, and expenses as shown in \cref{tab:benchmark_tool}.
-Afterwards, users can run additional analysis on the saved events to answer new questions, like: how many stock-outs had each merchant?
+These results are saves as a table in CSV format.
+
+After a simulation, users can run additional analysis on the saved events to answer new questions, like: how many stock-outs had each merchant?
 Another benefit from using the benchmark tool is the automated setup and teardown of the platform.
 This process would need some manual steps otherwise like clearing the state from the previous simulation and starting the consumer.
 
@@ -251,4 +254,4 @@ The parameter \texttt{-{}-duration} controls the length of the simulation in min
 The user provides a list of merchant start commands to \texttt{-{}-merchants}.
 The start commands are the same commands that would be used to start merchants manually.
 The parameter \texttt{-{}-holding\_cost} sets the same holding cost rate for all merchants. 
-Results are written to directory given to the \texttt{-{}-output} parameter.
+Results are written to the directory given to the \texttt{-{}-output} parameter.

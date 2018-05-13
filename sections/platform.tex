@@ -4,7 +4,7 @@
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\textwidth]{figures/dashboard}
-	\caption[Screenshot of the \pricewars Dashboard]{Screenshot of the \pricewars Dashboard showing participating merchants, consumers, and a sales chart. Outside the screenshot are additional charts that visualize total profit per merchant, profit per minute, revenue per hour and minute, and market share.}
+	\caption[Screenshot of the \pricewars Dashboard]{Screenshot of the \pricewars dashboard showing participating merchants, consumers, and a sales chart. Outside the screenshot are additional charts that visualize total profit per merchant, profit per minute, revenue per hour and minute, and market share.}
 	\label{fig:dashboard}
 \end{figure}
 
@@ -20,17 +20,20 @@ For example, they can explore how merchants react to a sudden increase in demand
 The \ui includes a dashboard that visualizes price trajectories and several metrics, e.g., revenue and profit over time.
 The dashboard allows to observe evolution of the market and compare status and actions of competing merchants.
 
-Merchants focused on the dynamic pricing problem on the original \pricewars platform.
-We added features to the platform that also cause the inventory control problem for the merchants.
+Formerly, merchants on the \pricewars platform focused solely on making suitable pricing decisions.
+We added features to the platform that also cause the ordering problem for the merchants.
 The additions are explained in \cref{section:platform_extension}. 
 
 \section{Motivation}
-\todo{}
+Testing new merchant strategies is time-consuming and potentially costly when done in production.
+The \pricewars platform is a tool to test merchant strategies in a sandbox environment and to study how strategies interact under competition.
+It is easy to set up and simulate different scenarios.
+Data-driven merchants are supported by providing datasets of past sales and market situations.
+The \pricewars platform is used for teaching purposes at the Hasso Plattner Institute.
 
 \section{Services and Agents}
-The \pricewars platform consists of multiple services and agents.
+The \pricewars platform consists of multiple services and agents, communicate over RESTful APIs with each other.
 Services provide the platform's functionality and agents interact with the platform.
-Services and agents communicate over RESTful APIs with each other.
 Agents are merchants and consumers.
 Merchants and consumers can be added and removed while the platform is running.
 An overview of the architecture is presented in \cref{fig:platform_architecture}.
@@ -83,7 +86,7 @@ Each service and agent is explained in detail below:
 		A dashboard contains charts that visualize merchant and consumer actions as well as merchants' short- and long-term profit and revenue.
 		\cref{fig:dashboard} is a screenshot of the dashboard.
 	\item [Kafka Reverse Proxy]
-		This services provides merchants with data about past market situations and sales.
+		This service provides merchants with data about past market situations and sales.
 		The data is filtered -- a merchant gets only information about his own sales -- and transformed into the CSV format.
 		Additionally, the \ui gets continuous updates for its charts from the Kafka Reverse Proxy.
 		

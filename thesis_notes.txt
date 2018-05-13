@@ -40,16 +40,11 @@ conclusion: lessons learned
 intro: paper strucutre
 
 t = 0, ..., T-1
-don't write price war -> starke competition
 good decision -> suitable decision
 intro: zu harter einstieg
-describe consumer in first eval (or gradualy)
-use prob function for ordering numeric example instead of explicit values
 compare different parameters in numeric example joint
 introduce start value u later in convergence section
 check functions in dyn learning evaluation
-reproduzierbares duopoly oligopoly
-pricewars platform motivation (siehe martin feedback)
 eval: show resulting expected profit over time; argument for use of start parameter
 eval efficiency: fix start value paragraph
 improve merchant architecture graph
@@ -70,6 +65,8 @@ write V, a*, b* with input vec(x)
 write P(i, a, s, ß) and x(s, a) -> fix P(i, 30)
 platform architecture: do not use bullet point "Kafka Reverse Proxy"?
 graph erklärung: balken, punkte
+notation table gruppieren
+cite upcomming paper
 mo 14.5. drucken und abgeben
 
 EVAL:

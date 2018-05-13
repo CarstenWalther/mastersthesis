@@ -935,9 +935,9 @@ Binomial distributed sales probabilities are predicted worse because of our dema
 \section{Pricing \& Ordering Optimization under Competition}
 \label{section:competition}
 Until now, the merchant offered items on the marketplace in a monopoly.
-This is usually not the case on real online marketplaces.
+This is typically not the case on real online marketplaces.
 Other merchants offer the same or similar products and everyone competes for market share.
-A common strategy to do that is to offer the cheapest price.
+A common strategy to do that is to undercut competitors and offer the cheapest price.
 When multiple merchants pursue this strategy, the price will spiral downwards.
 Such a commercial competition is called price war.
 It is not the best strategy to always undercut the competitors because of decreasing profit margins.
@@ -1218,7 +1218,7 @@ In the last duopoly scenario, two data-driven merchants with the same strategy c
 	\label{fig:duopoly_cheapest}
 \end{figure}
 
-We simulated the price war in a duopoly between the data-driven and cheapest merchant for 15 minutes.
+We simulated competition in a duopoly between the data-driven and cheapest merchant for 15 minutes.
 \cref{fig:duopoly_cheapest} shows how both merchants undercut each other.
 With variable order costs of 15, the data-driven merchant does not reduce the price below 20 and instead raises the price to 25/26.
 The increased price has lower sales probabilities but a higher profit margin.
@@ -1254,16 +1254,18 @@ The data-driven merchant has overall more costs but makes more profit because of
 	\label{fig:duopoly_bound_prices}
 \end{figure}
 
-Running a duopoly with the data-driven and two bound merchant does not result in a price war that we have seen in the last example between the data-driven and cheapest merchant.
+Running a duopoly with the data-driven and two bound merchant does not result in both merchants undercutting each other as we have seen in the previous example between the data-driven and cheapest merchant.
 \cref{fig:duopoly_bound_prices} shows that the data-driven merchant offers to a much higher price compared to the competitor.
-The two bound merchant sets the price to the maximum that the merchant's rules allow.
+The two bound merchant sets the price to the maximum that the merchant's configuration allows.
+
 Customers are unlikely to buy from the data-driven merchant if other offers are only at half the price.
 However, the data-driven merchant learned that there is a good chance to sell products at a high price because the two bound merchant is prone to stock-outs.
+
 The inventory graph in \cref{fig:duopoly_bound_inventory} shows clearly that the data-driven merchant only sells products if the two bound merchant is out of stock.
 Customers start buying the expensive products if no cheaper alternative is available.
 The data-driven merchant is able to make more profit than the two bound merchant without offering a cheaper price.
 Overall, both merchants made more profit compared to the duopoly with the data-driven and cheapest merchant because they offered products at higher prices.
-The results are in \cref{tab:duopoly_bound}.
+The results are shown in \cref{tab:duopoly_bound}.
 
 \begin{figure}[t]
 	\centering
@@ -1293,21 +1295,23 @@ The results are in \cref{tab:duopoly_bound}.
 \begin{figure}[t]
 	\centering
 	\includegraphics[width=0.8\textwidth]{figures/duopoly_bound_prices_2}
-	\caption[Price Trajectories: Data-Driven Merchant versus Two Bound Merchant with Larger Inventory]{Price trajectories in a duopoly of data-driven merchant and two bound merchant. The two bound merchant restocks the inventory to 25 instead of 15 items and reorders if the inventory falls below 7 instead of 4 items to reduce the number of stock-outs. The Other parameters as in \cref{section:setup}.}
+	\caption[Price Trajectories: Data-Driven Merchant versus Two Bound Merchant with Larger Inventory]{Price trajectories in a duopoly of data-driven merchant and two bound merchant. The two bound merchant restocks the inventory to 25 instead of 15 items and reorders if the inventory falls below 7 instead of 4 items to reduce the number of stock-outs. Other parameters as in \cref{section:setup}.}
 	\label{fig:duopoly_bound_prices_2}
 \end{figure}
 
 In a second simulation of the competition between the data-driven merchant and the two bound merchant, we increased the number of items the two bound merchant holds.
 The two bound merchant restocks to 25 items instead of 15 and makes a new order whenever the inventory level falls below 7 items instead of 4.
 This reduces the risks of having stock-outs.
+
 The data-driven strategy from the previous simulation to offer items at a high price alongside the two bound merchant's offers is no longer viable.
 The probability to sell items at the previous high prices is small because stock-outs for the two bound merchant are less likely to happen.
+
 The data-driven merchant expects the most profit from undercutting the competitor.
 This results in both merchants undercutting each other as shown in \cref{fig:duopoly_bound_prices_2}.
 The two bound merchant is programmed to raise the price if it falls below a threshold.
 However, the data-driven merchant was the first to increase the price in this simulation.
-The results are in \cref{tab:duopoly_bound_2}.
-Both merchants made less profit compared to the previous simulation because of the merchants are in a price war and offer products at lower prices.
+The results are shown in \cref{tab:duopoly_bound_2}.
+Both merchants made less profit compared to the previous simulation because they frequently decrease prices to have the lowest prices.
 %why more profit? -> better inventory?
 
 \begin{table}[t]
@@ -1320,7 +1324,7 @@ Both merchants made less profit compared to the previous simulation because of t
 		Two Bound & 5\,230.10 & 16\,952.70 & 527.60 & 11\,195.0 \\
 		\bottomrule
 	\end{tabular}
-	\caption[Simulation Results: Data-Driven Merchant versus Two Bound Merchant with Larger Inventory]{Simulation results of a duopoly with the data-driven and two bound merchant. The two bound merchant holds more items in the inventory to reduce the number of stock-outs. The two bound merchant restocks the inventory to 25 instead of 15 items and reorders if the inventory falls below 7 instead of 4 items to reduce the number of stock-outs. The Other parameters as in \cref{section:setup}.}
+	\caption[Simulation Results: Data-Driven Merchant versus Two Bound Merchant with Larger Inventory]{Simulation results of a duopoly with the data-driven and two bound merchant. The two bound merchant holds more items in the inventory to reduce the number of stock-outs. The two bound merchant restocks the inventory to 25 instead of 15 items and reorders if the inventory falls below 7 instead of 4 items to reduce the number of stock-outs. Other parameters as in \cref{section:setup}.}
 	\label{tab:duopoly_bound_2}
 \end{table}
 
@@ -1338,7 +1342,7 @@ Both merchants made less profit compared to the previous simulation because of t
 
 The next simulation is about the competition between two identical copies of our data-driven merchant.
 The price chart in \cref{fig:duopoly_data_prices} shows again the typical zig-zag pattern of two merchants undercutting each other and periodically pushing the price up to increase profit margins.
-The price war between two data-driven merchants happens at a higher price level (around 32-51) compared to the previous simulation (around 20-26).
+The competition between two data-driven merchants happens at a higher price level (around 32-51) compared to the previous simulation (around 20-26).
 This results in an overall higher profit for both competing merchants.
 %preisabsprache gibt höchsten profit erwähnen?
 The data-driven merchants order new items whenever the inventory level falls below 6 items and restock the inventory to around 28 items.
@@ -1384,7 +1388,7 @@ The objective is to maximize the expected discounted profit.
 We simulated the scenario with competition on the \pricewars platform.
 The \ui shows pricing and ordering decisions during the simulation (see \cref{fig:competition_prices,fig:competition_inventory}).
 The data-driven merchant learned the advantage of undercutting competitors' offers.
-However, this creates a price war and offer prices decrease.
+However, this creates a high price competition and offer prices decrease.
 With shrinking profit margins, it becomes unprofitable to set the price below competitors' prices.
 The data-driven merchant pushes the price up in such a situation.
 This action is especially successful if the competitors also increase their offer prices.
