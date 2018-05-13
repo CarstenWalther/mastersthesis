@@ -2,22 +2,25 @@
 \chapter*{Abstract}
 %situation
 Online marketplaces become increasingly competitive.
-Merchants dynamically adjust offer prices to get an advantage over the competition.
-They have to estimate demand to prevent understocking and overstocking.
+Merchants frequently and automatically adjust offer prices to get an advantage over the competition.
+At the same time, merchants have to estimate demand to prevent understocking and overstocking.
 %problem
 Finding optimal pricing and ordering strategies is challenging because demand is uncertain, sales are affected by competitors' prices, and pricing and ordering decisions are mutually dependent.
 Merchants' pricing and ordering decisions determine their profitability and economic viability.
+
 %solution
-We utilizes dynamic programming to derive optimized pricing and ordering policies with the objective to maximize profit.
+We utilize dynamic programming to derive optimized pricing and ordering policies with the objective to maximize long-term profit.
 Demand is estimated based on historical market data using demand learning.
-We implemented the optimization approach in a merchant and tested it on the \pricewars platform in different scenarios against other merchants.
+Furthermore, we implemented a merchant that uses the proposed optimization approach.
+The merchant was tested and evaluated on the \pricewars platform.
+We compared performance of merchant strategies in duopoly and oligopoly simulations.
 %result:
-Our merchant outperforms rule-based merchants if enough training data is available.
+As soon as a sufficient amount of sales were observed, our merchant outperforms traditional rule-based merchants.
 
 %platform motivation
-Testing merchant strategies in production is time-consuming and potentially costly.
-The \pricewars platform is an open-source simulation framework that gives researcher and practitioners the opportunity to test and evaluate merchant strategies in competitive marketplace environments.
+%Testing merchant strategies in production is time-consuming and potentially costly.
+%The \pricewars platform is an open-source simulation framework that gives researcher and practitioners the opportunity to test and evaluate merchant strategies in competitive marketplace environments.
 %what we done
-We extended the platform by inventory holding costs, fixed order costs, and order delivery delay to make ordering decisions more crucial for profit maximization.
+%We extended the platform by inventory holding costs, fixed order costs, and order delivery delay to make ordering decisions more crucial for profit maximization.
 %why we done
-This extensions allows testing merchant strategies under more realistic conditions.
+%This extensions allows testing merchant strategies under more realistic conditions.
