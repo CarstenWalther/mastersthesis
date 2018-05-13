@@ -723,7 +723,7 @@ The sales per period for a market situation is a random sample from the distribu
 	
 	\end{axis}
 	\end{tikzpicture}
-	\caption[Comparison of Predicted Probabilites with Underlying Poisson Probabilities]{Comparison of predicted sales probabilities $P$ with true underlying Poisson probabilities \cref{eq:true_poisson} for a price of 30. The predictions are close to the true probabilities despite using only ten training examples scattered over a large price range.}
+	\caption[Comparison of Predicted Probabilites with Underlying Poisson Probabilities]{Comparison of predicted sales probabilities $P(i,a)$ with true underlying Poisson probabilities $P^*$, cf.~\cref{eq:true_poisson}, for a price of 30. The predictions are close to the true probabilities despite using only ten training examples scattered over a large price range.}
 	\label{fig:probs_poisson}
 \end{figure}
 
@@ -793,11 +793,11 @@ We chose parameters for $\gamma(a)$ to have a buy probabilities between 0.5 and 
 	
 	\end{axis}
 	\end{tikzpicture}
-	\caption[Comparison of Predicted Probabilites with Underlying Binomial Probabilities]{Comparison of predicted sales probabilities $P$ with the true underlying binomial probabilities \cref{eq:true_bin} for a price of 30 based on ten training examples. The predictions are not as close as with the Poisson distribution but still a good approximation.}
+	\caption[Comparison of Predicted Probabilites with Underlying Binomial Probabilities]{Comparison of predicted sales probabilities $P(i,a)$ with the true underlying binomial probabilities $P^*$, cf.~\cref{eq:true_bin}, for a price of 30 based on ten training examples. The predictions are not as close as with the Poisson distribution but still a good approximation.}
 	\label{fig:probs_binom}
 \end{figure}
 
-Our demand learning model assumes a Poisson distribution and is not able to perfectly fit the underlying binomial distribution.
+Our demand learning model with a Poisson distribution is not able to perfectly fit the true underlying binomial distribution.
 However, the model is able to approximate that demand distribution, see \cref{fig:probs_binom}.
 Observations of customer arrival processes show that the arrivals are close to a Poisson distribution~\cite{DBLP:journals/ior/Wolff82}.
 That is the reason why we use a Poisson distribution in our demand learning model.
@@ -805,7 +805,7 @@ That is the reason why we use a Poisson distribution in our demand learning mode
 \begin{figure}[t]
 	\begin{tikzpicture}
 	\begin{axis}[
-	xlabel={\# Training Examples},
+	xlabel={\# Market Observations},
 	ylabel={L2-norm of $P^* - P$},
 	ymin = 0,
 	legend style={at={(0.6,0.5)},anchor=west},
@@ -946,7 +946,7 @@ That is the reason why we use a Poisson distribution in our demand learning mode
 	
 	\end{axis}
 	\end{tikzpicture}
-	\caption[Quality of Predictions over the Number of Training Examples]{Quality of sales probability predictions with a true Poisson distribution and a true binomial distribution for different amounts of training examples. The Quality is measured as L2-norm of the difference from predicted to true probabilities. Lower is better. Our demand learning model predicts Poisson distributed sales probabilities better with increasing numbers of training examples.}
+	\caption[Estimation Quality over the Number of Market Observations]{Estimation Quality of sales probability with a true Poisson distribution and a true binomial distribution for different amounts of training examples. The quality is measured as L2-norm of the difference from predicted to true probabilities. Lower is better. Our demand learning model predicts Poisson distributed sales probabilities better with increasing numbers of training examples.}
 	\label{fig:prediction_quality}
 \end{figure}
 
@@ -978,25 +978,22 @@ However, sales data is limited to the merchant's own sales and does not contain 
 
 %merchant must be fast
 Market situations can change frequently on online marketplaces.
-A merchant must be able to quickly and effectively react on new market situations in order to offer an suitable price for the new situation.
+A merchant must be able to quickly and effectively react on new market situations to offer a suitable price for the new situation.
 Getting fast decisions is a challenge because the increasing complexity of the inventory and dynamic pricing problem over the last sections resulting in solutions with increasing computational effort.
 Nevertheless, there are ways to improve the speed of the dynamic programming approach which are described in \cref{section:faster_dyn_prog}.
 
-\subsection{Reacting to Competitors' Offers}
-
-%build on top of solution from previous section
-
+\subsection{Reacting to Competitor Offers}
 %describe two possible approaches
-%todo reread, and split paragraph
 The inventory level was the only state on which ordering and pricing decisions were based on in the previous problems.
 With competitors on the marketplace, the merchant must also consider their offers when making ordering and pricing decisions.
-One possible approach is to add competitors' offers to the state in the dynamic programming calculation.
+One possible approach is to add competitor offers to the state in the dynamic programming calculation.
 We decided against this solution because it drastically increases the state by multiple dimensions and therefore slows the computation down by multiple orders of magnitude due to the curse if dimensionality.
-Moreover, demand learning must predict transitions of competitors' offers from one time period to another.
-This means that competitors' strategies must be learned, which requires a substantial amount of training data and a complex demand model to make sensible predictions.
+Moreover, demand learning must predict transitions of competitor offers from one time period to another.
+This means that competitor strategies must be learned, which requires a substantial amount of training data and a complex demand model to make sensible predictions.
 
 Instead, we take the following approach.
-We create ordering and pricing policies whenever the market situation changes for that specific new market situation.
+Ordering and pricing policies are created whenever the market situation changes.
+The policies are created specifically for the new market situation.
 The ordering and pricing decisions for this approach depend only on the merchant's inventory level.
 This keeps the computation fast and efficient.
 Additionally, only sales probabilities are predicted but not the competitors' price reactions.
