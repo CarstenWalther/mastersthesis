@@ -597,23 +597,23 @@ Explanatory variables are extracted from a market situation $\vec{s}$.
 A market situation $\vec{s}$ is a vector of all open offers at one point in time.
 In this scenario, the demand depends only on the merchant's price.
 %motivation: why use linear regression and not something else? is relationship linear?
-We use linear regression to find a relationship between the explanatory variables $\vec{x}(\vec{s})$ of a market situation $\vec{s}$ and the sales per period for this situation.
+We use linear regression to find a relationship between the explanatory variables $\vec{x}(a, \vec{s})$ of a market situation $\vec{s}$ with pricing decision $a$ and the sales per period for this situation.
 Linear regression is used to illustrate this approach and can be interchanged with other regression methods.
-The following equation shows how to predict mean sales per period for a market situation $\vec{s}$.
+The following equation shows how to predict mean sales per period for a market situation $\vec{s}$ with pricing decision $a$, $a\geq 0$.
 
 \begin{equation}
 \label{eq:linear_regression}
-\lambda(\vec{s}; \vec{\beta}) = \max(\vec{x}(\vec{s})^\intercal \cdot \vec{\beta}, 0)
+\lambda(a, \vec{s}; \vec{\beta}) = \max(\vec{x}(a,\vec{s})^\intercal \cdot \vec{\beta}, 0)
 \end{equation}
 
 $\vec{\beta}$ is a vector of weights for the regression model.
-$\vec{\beta} := (\beta_0, \ldots, \beta_{M-1})$, $\beta_i \in \mathbb{R}$, $i=0, 1, \ldots, M-1$ and $\vec{x}(\vec{s}) \in \mathbb{R}^M$ and $M$ is the number of explanatory variables.
-$\lambda(\vec{s}; \vec{\beta})$ has a lower bound of 0 to prevent negative mean sales.
-Given observed sales per period $y_1, y_2, \ldots, y_J$ from $J$ historical market situations $\vec{s}_1, \vec{s}_2, \ldots, \vec{s}_J$, the optimal weights $\vec{\beta}^*$ are given by the linear least squares objective, $j=1, 2, \ldots, J$,
+$\vec{\beta} := (\beta_0, \ldots, \beta_{M-1})$, $\beta_i \in \mathbb{R}$, $i=0, 1, \ldots, M-1$ and $\vec{x}(a,\vec{s}) \in \mathbb{R}^M$ and $M$ is the number of explanatory variables.
+$\lambda(a,\vec{s}; \vec{\beta})$ has a lower bound of 0 to prevent negative mean sales.
+Given observed sales per period $y_1, y_2, \ldots, y_J$ from $J$ historical market situations $\vec{s}_1, \vec{s}_2, \ldots, \vec{s}_J$ with own prices $a_1, a_2, \ldots, a_J$, the optimal weights $\vec{\beta}^*$ are given by the linear least squares objective, $j=1, 2, \ldots, J$,
 
 \begin{equation}
  \min_{\vec{\beta} \in \mathbb{R}^M}{\sum_{j=1}^J
-	{(y_j - \lambda(\vec{s}_j; \vec{\beta}))^2}
+	{(y_j - \lambda(a_j, \vec{s}_j; \vec{\beta}))^2}
 }
 \label{eq:least_squares_objective}
 \end{equation}
@@ -621,8 +621,8 @@ Given observed sales per period $y_1, y_2, \ldots, y_J$ from $J$ historical mark
 The optimal weights $\vec{\beta}^*$ can be calculated with the following equation:
 
 \begin{equation}
-\vec{\beta}^* = \bigg(\sum_{j=1}^J{\vec{x}(\vec{s}_j) \vec{x}(\vec{s}_j)^\intercal} \bigg)^{-1}
-			  \bigg(\sum_{j=1}^J{y_j \vec{x}(\vec{s}_j)} \bigg)
+\vec{\beta}^* = \bigg(\sum_{j=1}^J{\vec{x}(a_j,\vec{s}_j) \vec{x}(a_j,\vec{s}_j)^\intercal} \bigg)^{-1}
+			  \bigg(\sum_{j=1}^J{y_j \vec{x}(a_j,\vec{s}_j)} \bigg)
 \label{eq:least_squares_solution}
 \end{equation}
 
@@ -633,18 +633,47 @@ The mean sales per period can be used as a parameter to create a suitable probab
 %find better citation with a study or something to show that.
 We describe the demand distribution with a Poisson distribution.
 This discrete distribution is a good approximation for the arrival and buying process of customers \cite{DBLP:journals/ior/Wolff82}.
-Equation \cref{eq:probability} shows the calibration of the Poisson distribution with the linear regression from \cref{eq:linear_regression} in order to obtain estimated sales probabilities for a market situation $\vec{s}$, $i = 0,1,...$
+Equation \cref{eq:probability} shows the calibration of the Poisson distribution with the linear regression from \cref{eq:linear_regression} in order to obtain estimated sales probabilities for a market situation $\vec{s}$, $i = 0,1,...$, $a \in A$,
 
 \begin{equation}
 \label{eq:probability}
-P(i, \vec{s}; \vec{\beta}^*) :=
-	e^{-\lambda(\vec{s}; \vec{\beta}^*)}
-	\frac{\lambda(\vec{s}; \vec{\beta}^*)^{i}}{i!}
+P(i, a, \vec{s}; \vec{\beta}^*) :=
+	e^{-\lambda(a, \vec{s}; \vec{\beta}^*)}
+	\frac{\lambda(a, \vec{s}; \vec{\beta}^*)^{i}}{i!}
 \end{equation}
 
-This sales probability function is used in \cref{eq:dyn_prog_joint,eq:joint_best_price_order} to calculate optimal ordering and pricing policies.
+Given the current market situation $\vec{s}$ and weights $\vec{\beta}$, $\vec{\beta} \in \mathbb{R^M}$, the value function \cref{eq:dyn_prog_joint} is extended to the following function, $n=0, 1, \ldots, N_{max}$,
 
-%todo add function here
+
+\begin{equation}
+\begin{split}
+V_t(n; \vec{s}, \vec{\beta}) = \max_{\substack{a \in A \\ b \in B}} \Bigg\{
+\sum_{i = 0}^{N_{max}}
+P(i, a, \vec{s}; \vec{\beta}) \cdot \Big(
+a \cdot min(i, n) %sales
+- l \cdot n % holding cost
+- C(b) % order cost
+\\
++ \delta \cdot V_{t+1}\big(min(max(n - i, 0) + b, N_{max}); \vec{s}, \vec{\beta}\big)
+\Big)\Bigg\}
+\end{split}
+\end{equation}
+
+For the current market situation $\vec{s}$ and weights $\vec{\beta}$, $\vec{\beta} \in \mathbb{R^M}$, optimal policies (cf.~\cref{eq:joint_best_price_order}) are derived by, $n=0, 1, \ldots, N_{max}$,
+
+\begin{equation}
+\begin{split}
+(a^*(n), b^*(n)) = \argmax_{\substack{a \in A \\ b \in B}} \Bigg\{
+\sum_{i = 0}^{N_{max}}
+P(i, a, \vec{s}; \vec{\beta}) \cdot \Big(
+a \cdot min(i, n) %sales
+- l \cdot n % holding cost
+- C(b) % order cost
+\\
++ \delta \cdot V_{1}\big(min(max(n - i, 0) + b, N_{max}); \vec{s}, \vec{\beta}\big)
+\Big)\Bigg\}
+\end{split}
+\end{equation}
 
 %retraining
 The merchant has access to a steadily growing collection of market situations and sales data over time.
