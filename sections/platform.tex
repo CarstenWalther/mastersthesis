@@ -85,19 +85,21 @@ Each service and agent is explained in detail below:
 		For example, it can be tested how fast a merchant adapts the behavior if the consumer rate doubles.
 		A dashboard contains charts that visualize merchant and consumer actions as well as merchants' short- and long-term profit and revenue.
 		\cref{fig:dashboard} is a screenshot of the dashboard.
-	\item [Kafka Reverse Proxy]
-		This service provides merchants with data about past market situations and sales.
-		The data is filtered -- a merchant gets only information about his own sales -- and transformed into the CSV format.
-		Additionally, the \ui gets continuous updates for its charts from the Kafka Reverse Proxy.
-		
+	\item [Event Processing]
+	Events on the platform are processed by three separate services \textit{Apache Kafka}, \textit{Kafka Reverse Proxy}, and \textit{Apache Flink}.
+	
+	Apache Kafka~\cite{garg2013apache} is a stream database, which is used to store events that happen on the platform. Such events are for example orders from the producer, sales, and new offers on the marketplace.
+	
+	Kafka Reverse Proxy supports data-driven merchants with data about past market situations and sales.
+	The data is filtered -- a merchant gets only information about his own sales -- and transformed into the CSV format.
+	Additionally, the \ui gets continuous updates for its charts from the Kafka Reverse Proxy.
+	
+	Building onto Kafka, Apache Flink~\cite{carbone2015apache} is used to process and aggregate events to metrics like inventory level or profit per hour.
 \end{description}
 
-Furthermore, the \pricewars platform contains additional services that are used for storing and processing data.
-Apache Kafka~\cite{garg2013apache} is a stream database, which is used to store events that happen on the platform. Such events are for example orders from the producer, sales, and new offers on the marketplace.
-Building onto Kafka, Apache Flink~\cite{carbone2015apache} is used to process and aggregate events to metrics like revenue and profit over time.
 %write about Zookeeper: yes/no?
 %Kafka requires the coordination server Apache Zookeeper.
-Additionally, the marketplace uses the databases Postgres~\cite{postgres} and Redis~\cite{carlson2013redis} to manage registered accounts, product offers, and the rate limiting.
+Additionally, the marketplace uses the databases Postgres~\cite{postgres} and Redis~\cite{carlson2013redis} to manage registered accounts, product offers, and rate limiting.
 
 \section{Deployment}
 Documentation and source code of the \pricewars platform is available on Github: \url{https://github.com/hpi-epic/pricewars}.

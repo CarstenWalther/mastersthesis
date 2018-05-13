@@ -34,7 +34,7 @@ The merchant operates in a monopoly and does not have to care about competitors.
 %situation
 The merchant sell items over the marketplace.
 % price & revenue
-Items are offered at a fixed price $a_{fix}$, $a_{fix} > 0$ and each sold item generates the full offer price $a_{fix}$ as revenue.
+Items are offered at a fixed price $a_{fix}$, $a_{fix} > 0$, and each sold item generates the full offer price $a_{fix}$ as revenue.
 %discounting
 We use discounting to increase the relevance of short-term profits.
 A discount factor $\delta$, $0 < \delta \leq 1$, is applied to each time period.
@@ -71,9 +71,10 @@ C(b) := \begin{cases}
 
 %sales
 The probability to sell $i$ items within one period of time, given enough items are available, is denoted by $P(i)$, $i = 0, 1, \ldots$ .
-A changing customer behavior over time is out of scope of this work, thus the sales probability $P(i)$ does not depend on the time period $t$.
+Seasonal demand effects are out of scope of this work.
+However, they can be easily included by making the probability function $P(i)$ depend on the time period $t$.
 The sales probability in the first phase does not directly depend on the price or market situation because the merchant sells at a fixed price in a monopoly.
-The random number of sold items within the period $(t-1, t)$ is denoted by $X_t$.
+The random number of sold items from start of period $t-1$ to start of period $t$ is denoted by $X_t$.
 The merchant cannot sell more items than the inventory holds, i.e. $N_t \geq X_{t+1}$, $t = 0, 1, \ldots$
 
 %whats ordering strategy?
@@ -110,8 +111,19 @@ For now, the start value is set to $u := 0$.
 We consider $V_t(n)$ with \textit{instantaneous} and \textit{delayed} orders.
 With instantaneous orders, available items from the start of the time period and the newly ordered items can be sold within that period.
 The following time period starts with an inventory of items that were not sold in the previous period.
+With the inventory level $n_t$, order quantity $b_t$, and demand $i_t$ at period $t$, the inventory transition from $n_t$ to $n_{t+1}$ is defined by, $t = 0, 1, \ldots$
+
+\begin{equation}
+	n_t \rightarrow \max(n_t + b_t - i_t, 0)
+\end{equation}
+
 With delayed orders, only items that are available from the start of the time period can be sold within that period.
 The following time period starts with an inventory of items that were not sold in the previous period plus the number of items ordered in the previous period.
+With the inventory level $n_t$, order quantity $b_t$, and demand $i_t$ at period $t$, the inventory transition from $n_t$ to $n_{t+1}$ for delayed orders is defined by, $t = 0, 1, \ldots$
+
+\begin{equation}
+n_t \rightarrow \max(n_t - i_t, 0) + b_t
+\end{equation}
 
 The value function with an \textit{instantaneous arrival} of orders is, $t=0,1,\ldots,T$, $n=0,1,\ldots,N_{max}$,
 %todo special case P(n_max) -> rest probability
