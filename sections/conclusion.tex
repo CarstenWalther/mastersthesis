@@ -4,23 +4,32 @@
 %%%%policy optimization
 %restate problem, why important:
 %what decisions?
-Making good decisions on competitive online marketplaces is crucial for the success of a merchant.
+Making suitable decisions on competitive online marketplaces is crucial for a merchant's success.
 %solution
 We presented different dynamic optimization models for four problem scenarios, which become increasingly realistic but also more complex.
+The final problem scenario considers ordering and pricing decisions on an online marketplace under competition.
 Pricing and ordering policies are created with a dynamic programming approach.
 The uncertain demand is estimated based on historical market data using demand learning with linear regression.
+
 %key findings / main points
-We implemented a merchant using these optimization approaches.
-Computation time efficiency of the dynamic programming approach was improved until the merchant reacted fast enough  to new market situations.
-The merchant was tested on the \pricewars platform against rule-based merchants in different scenarios.
-Our merchant is able to outperform the rule-based merchants if enough training data is available.
+We implemented a merchant that uses the proposed optimization approaches.
+The merchant was tested and evaluated on the \pricewars platform.
+Computation time efficiency of the dynamic programming approach was improved until the merchant could react to new market situations within one second.
+This time can be further reduced with little impact on resulting policies.
+One advantage of our adaptive dynamic programming approach is that suitable ranges of potential pricing and ordering decisions are found over time and do not have to be configured by the user.
+Our merchant can cope with demand changes over time because of demand learning and the adaptable sets of pricing and ordering decisions. 
+
+We compared performance of different merchant strategies in duopoly and oligopoly simulations.
+As soon as a sufficient amount of sales observations is available, our merchant outperforms traditional rule-based merchants.
+In duopoly settings, our merchant typically undercuts the competitor if it is not profitable to have a much higher or lower price.
+Our merchant raises the price at some point, if both merchants undercut each other and the price decreases over time.
 %significance of findings / application
 The presented optimization approaches can be applied to real online marketplaces -- such as Amazon -- to potentially increase profits.
 %DISCLAIMER: Trading is on your own risk. Please do not sue us if making losses with the presented approaches.
 
 %%%%%platform extension
 %problem
-Formerly, it was not possible to simulate our problem scenarios on the \pricewars platform.
+Formerly, it was not possible to simulate joint ordering and pricing problem scenarios on the \pricewars platform.
 %solution
 We extended the platform by orders of multiple items, fixed order costs, holding costs, and order delivery delay.
 %impact of solution

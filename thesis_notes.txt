@@ -35,12 +35,8 @@ gleichzeitige Verkäufe im Graph?
 chapters start at odd page
 
 TODO:
-finish Related Work (part: ivnentory opti, price opti joint opti, demand learning, platform), schaue martins notes an, >34 refs
 table caption
-abstract: platform raus, eval rein
 conclusion: lessons learned
-conclusion: chack/update contributions
-conclusion: undercutting + raising
 intro: paper strucutre
 
 t = 0, ..., T-1

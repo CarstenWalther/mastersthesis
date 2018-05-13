@@ -1493,7 +1493,7 @@ An efficient implementation reduces the time needed for a pricing and ordering d
 We create a vector that has the dimensions inventory levels, ordering decisions, pricing decisions, and demand.
 The expected profit is calculated for each possible situation and decision that occur in this vector.
 The expected profits are used to find the most profitable decisions and to create the ordering and pricing policy.
-We use fast and vectorized array operations from the numpy library~\cite{ascher2001numerical} to compute the policies.
+We use fast and vectorized array operations from the Numpy library~\cite{dubois1996numerical} to compute the policies.
 Python is a high-level programming language and has a lot of computational overhead~\cite{DBLP:journals/cse/BehnelBCDSS11}.
 Numpy provides data structures and functions implemented in the C programming language to overcome Python's overhead for numeric computations.
 
