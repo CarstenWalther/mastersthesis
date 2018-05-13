@@ -1,35 +1,17 @@
 
 \chapter{Related Work}
 
-The merchant's task can be separated into the inventory problem and dynamic pricing problem.
+Merchants on online marketplaces have to deal with two groups of decisions.
+They decide when to reorder products and how many.
+That is what the ordering problem is about.
+Additionally, merchants decide the offer price for their products.
+The problem of what price to choose is the pricing problem.
 
-%pricing problem
-Dynamic pricing is the continuous adjusting of prices.
-This is applicable if it is cheap and fast to change prices like in e-commerce or in retail stores with digital price tags. %todo: citation
-Dynamic pricing in this thesis is about time discriminating prices and not customer discriminating prices. %todo reformulate and maybe one sentence for explanation
-Den Boer~\cite{den2015dynamic} gives an extensive overview over this topic.
-Araman and Caldentey propose methods for the dynamic pricing problem with complete and incomplete information about the demand distribution~\cite{araman2011revenue}.
-%~\cite{DBLP:journals/ijecommerce/KannanK01} importance of dynamic pricing by comparing virtual to physical
-% Pricing and Revenue Optimization; profit-based pricing for loans
-
-%joint ordering and pricing
-The inventory problem and dynamic pricing problem cannot be solved independently from each other because pricing and order decisions influence each other.
-%influence not each other; influence expected result
-Elmaghraby and Keskinocak review papers that offer solutions for the dynamic pricing problem under inventory considerations~\cite{elmaghraby2003dynamic}.
-They separate solutions into three categories:
-(Non-)Replenishment of inventory, (non-)dependent demand over time, and myopic versus strategic customers.
-
-%with competition, demand learning?
-
-%%%Implementation:
-
-
-%todo some text here
 \subsubsection*{Ordering Problem}
 %known demand
 The ordering problem, also called inventory control problem, has been studied for a long time.
 An overview about this problem for deterministic and stochastic demand is given by Scarf~\cite{scarf1963survey}.
-Harris~\cite{harris1913many} proposed a solution for the ordering problem with constant deterministic demand and Wagner and Within~\cite{wagner1958dynamic} proposed a solution under deterministic, but varying demand.
+Harris~\cite{harris1913many} proposed a solution for the ordering problem with constant deterministic demand and Wagner and Within~\cite{wagner1958dynamic} proposed a solution under deterministic but varying demand.
 
 %unknown demand
 If demand is uncertain, future demand must be estimated from past sales.
@@ -40,30 +22,43 @@ Besbes and Muharremoglu~\cite{DBLP:journals/mansci/BesbesM13} studied the effect
 
 \subsubsection*{Pricing Problem}
 %known demand
+Each retailer has to face the problem of choosing a selling price.
+Talluri and van Ryzin~\cite{talluri2004theory}, Phillips~\cite{phillips2005pricing}, and Yeoman and McMahon-Beattie~\cite{yeoman2010revenue} provide an extensive overview about solution approaches for the pricing problem.
+
+If it is allowed to frequently update prices, the problem is also called dynamic pricing problem.
+Gallogo and van Ryzin~\cite{gallego1994optimal} proposed an optimal solution if demand is exponentially distributed.
+
 %unknown demand
+In real-world applications, demand is typically uncertain, but can be estimated based on past sales.
+Den Boer\cite{den2015dynamic} surveys literature about this topic.
+Different approaches exist to deal with uncertain demand are Bayesian estimation~\cite{araman2011revenue}, maximum likelihood estimation~\cite{DBLP:journals/ior/BroderR12}, and least squares estimation~\cite{le2008data} among others.
 
 \subsubsection*{Joint Ordering and Pricing Problem}
 %known demand
-
+Joint ordering and pricing is a combination of both problems and is a common problem in retail.
+One challenge is that ordering and pricing decisions affect each other.
+Elmaghraby and Keskinocak~\cite{elmaghraby2003dynamic} review literature about the joint ordering and pricing problem.
+Solutions are proposed for different problem scenarios, if demand is known~\cite{thomas1970price,DBLP:journals/ior/FedergruenH99,chen2003coordinating,simchi2014integration}.
 
 %unknown demand
+If demand is uncertain, it must be estimated from past market observations.
+Bitran and Wadhwa~\cite{bitran1996methodology} and Bisi and Dada~\cite{bisi2007dynamic} propose Bayesian based approaches for the ordering and pricing problem with uncertain demand.
+Adida and Perakis~\cite{DBLP:journals/mp/AdidaP06,DBLP:journals/anor/AdidaP10} study this problem in a multi-product scenario without backordering.
 
 \subsubsection*{Pricing and Ordering under Competition}
 %only pricing
 Chen and Chen~\cite{chen2015recent} provide an overview about the dynamic pricing problem under competition for single-product and multi-product scenarios.
 Schlosser and Boissier~\cite{Schlosser_2017} proposed a method to find optimal pricing policies if competitor strategies are known.
-The dynamic pricing problem under competition with a finite time horizon is studied by~\cite{DBLP:journals/mansci/Martinez-de-AlbenizT11,Schlosser_2018}
-
+Dynamic pricing problems under competition with a finite time horizon have been studied~\cite{DBLP:journals/mansci/Martinez-de-AlbenizT11,Schlosser_2018}.
 %joint pricing & inventory 
 Adida and Perakis~\cite{DBLP:journals/ior/AdidaP10} consider joint pricing and inventory control in a duopoly.
-%todo hier mehr
+%todo hier könnte noch mehr
 
-\subsubsection*{Platform}
-%todo better title
-%Serth et al. built an interactive simulation platform, called \pricewars, to test and evaluate merchant strategies on online marketplaces~\cite{DBLP:conf/recsys/0001SPSBLLSU17, edoc2017pricewars}.
-%We developed our merchant with the help of this platform.
-%cite architecture (REST, microservice), or flink?
-
+\subsubsection*{Simulation Platforms for Pricing Competition}
+For testing and evaluating merchant strategies, we use the \pricewars platform~\cite{edoc2017pricewars}, a framework to simulate dynamic pricing competition on online marketplaces.
+We use this platform over other solutions (e.g.,~\cite{morris2001simulation,DBLP:journals/ecr/DiMiccoMG03,DBLP:journals/icae/PintoVSPSM14}) because its continuous time model makes the platform similar to real online marketplaces like Amazon.
+Additionally, users are unrestricted in their choice and implementation of merchant strategies.
+%(controllable customer behavior)
 
 %Work that proposes a different method to solve the same problem.
 %Work that uses the same proposed method to solve a different problem.
