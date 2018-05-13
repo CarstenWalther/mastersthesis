@@ -36,7 +36,6 @@ chapters start at odd page
 
 TODO:
 conclusion: lessons learned
-intro: paper strucutre
 check functions in dyn learning evaluation
 fix high diff in data-driven vs. data-driven
 improve merchant architecture graph
