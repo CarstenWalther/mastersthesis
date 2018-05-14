@@ -1500,20 +1500,16 @@ Lastly, it is possible to quickly create prototypes in Python.
 Our merchant consists of four components as it is shown in \cref{fig:merchant_architecture}.
 %motivation for this architacture
 %main loop
-The main loop is the central component.
-It regularly checks the marketplace for open offers, updates prices, and orders items from the producer.
-After enough time passed, the merchant requests new market and sales data from the kafka reverse proxy and provides it to the demand learning component to analyze demand.
+The merchant regularly checks the marketplace for open offers, updates prices, and orders items from the producer.
+After enough time passed, the merchant requests new market and sales data from the Kafka Reverse Proxy and provides it to the demand learning component to analyze demand.
+
+The merchant server receives sales events from the marketplace and configuration updates from the \ui.
+On such requests, the merchant server calls the appropriate action in the main merchant component.
 
 \bgroup
 \tikzstyle{block} = [draw, rectangle, minimum height=3em, minimum width=6em]
 \tikzstyle{pinstyle} = [pin edge={<-,thin,black}]
 \tikzstyle{rpinstyle} = [pin edge={->,thin,black}]
-
-%todo better figure
-%server?
-%main loop?
-%merchant rectangle
-%refer to fmc diagram
 
 %reduce tabular row height, bgroup and egroup should limit scope of this command
 \renewcommand{\arraystretch}{0.4}
@@ -1523,14 +1519,14 @@ After enough time passed, the merchant requests new market and sales data from t
 \begin{tikzpicture}[auto, node distance=2cm,>=latex']
 
 \node [block] (demand) {Demand Learning};
-\node [block, right of=demand, node distance=5cm] (policy) {Policy Component};
+\node [block, right of=demand, node distance=5cm] (policy) {Policy Optimizer};
 \node [block, below of=demand, pin={[rpinstyle]left:
 		\begin{tabular}{@{}cc@{}}
 		Marketplace \\
 		Producer \\
 		Kafka Proxy \\
 		\end{tabular}
-	}] (main) {Main Loop};
+	}] (main) {Merchant};
 \node [block, right of=main, node distance=3.5cm,
 	pin={[pinstyle]right:
 		\begin{tabular}{@{}cc@{}}
@@ -1539,22 +1535,23 @@ After enough time passed, the merchant requests new market and sales data from t
 		\end{tabular}
 	}] (server) {Server};
 
-\draw [->] (server) -- node {forward}(main);
+\draw [->] (server) -- node {triggers}(main);
 \draw [->] (main) -- node {training data} (demand);
 \draw [<-] (main) -- node[sloped, ,pos=0.7] {policies} (policy);
 \draw [->] (demand) -- node {predictions} (policy);
 
 \end{tikzpicture}
-\caption[Architecture of the Data-Driven Merchant]{Architecture of the Data-Driven Merchant.}
+\caption[Architecture of the Data-Driven Merchant]{Architecture of our merchant implementation. The merchant retrieves training data from platform for the demand learning component. The policy optimizer component uses sales probability predictions from the demand learning component to create ordering and pricing policies. The merchant server triggers a merchant action for requests from the marketplace or \ui.}
 \label{fig:merchant_architecture}
 \end{figure}
 \egroup
 
 %policy
-The merchant makes ordering and pricing decisions based on policies that are computed by the policy component.
-The policy component contains the dynamic programming approach.
+The merchant makes ordering and pricing decisions based on policies that are computed by the policy optimizer component.
+The policy component contains our dynamic programming approach.
 The merchant provides all arguments that are necessary for the policy creation and sales probabilities are requested from the demand learning component.
 %todo ref to equation
+
 The dynamic programming function is the computational most expensive part of the merchant.
 An efficient implementation reduces the time needed for a pricing and ordering decision.
 We create a vector that has the dimensions inventory levels, ordering decisions, pricing decisions, and demand.
@@ -1573,9 +1570,9 @@ The demand learning is implemented in a way that make it easy to add new or chan
 Only only single function (named \texttt{extract\_features}) must be changed to add new explanatory variables.
 
 %server
-The merchant server receives sales events from the marketplace and triggers the appropriate action.
-In our case, the merchants prints a message to notify the user whenever an item was sold.
-Moreover, the server receives configuration updates from the \ui and applies them.  
+%The merchant server receives sales events from the marketplace and triggers the appropriate action.
+%In our case, the merchants prints a message to notify the user whenever an item was sold.
+%Moreover, the server receives configuration updates from the \ui and applies them.  
 
 The merchant's code is open source and can be found on Github: \url{https://github.com/CarstenWalther/pricewars-merchant}.
 
