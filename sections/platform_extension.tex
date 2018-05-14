@@ -257,3 +257,18 @@ The user provides a list of merchant start commands to \texttt{-{}-merchants}.
 The start commands are the same commands that would be used to start merchants manually.
 The parameter \texttt{-{}-holding\_cost} sets the same holding cost rate for all merchants. 
 Results are written to the directory given to the \texttt{-{}-output} parameter.
+
+\section{Miscellaneous}
+Besides already mentioned extensions, we made further improvements to the \pricewars platform. Here are listed noteworthy improvements.
+
+We unified the implementations of example merchants to make their behavior consistent and reduce the amount of shared copied code.
+The new interface makes it easier to create a new merchant based on the example merchants.
+%Further, the example merchants got simple ordering strategies.
+
+We drastically reduced the time of the first-time setup of the \pricewars platform.
+%This eases the point of entry.
+
+We added a new consumer behavior (cf.~\cref{section:setup}), which can be selected in the \ui.
+This behavior prefers the cheapest offer but also has a probability to buy more expensive products.
+This probability decreases with increasing price difference to the cheapest offer.
+Further, we fixed a bug that caused less consumers to arrive than configured.
