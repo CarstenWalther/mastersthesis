@@ -28,6 +28,7 @@ dyn programming speedup: make results reproducible
 mention: gleichzeitige Verkäufe im Graph?
 merchant architecture: describe more in caption
 introduce start value u later in convergence section
+cite upcomming paper --> but how?
 
 CHECK:
 merchant: mention run training in background
@@ -36,19 +37,12 @@ chapters start at odd page
 
 TODO:
 conclusion: lessons learned
-check functions in dyn learning evaluation
-fix high diff in data-driven vs. data-driven
 improve merchant architecture graph
-platformerweiterung: misc: neues consumer behavior, vereinheitlichung merchants + order decision, bug fixes
-mention in twobound vs data-driven: mention max price bound is too low for this situation
-table speed up dyn progamming: better name for "optimization method" name is ambigeous with profit optimization
 fix L2 norm
-write V, a*, b* with input vec(x) ==> place at: "%todo add function here"
-write P(i, a, s, ß) and x(s, a)
 notation table gruppieren / sortieren
-cite upcomming paper
+
+fix high diff in data-driven vs. data-driven
 markovian feedback?
-mention cpu for performance test
 mo 14.5. drucken und abgeben
 
 EVAL:

@@ -1175,7 +1175,7 @@ Note that each row in the table also contains the optimizations from the rows ab
 	\centering
 	\begin{tabular}{ lrr }
 		\toprule
-		\textbf{Optimization Method} & \textbf{Runtime [ms]} & \textbf{Error [\%]} \\
+		\textbf{Method} & \textbf{Runtime [ms]} & \textbf{Error [\%]} \\
 		\midrule
 		Baseline & 9\,425 & 0.53 \\
 		\makecell[l]{Set start value to \\ result of previous computation} & 3\,734 & 0.98 \\
@@ -1185,7 +1185,7 @@ Note that each row in the table also contains the optimizations from the rows ab
 	\end{tabular}
 	\caption[Dynamic Programming: Computation Time Improvements]{
 	Computation time improvements of the dynamic programming approach with the proposed optimization methods.
-	Each row contains the optimizations from the rows above. The last column (Error [\%]) is the percent error between calculated profit $V_0(0)$ and actual expected profit $V^*_0(0)$.}
+	Each row contains the optimizations from the rows above. The last column (Error [\%]) is the percent error between calculated profit $V_0(0)$ and actual expected profit $V^*_0(0)$. Runtimes were measured on a i7-3517U CPU.}
 	\label{tab:speedup}
 %calculated expected profits
 %18.5891472589,
@@ -1318,6 +1318,9 @@ Customers start buying the expensive products if no cheaper alternative is avail
 The data-driven merchant is able to make more profit than the two bound merchant without offering a cheaper price.
 Overall, both merchants made more profit compared to the duopoly with the data-driven and cheapest merchant because they offered products at higher prices.
 The results are shown in \cref{tab:duopoly_bound}.
+
+The two bound merchant could have made more profit with a higher upper price bound.
+However, the rule-based merchant cannot adapt rules and therefore cannot appropriately react to this unexpected market situation.
 
 \begin{figure}[t]
 	\centering
