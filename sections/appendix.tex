@@ -8,16 +8,20 @@
 		\toprule
 		\textbf{Symbol} & \textbf{Description} \\
 		\midrule
+		%scenario
+		$l$ & Holding costs per item and period. \\
+		$c_{fix}$ & Fixed order costs. \\
+		$c_{var}$ & Variable order costs. \\
+		$C(b)$ & Total order costs for ordering $b$ items. \\
+		
+		%models
+		\midrule
 		$a_{fix}$ & Fixed selling price. \\
 		$\delta$ & Discount factor for future profits. \\
-		$l$ & Holding costs per item and period. \\
 		$t$ & Identifier variable for a time period. \\
 		$N_t$ & Random inventory level at the start of period $t$. \\
 		$b_t$ & Number of items ordered at start of period $t$. \\
 		$B$ & Set of admissible order quantities. \\
-		$c_{fix}$ & Fixed order costs. \\
-		$c_{var}$ & Variable order costs. \\
-		$C(b)$ & Total order costs for ordering $b$ items. \\
 		$P(i)$ & \makecell[l]{Probability to sell $i$ items in one time period,\\ given enough items are available.} \\
 		$P(i, a, \vec{s}; \vec{\beta})$ & \makecell[l]{Given a market situation $\vec{s}$ and weights $\vec{\beta}$,\\ the probability to sell $i$ items at price $a$ in one time period,\\ given enough items are available.} \\
 		$X_t$ & \makecell[l]{Random number of sold items from start of \\ period $t-1$ to start of period $t$.} \\
@@ -33,6 +37,9 @@
 		$A$ & Set of admissible pricing decision. \\
 		$a_t$ & Offer price at time $t$. \\
 		$a^*(n)$ & Optimal pricing decision for inventory level of $n$. \\
+		
+		%learning
+		\midrule
 		$\vec{s}$ & Market situation, vector of merchant offers. \\
 		$\vec{x}(a, \vec{s})$ & \makecell[l]{Explanatory variables for price decision $a$ \\ and market situation $\vec{s}$.} \\
 		$K$ & Number of competitor offers in market situation $\vec{s}$. \\
@@ -42,6 +49,8 @@
 		$\vec{\beta}^*$ & Optimal weights for specific training data. \\
 		$M$ & Number of explanatory variables. \\
 		$\gamma(a)$ & \makecell[l]{Probability for a single customer of buying an item. \\ Used for binomial distribution.} \\
+		
+		\midrule
 		$V_0^{old}(n)$ & Result of value function from last computation. \\
 		$d$ & \makecell[l]{Controls how many new decisions are \\ added to adapted decision sets.} \\
 		\bottomrule
