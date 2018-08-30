@@ -17,4 +17,4 @@ merchant strategies in duopoly and oligopoly simulations. As soon as a sufficien
 amount of sales observations is available, our merchant outperforms traditional
 rule-based merchants.
 
-The PDF is available [here](http://www.carstenwalther.io/Data-Driven%20Ordering%20and%20Dynamic%20Pricing%20Competition%20on%20Online%20Marketplaces.pdf)
+The PDF is available [here](https://www.carstenwalther.io/Data-Driven%20Ordering%20and%20Dynamic%20Pricing%20Competition%20on%20Online%20Marketplaces.pdf)
